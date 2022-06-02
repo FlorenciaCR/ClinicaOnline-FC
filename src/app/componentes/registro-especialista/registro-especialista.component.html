@@ -54,7 +54,7 @@
             <!-- <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" formControlName="especialidad" > -->
             <select class="form-select" id="especialidad" formControlName="especialidad">
               <option  value='0' >Seleccione...</option>
-              <option *ngFor="let especilidad of listadoEspecialidades" value={{especilidad.id}} > {{especilidad.especialidad}} </option>
+              <option *ngFor="let especilidad of listadoEspecialidades" value={{especilidad.especialidad}} > {{especilidad.especialidad}} </option>
             </select>
             <small class="invalid" *ngIf="formaEspecialista.controls['especialidad'].errors?.['required']&& formaEspecialista.controls['especialidad'].touched" style="color:red ;">
               El especialidad es requerido

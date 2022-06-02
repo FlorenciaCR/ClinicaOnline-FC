@@ -68,13 +68,13 @@ export class RegistroEspecialistaComponent implements OnInit {
      let reader =new FileReader()
      reader.readAsDataURL(this.fotoEspecialista)
      reader.onloadend=()=>{
-       //this.storageRef.child(`${nombreAlbum}/${nombre}`).putString(imgB64,'data_url')
+
       this.firebase.subirImagenes('imgperfilEspecialista',`${this.miEspecialista.email}_${this.miEspecialista.nombre}`,reader.result)
       .then(rta=>{
        if(rta != null ){
          this.miEspecialista.imgPerfil = rta
          console.log(this.miEspecialista)
-         //Se crea y agrega al especialista
+
          this.firebase.crear('especialistasColeccion',JSON.parse(JSON.stringify(this.miEspecialista)))
          .then(res=>{
            console.log('Se creo y se subio especialista ?', res);
@@ -84,8 +84,7 @@ export class RegistroEspecialistaComponent implements OnInit {
            this.formaEspecialista.reset();
            this.router.navigate(['login']);
          })
-        //  rtaGuardarEspecilista.status && this.formaEspecialista.reset()
-        //  rtaGuardarEspecilista.status && this.ruteo.navigate(['/login'])    
+
        }  
       })
       .catch(err =>{

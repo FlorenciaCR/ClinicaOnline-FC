@@ -22,7 +22,6 @@ export class Especialista {
         this.imgPerfil=foto
         this.tipoUsuario=tipoUsuario
         this.esAdministrador=esAdministrador
-        this.especialidad=especialidad
         this.verificadoEmail=verificadoEmail
     }
         

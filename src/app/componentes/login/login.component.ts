@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
   listaPaciente:any[]=[];
   listaEspecialista:any[]=[];
   forma : FormGroup;
+  mensaje:string='';
 
   constructor(private firebase :FirebaseService,private fb :FormBuilder, private router : Router) 
   {
@@ -45,13 +46,16 @@ export class LoginComponent implements OnInit {
 
     this.listaEspecialista.forEach(value=>{
       if(value.email == this.forma.value.email && value.password == this.forma.value.password){
+        this.mensaje='existe el especialista en la lista de especialistas'
         console.log('existe el especialista en la lista de especialistas')
         console.log(value)
         this.firebase.esEspecialistafn(value)
         this.firebase.esAdministrador(value)
         encontrado=true
-        
-        this.router.navigate(['bienvenido'])
+        setTimeout(() => {
+          
+          this.router.navigate(['bienvenido'])
+        }, 2000);
 
       }
     })
@@ -59,14 +63,22 @@ export class LoginComponent implements OnInit {
    !encontrado && this.listaPaciente.forEach(value=>{
       if(value.email == this.forma.value.email && value.password == this.forma.value.password){
         console.log('existe el paciente en la lista de pacientes')
+        this.mensaje='existe el paciente en la lista de pacientes'
         console.log(value)
         this.firebase.esPacientefn(value)
         encontrado=true
-        this.router.navigate(['bienvenido'])
+        setTimeout(() => {
+          
+          this.router.navigate(['bienvenido'])
+        }, 2000);
       }
     })
 
     !encontrado && console.log('no existe el usuario ingresado');
+    if(!encontrado)
+    {
+      this.mensaje='NO existe el usuario'
+    }
 
 
     
