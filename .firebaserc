@@ -1,0 +1,7 @@
+{
+  "projects": {
+    "default": "tp-clinicaonline-fc",
+    "tp-clinicaonline-fc": "tp-clinicaonline-fc"
+  },
+  "targets": {}
+}

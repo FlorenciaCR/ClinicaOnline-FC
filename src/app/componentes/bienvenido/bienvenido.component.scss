@@ -1,0 +1,116 @@
+.banner{
+    margin-top: 100px;
+    background: #fff;
+    background: url("../../../assets/imgbienvenido/banner.jpg") no-repeat bottom;
+    background-size:cover;
+    min-height: 500px;
+}
+
+
+
+.divider {
+    width: 40px;
+    height: 5px;
+    background: #e12454;
+}
+
+//.contenedor{
+    //border: 1px solid red;
+    // display: flex;
+    // align-items:flex-start;
+    // flex-direction: column;
+    // justify-content:start; 
+    
+    //d-flex flex-column justify-content-start align-items-start
+//}
+
+  .spanTotal{
+    letter-spacing: 2px;
+    color: #6F8BA4;
+    font-family: "Roboto", sans-serif;
+    line-height: 1.6;
+    font-size: 14px;
+  }
+
+  .banner .block h1 {
+    font-size: 60px;
+    line-height: 1.2;
+    letter-spacing: -1.2px;
+    text-transform: capitalize;
+    color: #223a66;
+    font-weight: 700;
+    text-shadow: 0.5px 0.5px 0.5px grey;
+    font-family: "Exo", sans-serif;
+}
+
+p{
+    font-family: "Roboto", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    font-size: 16px;
+    color: #6F8BA4;
+    font-weight: 400;
+    text-shadow: 0.5px 0.5px 0.5px grey;
+}
+
+.btn-container{
+    display: flex;
+    //border: 1px solid red;
+}
+
+.contenedorBotones{
+    //border: 1px solid red;
+    display: flex;
+    justify-content: space-around;
+}
+
+button{
+    outline: 0px;
+    box-shadow: none;
+  }
+
+
+button{
+    border-radius: 50px;
+    background: #e12454;
+    color: #fff;
+    border-color: #e12454;
+    display: inline-block;
+    font-size: 14px;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: .5px;
+    padding: 0.75rem 2rem;
+    font-family: "Exo", sans-serif;
+    text-transform: uppercase;
+    border: 2px solid transparent;
+    transition: all .35s ease;
+}
+
+button:hover{
+    background: #223a66;
+    color: #fff;
+    border-color: #223a66;
+}
+
+.btnRegistro{
+    border-radius: 50px;
+    background: #223a66;
+    color: #fff;
+    border-color: #223a66;
+    display: inline-block;
+    font-size: 14px;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: .5px;
+    padding: 0.75rem 2rem;
+    font-family: "Exo", sans-serif;
+    text-transform: uppercase;
+    border: 2px solid transparent;
+    transition: all .35s ease;
+}
+
+.btnRegistro:hover{
+    background: #e12454;
+    color: #fff;
+    border-color: #e12454;
+}

@@ -1,0 +1,27 @@
+<main class="form-signin  text-center container shadow" style="margin-top: 100px;">
+    <form [formGroup]="forma" (ngSubmit)="verificar()">
+      <img class="mb-4" src="../../../assets/imgRegistro/login.png" alt="" width="70" height="70">
+      <h1 class="h3 mb-3 fw-normal">Loguearse</h1>
+  
+      <div class="form-floating">
+        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+        <label for="floatingInput">Email address</label>
+        <small class="invalid" *ngIf="forma.controls['email'].errors?.['required']&& forma.controls['email'].touched" style="color:red ;">
+          El email es requerido
+         </small>
+         <small class="invalid" *ngIf="forma.controls['email'].errors?.['email']&& forma.controls['email'].touched" style="color:red ;">
+          Ingrese un formato valido
+         </small>
+      </div>
+      <div class="form-floating">
+        <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+        <label for="floatingPassword">Password</label>
+        <small class="invalid" *ngIf="forma.controls['password'].errors?.['required']&& forma.controls['password'].touched" style="color:red ;">
+          La contraseña es requerida
+      </small>
+      </div>
+  
+      <button class="buttonNormal" >Acceso rapido</button>
+      <button class="w-100 buttonLog " type="submit" [disabled]="forma.invalid">Entrar</button>
+    </form>
+  </main>

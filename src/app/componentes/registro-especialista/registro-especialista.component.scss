@@ -1,0 +1,98 @@
+.contenedorRegistro{
+    //border: 1px solid red;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 45%;
+    background-color:white;
+    }
+
+    label{
+      font-size: 13px;
+      font-style: bold;
+      font-weight: bold;
+      color: #55595C;
+    }
+    
+    
+    button{
+        border-radius: 50px;
+        background: #e12454;
+        color: #fff;
+        border-color: #e12454;
+        display: inline-block;
+        font-size: 10px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: .5px;
+        padding: 0.5rem 1rem;
+        font-family: "Exo", sans-serif;
+        text-transform: uppercase;
+        border: 2px solid transparent;
+        transition: all .35s ease;
+        width: 30%;
+    }
+    
+    button:hover{
+        background: #223a66;
+        color: #fff;
+        border-color: #223a66;
+    }
+    
+    .divh5{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 5px;
+        background: #e12454;
+        color: #fff;
+       height: 25px;
+       padding-top: 10px;
+    }
+    
+    .contenedorPregunta{
+        border: 1px solid red;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .feature-item {
+        flex-basis: 35%;
+        margin: 0px 10px;
+        padding: 40px 30px;
+        background-color: #fff;
+        border-radius: 15px 15px 15px 15px;
+        box-shadow: 0px 0px 30px 0px rgba(0, 42, 106, 0.1);
+      }
+      
+      .feature-item .feature-icon i {
+        font-size: 50px;
+        color: #223a66;
+      }
+      
+      .feature-item h4 {
+        color: #223a66;
+      }
+      
+      .feature-item p {
+        font-size: 14px;
+      }
+      
+      .feature-section.border-top {
+        border-top: 1px solid rgba(0, 0, 0, 0.05) !important;
+      }
+      
+      .btnEspecialista{
+        background: #223a66;
+        color: #fff;
+        border-color: #223a66;
+        width: 35%;
+      }
+    
+      .btnEspecialista:hover{
+        background: #e12454;
+        color: #fff;
+        border-color: #e12454;
+    }

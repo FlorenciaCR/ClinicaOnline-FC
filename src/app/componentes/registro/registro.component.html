@@ -1,0 +1,53 @@
+<div class="container contenedorPagina" style=" margin-top: 100px; height: 400px;">
+
+    <div class="row" *ngIf='!this.tipo'>
+        <div class="col-lg-12">
+  
+            <div class="feature-block contenedorPregunta">
+                <div class="feature-item mb-5 mb-lg-0">
+                    <div class="feature-icon mb-4">
+                        <!-- <i class="icofont-surgeon-alt"></i> -->
+                    </div>
+                    <span>24 Hours Service</span>
+                    <h4 class="mb-3">Registro paciente</h4>
+                    <img src="../../../assets/imgRegistro/paciente1.png" alt="" width="70px" height="70px">
+                    <ul class="w-hours list-unstyled">
+                        <li class="d-flex justify-content-between">Sun - Wed : <span>8:00 - 17:00</span></li>
+                        <li class="d-flex justify-content-between">Thu - Fri : <span>9:00 - 17:00</span></li>
+                    </ul>
+                    <button class="btnRegistro" (click)='tipo = "paciente"'>Registro paciente</button>
+                </div>
+            
+                <div class="feature-item mb-5 mb-lg-0">
+                    <div class="feature-icon mb-4">
+                        <!-- <i class="icofont-ui-clock"></i>
+                        <i class="fa-light fa-user-doctor"></i>
+                        <i class="fa-light fa-user-doctor"></i> -->
+                        
+                    </div>
+                    <span>Timing schedule</span>
+                    <h4 class="mb-3">Registro especialista</h4>
+                    <img src="../../../assets/imgRegistro/especialista1.png" alt=""width="65px" height="64px">
+                    <ul class="w-hours list-unstyled">
+                        <li class="d-flex justify-content-between">Sun - Wed : <span>8:00 - 17:00</span></li>
+                        <li class="d-flex justify-content-between">Thu - Fri : <span>9:00 - 17:00</span></li>
+                    </ul>
+                    <button class="btnEspecialista" (click)='tipo = "especialista"'>Registro especialista</button>
+                </div>
+  
+            </div>
+        </div>
+    </div>
+  
+   <!---------------------------------REGISTROS------------------------------------------>
+   <div *ngIf="this.tipo == 'paciente'">
+     <app-registro-paciente></app-registro-paciente>
+    </div>
+   
+    <div *ngIf="this.tipo == 'especialista'">
+    <app-registro-especialista></app-registro-especialista>
+   </div>
+</div>
+  
+  
+  
