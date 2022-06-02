@@ -20,6 +20,7 @@
                 <th scope="col">TipoUsuairo</th>
                 <th scope="col">Img1</th>
                 <th scope="col">Img2</th>
+                <th scope="col">Verificado</th>
                
               </tr>
             </thead>
@@ -34,6 +35,7 @@
                 <td>{{paciente?.tipoUsuario}}</td>
                 <td><img src="{{paciente?.imgsPerfil[0]}}" alt="" width="70px" height="70px"></td>
                 <td><img src="{{paciente?.imgsPerfil[1]}}" alt="" width="70px" height="70px"></td>
+                <td>{{paciente?.verificadoEmail}}</td>
               </tr>
             </tbody>
           </table>
@@ -49,8 +51,9 @@
                 <!-- <th scope="col">Especialidad</th> -->
                 <th scope="col">Email</th>
                 <th scope="col">TipoUsuairo</th>
-                <!-- <th scope="col">Verificado</th> -->
                 <th scope="col">Img</th>
+                <th scope="col">Verificado</th>
+                <th scope="col">Habilitar</th>
                
               </tr>
             </thead>
@@ -63,8 +66,9 @@
                 <!-- <td>{{especialista?.especialidad}}</td> -->
                 <td>{{especialista?.email}}</td>
                 <td>{{especialista?.tipoUsuario}}</td>
-                <!-- <td>{{especialista?.verificadoEmail}}</td> -->
                 <td><img src="{{especialista?.imgPerfil}}" alt="" width="70px" height="70px"></td>
+                <td>{{especialista?.verificadoEmail}}</td>
+                <td><button>Habilitar</button></td>
         
               </tr>
             </tbody>
