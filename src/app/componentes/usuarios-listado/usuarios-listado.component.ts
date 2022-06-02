@@ -12,9 +12,11 @@ export class UsuariosListadoComponent implements OnInit {
 
   listaPaciente:any[]=[]
   listaEspecialista:any[]=[]
+  spinnerImgSubiendose:boolean=false;
   constructor(private firebaseApi:FirebaseService,) {
-
+    this.spinnerImgSubiendose=true;
     setTimeout(() => {
+      
       this.firebaseApi.obtenerTodos2('pacientesColeccion').subscribe(data=>{
         this.listaPaciente=data // mapeo de productos
       }) 
@@ -22,6 +24,7 @@ export class UsuariosListadoComponent implements OnInit {
         this.listaEspecialista=data // mapeo de productos
       }) 
       
+      this.spinnerImgSubiendose=false;
     }, 3000);
     
    }

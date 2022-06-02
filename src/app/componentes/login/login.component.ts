@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
       this.listaPaciente=data;
     })  
 
-    this.firebase.obtenerTodos('especialistasColeccion').subscribe(data=>{
+    this.firebase.obtenerTodos2('especialistasColeccion').subscribe(data=>{
      
       
       this.listaEspecialista=data;
@@ -39,12 +39,8 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  verificar()
+  verificarUsuario()
   {
-    console.log('HOLA')
-    console.log(
-      this.forma.value
-    )
     let encontrado = false
 
     this.listaEspecialista.forEach(value=>{
@@ -55,7 +51,7 @@ export class LoginComponent implements OnInit {
         this.firebase.esAdministrador(value)
         encontrado=true
         
-        this.router.navigate(['bienvenida'])
+        this.router.navigate(['bienvenido'])
 
       }
     })
@@ -66,11 +62,11 @@ export class LoginComponent implements OnInit {
         console.log(value)
         this.firebase.esPacientefn(value)
         encontrado=true
-        this.router.navigate(['bienvenida'])
+        this.router.navigate(['bienvenido'])
       }
     })
 
-    !encontrado && alert('NO SE ENCONTRO COINCIDENCIA.')
+    !encontrado && console.log('no existe el usuario ingresado');
 
 
     

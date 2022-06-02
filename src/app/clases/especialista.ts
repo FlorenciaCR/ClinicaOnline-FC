@@ -10,8 +10,9 @@ export class Especialista {
     imgPerfil:string
     esAdministrador:boolean
     tipoUsuario:string
+    verificadoEmail:boolean
 
-    constructor(nombre:string='',apellido:string='',edad:number=0,dni:number=0,especialidad:string='',email:string='',password:string='',foto:string='', tipoUsuario:string='especialista',esAdministrador:boolean=false){
+    constructor(nombre:string='',apellido:string='',edad:number=0,dni:number=0,especialidad:string='',email:string='',password:string='',foto:string='', tipoUsuario:string='especialista',esAdministrador:boolean=false,verificadoEmail:boolean=false){
         this.nombre=nombre
         this.apellido=apellido
         this.edad=edad
@@ -22,6 +23,7 @@ export class Especialista {
         this.tipoUsuario=tipoUsuario
         this.esAdministrador=esAdministrador
         this.especialidad=especialidad
+        this.verificadoEmail=verificadoEmail
     }
         
     }
