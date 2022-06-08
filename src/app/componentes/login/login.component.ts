@@ -10,23 +10,20 @@ import { FirebaseService } from 'src/app/servicios/firebase.service';
 })
 export class LoginComponent implements OnInit {
 
-  listaPaciente:any[]=[];
-  listaEspecialista:any[]=[];
+  listaUsuarios:any[]=[];
   forma : FormGroup;
   mensaje:string='';
 
+  usuario : any = "";//otro login
+
   constructor(private firebase :FirebaseService,private fb :FormBuilder, private router : Router) 
   {
-    this.firebase.obtenerTodos2('pacientesColeccion').subscribe(data=>{
+    this.firebase.obtenerTodos2('usuariosColeccion').subscribe(data=>{
  
-      this.listaPaciente=data;
+      this.listaUsuarios=data;
     })  
 
-    this.firebase.obtenerTodos2('especialistasColeccion').subscribe(data=>{
-     
-      
-      this.listaEspecialista=data;
-    }) 
+
 
     this.forma = this.fb.group({
       'email':['',[Validators.required,Validators.email]],
@@ -42,15 +39,41 @@ export class LoginComponent implements OnInit {
 
   verificarUsuario()
   {
-    let encontrado = false
 
-    this.listaEspecialista.forEach(value=>{
+    let encontrado = false
+    this.listaUsuarios.forEach(value=>{
       if(value.email == this.forma.value.email && value.password == this.forma.value.password){
-        this.mensaje='existe el especialista en la lista de especialistas'
-        console.log('existe el especialista en la lista de especialistas')
+        this.firebase.logIn(this.forma.value.email,this.forma.value.password)
+        .catch(err =>{
+          //this.responseMessage = err.message;
+          switch(err.code)
+          {
+            case 'auth/invalid-email':
+             this.mensaje = 'Email invalido.';
+              break;     
+            case 'auth/user-disabled':
+              this.mensaje = 'Usuario deshabilitado.';
+              break;
+            case 'auth/user-not-found':
+              this.mensaje = 'Usuario no encontrado.';
+              break;       
+            case 'auth/wrong-password':
+              this.mensaje = 'Contrasenia incorrecta.';
+              break;  
+            case 'auth/user-not-found':
+              this.mensaje ='Usuario no encontrado.';
+              break;
+            default:
+              this.mensaje  = 'Error';
+          }
+          console.log('Error en login.ts: ',err);
+        }); 
+        this.mensaje='existe en la lista de usuarios'
+
         console.log(value)
         this.firebase.esEspecialistafn(value)
         this.firebase.esAdministrador(value)
+        this.firebase.esPacientefn(value)
         encontrado=true
         setTimeout(() => {
           
@@ -60,20 +83,7 @@ export class LoginComponent implements OnInit {
       }
     })
     
-   !encontrado && this.listaPaciente.forEach(value=>{
-      if(value.email == this.forma.value.email && value.password == this.forma.value.password){
-        console.log('existe el paciente en la lista de pacientes')
-        this.mensaje='existe el paciente en la lista de pacientes'
-        console.log(value)
-        this.firebase.esPacientefn(value)
-        encontrado=true
-        setTimeout(() => {
-          
-          this.router.navigate(['bienvenido'])
-        }, 2000);
-      }
-    })
-
+   
     !encontrado && console.log('no existe el usuario ingresado');
     if(!encontrado)
     {
@@ -81,33 +91,6 @@ export class LoginComponent implements OnInit {
     }
 
 
-    
-    // let email = {SACAR FORMULARIO}
-
-    // console.log("verificar login")
-    // this.firebase.obtenerTodos2("pacientesColeccion").subscribe(data => {
-    //   console.log("pacientes", data)
-
-    // data.forEach(x => {
-    //   if(x.email == email && !x.verificadoEmail){
-    //     console.error("EMAIL NO VERIFICADO")
-    //     // return
-    //   }
-    //   })
-    // })
-
-    // this.firebase.obtenerTodos2("especialistasColeccion").subscribe(data => {
-    //   console.log("especialistas", data)
-    //   data.forEach(x => {
-    //     if(x.email == email && !x.verificadoEmail){
-    //       console.error("EMAIL NO VERIFICADO")
-    //       // return
-    //     }
-    //     if(x.email == email && !x.verificadoAdmin){
-    //       console.error("ADMIN NO VERIFICADO")
-    //       // return
-    //     }
-    //   })
-    // })
+   
   }
 }

@@ -1,0 +1,95 @@
+<div class="container contenedorRegistro shadow" style="border-radius: 20px;">
+    <div class="col-md-7 col-lg-8" style="margin-top:15px;">
+        <div class="divh5">
+            <h6 class="mb-3" >Registro Especialista</h6>
+        </div>
+        <form [formGroup]="formaAdministrador" (ngSubmit)="obtenerDatosEnviarRegistroEspecialista()">
+          <div class="row g-4">
+            <div class="col-sm-6">
+              <label for="firstName" class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="floatingInput" placeholder="nombre" value="" formControlName="nombre">
+              <small class="invalid" *ngIf="formaAdministrador.controls['nombre'].errors?.['required']&& formaAdministrador.controls['nombre'].touched" style="color:red ;">
+                El nombre es requerido
+              </small>
+            </div>
+            <div class="col-sm-6">
+              <label for="lastName" class="form-label">Apellido</label>
+              <input type="text" class="form-control" id="floatingInput" placeholder="apellido" formControlName="apellido">
+              <small class="invalid" *ngIf="formaAdministrador.controls['apellido'].errors?.['required']&& formaAdministrador.controls['apellido'].touched" style="color:red ;">
+                El apellido es requerido
+              </small>
+            </div>
+            <div class="col-sm-6">
+              <label for="firstName" class="form-label">Edad</label>
+              <input type="text" class="form-control" id="floatingInput" placeholder="edad" formControlName="edad">
+              <small class="invalid" *ngIf="formaAdministrador.controls['edad'].errors?.['required']&& formaAdministrador.controls['edad'].touched" style="color:red ;">
+                El edad es requerido
+              </small>
+              <small class="invalid" *ngIf="formaAdministrador.controls['edad'].errors?.['min']&& formaAdministrador.controls['edad'].touched" style="color:red ;">
+                No puede menor a 18 
+              </small>
+              <small class="invalid" *ngIf="formaAdministrador.controls['edad'].errors?.['max']&& formaAdministrador.controls['edad'].touched" style="color:red ;">
+                No puede mayor a 99 
+              </small>
+              <small class="invalid" *ngIf="formaAdministrador.controls['edad'].errors?.['pattern']&& formaAdministrador.controls['edad'].touched" style="color:red ;">
+                Solo numeros 
+              </small>
+            </div>
+            <div class="col-sm-6">
+              <label for="lastName" class="form-label">DNI</label>
+              <input type="text" class="form-control" id="floatingInput" placeholder="dni" formControlName="dnidoc">
+              <small class="invalid" *ngIf="formaAdministrador.controls['dnidoc'].errors?.['required']&& formaAdministrador.controls['dnidoc'].touched" style="color:red ;">
+                El dni es requerido
+              </small>
+              <small class="invalid" *ngIf="formaAdministrador.controls['dnidoc'].errors?.['pattern']&& formaAdministrador.controls['dnidoc'].touched" style="color:red ;">
+                Solo numeros 
+              </small>
+              <small class="invalid" *ngIf="formaAdministrador.controls['dnidoc'].errors?.['minlength']&& formaAdministrador.controls['dnidoc'].touched" style="color:red ;">
+                No puede ser menos de 8 caracteres 
+              </small>
+            </div>
+            <div class="col-sm-6">
+                <label for="lastName" class="form-label">Email</label>
+                <input type="text" class="form-control" id="floatingInput" placeholder="email" formControlName="email">
+                <small class="invalid" *ngIf="formaAdministrador.controls['email'].errors?.['required']&& formaAdministrador.controls['email'].touched" style="color:red ;">
+                  El email es requerido
+                </small>
+                <small class="invalid" *ngIf="formaAdministrador.controls['email'].errors?.['email']&& formaAdministrador.controls['email'].touched" style="color:red ;">
+                  Debe ser email valido
+                </small>
+                <small *ngIf="mostrarmensaje">{{this.mensaje}}</small>
+              </div>
+    
+              <div class="col-sm-6">
+                <label for="firstName" class="form-label">Password</label>
+                <input type="password" class="form-control" id="floatingInput" placeholder="password" formControlName="password">
+                <small class="invalid" *ngIf="formaAdministrador.controls['password'].errors?.['required']&& formaAdministrador.controls['password'].touched" style="color:red ;">
+                  El password es requerido
+                </small>
+                <small class="invalid" *ngIf="formaAdministrador.controls['password'].errors?.['minlength']&& formaAdministrador.controls['password'].touched" style="color:red ;">
+                  No puede ser menos de 6 caracteres 
+                </small>
+            </div>
+    
+            <div class="col-sm-6">
+              <label for="imagen" class="form-label">Imagen de perfil</label>
+              <input type="file" accept=".png, .jpg, .jpeg" multiple class="form-control" id="imagen" formControlName="imagen" (change)="cargarImagen($event)">
+              <small class="invalid" *ngIf="formaAdministrador.controls['imagen'].errors?.['required']&& formaAdministrador.controls['imagen'].touched" style="color:red ;">
+                El imagen es requerido
+              </small>
+            </div>
+          </div>
+          <div class="d-flex justify-content-center">
+    
+            <img *ngIf="spinnerImgSubiendose" src="../../../assets/imgRegistro/loading-icegif-1.gif" alt="imagenSubida" class="gifCargando" width="100px" height="100px">
+          </div>
+          <div class="d-flex justify-content-center" style="margin-top: 10px; margin-bottom: 10px;">
+            <button class="w-50 btn btn-primary btn-lg" type="submit"  [disabled]="formaAdministrador.invalid">Registrarse</button>
+          </div>
+          <!--*ngIf="spinnerImgSubiendose"-->
+          
+        </form>
+    
+    
+      </div>
+    </div>

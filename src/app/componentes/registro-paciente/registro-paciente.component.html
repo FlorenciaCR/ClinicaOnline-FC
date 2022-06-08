@@ -81,26 +81,25 @@
         </div>
 
         <div class="col-sm-6">
-
-          <label for="imagen" class="form-label">Ingrese 2 imagenes de perfil:</label>
-          <input type="file" accept=".png, .jpg, .jpeg" multiple class="form-control" id="imagen" formControlName="imagen" (change)="cargarImagen($event)">
+          <label for="imagen" class="form-label">Ingrese imagen de perfil:</label>
+          <input type="file" accept=".png, .jpg, .jpeg" multiple class="form-control" id="imagen" formControlName="imagen" (change)="cargarImg($event)">
           <small class="invalid" *ngIf="formaPaciente.controls['imagen'].errors?.['required']&& formaPaciente.controls['imagen'].touched" style="color:red ;">
             El imagen es requerido
           </small>
-
-
-
-          <!-- <label for="imagen" class="form-label">Imagen de perfil</label>
-          <input type="file" accept=".png, .jpg, .jpeg" multiple class="form-control" id="imagen" formControlName="imagen" (change)="cargarImagen1($event)">
-          <small class="invalid" *ngIf="formaPaciente.controls['imagen'].errors?.['required']&& formaPaciente.controls['imagen'].touched" style="color:red ;">
-            El imagen es requerido
-          </small>
-          <label for="imagen" class="form-label">Imagen de perfil 2</label>
-          <input type="file" accept=".png, .jpg, .jpeg" multiple class="form-control" id="imagen" formControlName="imagen" (change)="cargarImagen2($event)">
-          <small class="invalid" *ngIf="formaPaciente.controls['imagen'].errors?.['required']&& formaPaciente.controls['imagen'].touched" style="color:red ;">
-            El imagen es requerido
-          </small> -->
         </div>
+
+
+        <div class="col-sm-12">
+          <label for="imagen" class="form-label">Capcha</label>
+          <div style="display: flex; justify-content:space-around">
+            <input type="number" class="form-control " value={{this.numeroRandom}} readonly style="width:25% ;">
+            <input type="text" style="width:40% ;" class="form-control " formControlName='capcha' name="capcha" required>
+            <small  style="color:red ;" class="invalid" *ngIf="formaPaciente.controls['capcha'].errors?.['required'] && formaPaciente.controls['capcha'].touched">El capcha es requerido</small>
+            <input type="text" style="width:10% ;" required readonly value="❌" *ngIf='this.formaPaciente.get("capcha")?.value != this.numeroRandom'>
+            <input type="text" style="width:10% ;" required readonly value="✔️" *ngIf='this.formaPaciente.get("capcha")?.value == this.numeroRandom'>
+          </div>
+        </div>
+
       </div>
       <div class="d-flex justify-content-center">
 

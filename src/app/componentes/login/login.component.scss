@@ -50,10 +50,14 @@ main{
     width: 30%;
 }
 
+button{
+  background: #a5caf9;
+}
+
 button:hover{
     background: #223a66;
     color: #fff;
-    border-color: #223a66;
+    border-color: #80B6FC;
 }
 .form-signin {
   width: 100%;
@@ -80,4 +84,22 @@ button:hover{
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+.divDerecho{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+main{
+  display: flex;
+  justify-content: space-between;
+}
+
+.imgBoton{
+ border-radius: 10px;
+}
+.miniEspacio{
+  margin-bottom: 2px;
 }

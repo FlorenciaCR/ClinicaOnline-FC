@@ -1,0 +1,22 @@
+button{
+    border-radius: 50px;
+    background: #223a66;
+    color: #fff;
+    border-color: #223a66;
+    display: inline-block;
+    font-size: 9px;
+    font-size: 0.7rem;
+    //font-weight: 700;
+    letter-spacing: .5px;
+    padding: 0.5rem 1rem;
+    font-family: "Exo", sans-serif;
+    text-transform: uppercase;
+    border: 2px solid transparent;
+    transition: all .35s ease;
+    width: 15%;
+}
+
+button:hover{
+    background: #e12454;
+    color: #fff;
+}

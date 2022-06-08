@@ -1,5 +1,5 @@
 export class Paciente {
-
+    uid:string | undefined=''
     nombre:string
     apellido:string
     edad:number
@@ -12,6 +12,7 @@ export class Paciente {
     verificadoEmail:boolean
   
     constructor(nombre:string='',apellido:string='',edad:number=0,dni:number=0,obraSocial:string='',email:string='',password:string='',fotoPerfil:string[]=[],tipoUsuario:string='paciente',verificadoEmail:boolean=false){
+
         this.nombre=nombre
         this.apellido=apellido
         this.edad=edad

@@ -48,18 +48,68 @@
               No puede ser menos de 8 caracteres 
             </small>
           </div>
-          <!--ESPECIALIDAD AGREGAR Y LISTAR-->
-          <div class="col-sm-6">
-            <label for="especialidad" class="form-label">Especialidad</label>
-            <!-- <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" formControlName="especialidad" > -->
-            <select class="form-select" id="especialidad" formControlName="especialidad">
-              <option  value='0' >Seleccione...</option>
-              <option *ngFor="let especilidad of listadoEspecialidades" value={{especilidad.especialidad}} > {{especilidad.especialidad}} </option>
-            </select>
-            <small class="invalid" *ngIf="formaEspecialista.controls['especialidad'].errors?.['required']&& formaEspecialista.controls['especialidad'].touched" style="color:red ;">
-              El especialidad es requerido
-            </small>
+
+          <div class="col-sm-12">
+            <div></div>
+              <label class="form-label">Nueva especialidad</label>
+            <div></div>
+              <input type="text" placeholder="especialidad"  #nuevaEsp >
+            <div></div>
+            <button type="button" (click)="nuevaEspecialidad(nuevaEsp.value)">CREAR</button>
           </div>
+          
+
+          <!--ESPECIALIDAD AGREGAR Y LISTAR-->
+          <div class="col-sm-12">
+            <div>
+              <label for="especialidad" class="form-label">Especialidad</label>
+            </div>
+            <div>
+              <select #agregarEsp>
+                <option  value='0' >Seleccione...</option>
+                <option *ngFor="let especilidad of listadoEspecialidades" value={{especilidad.valor}} > {{especilidad.valor}} </option>
+              </select>
+            </div>
+            <div>
+              <button type="button" (click)="agregarEspecialidad(agregarEsp.value)">AGREGAR</button>
+            </div>
+          </div>
+
+
+          <div class="col-sm-12">
+            <div>
+              <label class="form-label">Listado especialidades seleccionadas:</label>
+            </div>
+            <div>
+              <li *ngFor="let es of this.miEspecialista.especialidades">
+                {{es}}
+              </li>
+            </div>
+          </div>
+          
+          <!-- <div class="form-group">
+            <label class='margin' for="especialidad">Seleccione su especialidad, o elija crear una nueva:</label>
+            <select class="form-select" id="especialidad" formControlName="especialidad">
+                <option *ngFor="let especialidad of listadoEspecialidades">
+                    {{especialidad.especialidad}}</option>
+            </select>
+            <small
+                *ngIf="formaEspecialista.get('especialidad')?.touched && formaEspecialista.get('especialidad')?.errors?.['required']"
+                class="invalid">El especialidad es requerido.</small>
+        </div>
+    
+        <div *ngIf="this.formaEspecialista.get('especialidad')?.value == 'Agregar una especialidad'">
+            <div class="form-floating mb-2 margin">
+                <input type="name" class="form-control" id="nuevaEspecialidad" placeholder="Especialidad"
+                    formControlName="nuevaEspecialidad">
+                <label for="floatingInput">Nueva Especialidad</label>
+                <small
+                    *ngIf="formaEspecialista.get('nuevaEspecialidad')?.touched && formaEspecialista.get('nuevaEspecialidad')?.errors?.['required']"
+                    class="invalid">El nuevaEspecialidad es requerido.</small>
+    
+            </div>
+        </div> -->
+
 
           <div class="col-sm-6">
             <label for="lastName" class="form-label">Email</label>
@@ -70,6 +120,7 @@
             <small class="invalid" *ngIf="formaEspecialista.controls['email'].errors?.['email']&& formaEspecialista.controls['email'].touched" style="color:red ;">
               Debe ser email valido
             </small>
+            <small *ngIf="mostrarmensaje">{{this.mensaje}}</small>
           </div>
 
           <div class="col-sm-6">
@@ -90,9 +141,20 @@
             El imagen es requerido
           </small>
         </div>
+
+        <div class="col-sm-12">
+          <label for="imagen" class="form-label">Capcha</label>
+          <div style="display: flex; justify-content:space-around">
+            <input type="number" class="form-control " value={{this.numeroRandom}} readonly style="width:25% ;">
+            <input type="text" style="width:40% ;" class="form-control " formControlName='capcha' name="capcha" required>
+            <small  style="color:red ;" class="invalid" *ngIf="formaEspecialista.controls['capcha'].errors?.['required'] && formaEspecialista.controls['capcha'].touched">El capcha es requerido</small>
+            <input type="text" style="width:10% ;" required readonly value="❌" *ngIf='this.formaEspecialista.get("capcha")?.value != this.numeroRandom'>
+            <input type="text" style="width:10% ;" required readonly value="✔️" *ngIf='this.formaEspecialista.get("capcha")?.value == this.numeroRandom'>
+          </div>
+        </div>
+        
       </div>
       <div class="d-flex justify-content-center">
-
         <img *ngIf="spinnerImgSubiendose" src="../../../assets/imgRegistro/loading-icegif-1.gif" alt="imagenSubida" class="gifCargando" width="100px" height="100px">
       </div>
       <div class="d-flex justify-content-center" style="margin-top: 10px; margin-bottom: 10px;">

@@ -14,6 +14,13 @@ import { environment } from "src/environments/environment";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsuariosComponent } from './componentes/usuarios/usuarios.component';
 import { UsuariosListadoComponent } from './componentes/usuarios-listado/usuarios-listado.component';
+import { RegistroAdminComponent } from './componentes/registro-admin/registro-admin.component';
+import { PerfilComponent } from './componentes/perfil/perfil.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+import { MisTurnosComponent } from './mis-turnos/mis-turnos.component';
+import { SolicitarTurnoComponent } from './solicitar-turno/solicitar-turno.component';
+import { TurnosComponent } from './turnos/turnos.component';
 
 @NgModule({
   declarations: [
@@ -25,14 +32,25 @@ import { UsuariosListadoComponent } from './componentes/usuarios-listado/usuario
     RegistroEspecialistaComponent,
     RegistroPacienteComponent,
     UsuariosComponent,
-    UsuariosListadoComponent
+    UsuariosListadoComponent,
+    RegistroAdminComponent,
+    PerfilComponent,
+    MisTurnosComponent,
+    SolicitarTurnoComponent,
+    TurnosComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,    
     FormsModule,
     ReactiveFormsModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig)
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      timeOut: 2000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true
+    })
    
   ],
   providers: [],

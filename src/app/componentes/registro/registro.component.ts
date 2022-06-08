@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FirebaseService } from 'src/app/servicios/firebase.service';
 
 @Component({
   selector: 'app-registro',
@@ -9,9 +10,15 @@ export class RegistroComponent implements OnInit {
 
   tipo : any;
   mensaje : string='';
-  constructor() { }
+  esAdministrador:boolean=false
+  firebaseService:any
+
+  constructor(firebaseService:FirebaseService) { 
+    this.firebaseService = firebaseService
+  }
+
 
   ngOnInit(): void {
   }
-
+  
 }

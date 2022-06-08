@@ -8,13 +8,19 @@
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
           <!--<li li class="nav-item" *ngIf="estaLogueado">-->
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" [routerLink]="['/bienvenido']" >Bienvendo</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="firebase.esAdmin">
             <a class="nav-link" [routerLink]="['/usuarios']">Usuarios</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/perfil']">Perfil</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/turno/solicitarTurno']">Solicitar turnos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLink]="['/turno/misTurnos']">Mis turnos</a>
           </li>
         </ul>
         <div class="text-end"  *ngIf="usuarioLogueado | async as usuarioLogueado">

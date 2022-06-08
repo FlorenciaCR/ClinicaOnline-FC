@@ -8,23 +8,23 @@
   background-color:white;
   }
   
-  button{
-      border-radius: 50px;
-      background: #e12454;
-      color: #fff;
-      border-color: #e12454;
-      display: inline-block;
-      font-size: 10px;
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: .5px;
-      padding: 0.5rem 1rem;
-      font-family: "Exo", sans-serif;
-      text-transform: uppercase;
-      border: 2px solid transparent;
-      transition: all .35s ease;
-      width: 30%;
-  }
+  // button{
+  //     border-radius: 50px;
+  //     background: #e12454;
+  //     color: #fff;
+  //     border-color: #e12454;
+  //     display: inline-block;
+  //     font-size: 10px;
+  //     font-size: 0.7rem;
+  //     font-weight: 700;
+  //     letter-spacing: .5px;
+  //     padding: 0.5rem 1rem;
+  //     font-family: "Exo", sans-serif;
+  //     text-transform: uppercase;
+  //     border: 2px solid transparent;
+  //     transition: all .35s ease;
+  //     width: 30%;
+  // }
   
   button:hover{
       background: #223a66;
@@ -49,11 +49,19 @@
       display: flex;
       justify-content: center;
   }
-  
+
+
+
+  .botonRegistro{
+    padding: 40px;
+    border-style: none;
+    background-color: #FFFFFF;
+  }
+
   .feature-item {
       flex-basis: 35%;
       margin: 0px 10px;
-      padding: 40px 30px;
+      //padding: 40px 0px;
       background-color: #fff;
       border-radius: 15px 15px 15px 15px;
       box-shadow: 0px 0px 30px 0px rgba(0, 42, 106, 0.1);

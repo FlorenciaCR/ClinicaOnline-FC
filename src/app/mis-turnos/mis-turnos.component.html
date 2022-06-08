@@ -1,0 +1,274 @@
+
+<div class="container bg-dark turnos p-3" style="border-radius: 2px; margin-top: 100px;">
+  <h3 class="text-light">Turnos</h3>
+  <div *ngIf="true">
+<!--PACIENTE-->
+<div class="container" *ngIf='this.usuarioActual.tipoUsuario == "paciente"'>
+ <div class="row">
+   <input class="form-control col-12" type="text" placeholder="Busqueda" [(ngModel)]="datoABuscar" (ngModelChange)="buscar()">
+
+ </div>
+  <h2 *ngIf="this.todosLosTurnos.length == 0" class="mt-3 text-light">No hay turnos</h2>
+    <div *ngFor="let turno of todosLosTurnos">
+      <div class="card-body" style="border-radius: 2px;">
+       <div [ngClass]="{'card text-dark bg-secondary' : turno.estado == 'Pendiente','card text-dark bg-warning' : turno.estado == 'Cancelado',
+       'card text-dark bg-info' : turno.estado == 'Aceptado','card text-dark bg-danger' : turno.estado == 'Rechazado',
+       'card text-dark bg-success' : turno.estado == 'Realizado'}">
+          <div class="card-header"> 
+            <b class="fs-5">Fecha: {{turno.fecha.dia}} {{turno.fecha.hora}}</b> 
+            </div>
+          <div class="card-body">
+            <h5 class="card-title"> 
+                <b>Estado:</b> {{turno.estado}} 
+            </h5>
+            <p class="card-text">
+                <p>
+                    <b>Especialista:</b> {{turno.especialista.nombre}} {{turno.especialista.apellido}}
+                </p>
+                <p>
+                    <b>Especialidad:</b> {{turno.especialidad.nombre}}
+                </p>
+                <p *ngIf='this.verResena'>
+                    <b *ngIf='turno.comentarioEspecialista != undefined' >Comentario Especialista:</b> {{turno.comentarioEspecialista}}
+                    <b *ngIf='turno.comentarioPaciente != undefined' >Comentario Paciente:</b> {{turno.comentarioPaciente}}
+                    <b *ngIf='turno.comentarioAdministrador != undefined' >Comentario Administrador:</b> {{turno.comentarioAdministrador}}
+                </p>
+              <div class="container">
+                <div class="row">
+                  <div class="col" *ngIf="turno.estado != 'Realizado' && turno.estado != 'Cancelado'">
+                    <button class="btn btn-sm btn-danger " (click)='this.cancelado = !this.cancelado'>Cancelar</button>
+                  </div>
+                  <div class="col" *ngIf="turno.comentarioEspecialista != undefined || turno.comentarioPaciente != undefined || turno.comentarioAdministrador != undefined">
+                    <button class="btn btn-sm btn-danger " (click)='this.verResena = !this.verResena'>Ver reseña</button>
+                  </div>
+                  <div class="col" *ngIf='turno.estado == "Realizado" && turno.atencion == undefined'>
+                    <button class="btn btn-sm btn-danger " (click)='this.calificar = !this.calificar'>Calificar</button>
+                  </div>
+                  <div class="col" *ngIf='turno.estado == "Realizado" && turno.encuesta == undefined'>
+                    <button class="btn btn-sm btn-danger " (click)='this.encuesta = !this.encuesta'>Encuesta</button>
+                  </div>
+                </div>
+                <div class="mt-2 mb-2" *ngIf='this.cancelado && turno.estado == "pendiente"'>
+                    <form [formGroup]="formComentario" (ngSubmit)='this.cancelarTurno(turno)'>
+                      <div class="row">
+                        <div class="col">
+                          <input type="text" class="form-control" placeholder="Razon de la cancelación" formControlName="comentario"required>
+                          <small class="invalid" *ngIf="formComentario.controls['comentario'].errors?.['required']">Para cancelar el turno es necesario una razón</small>
+                          <small class="invalid" *ngIf="formComentario.controls['comentario'].errors?.['minlength'] || formComentario.controls['comentario'].errors?.['maxlength']">Debe tener entre 10 y 30 caracteres</small>
+                        </div>
+                      </div>
+                      <button type="submit" class="btn btn-outline-dark btn-block mb-3 mt-2" *ngIf='this.cancelado' [disabled]="formComentario.invalid">Enviar</button>
+                    </form>
+                  </div>
+                  <div class="mt-2 mb-2" *ngIf='this.encuesta'>
+                    <form [formGroup]="formEncuesta" (ngSubmit)='this.cargarEncuesta(turno)'>
+                      <div class="row">
+                          <div class="col-5">
+                              <div class="row">
+                                <p>¿Cómo califica la atención del personal administrativo? : </p>
+                                <div class="col-9">
+                                    <button type="button" class="btn btn-dark me-2" (click)='this.atencionAdministracion = "Mala"'>Mala</button>
+                                    <button type="button" class="btn btn-dark me-2" (click)='this.atencionAdministracion = "Regular"'>Regular</button>
+                                    <button type="button" class="btn btn-dark" (click)='this.atencionAdministracion = "Buena"'>Buena</button>
+                                </div>
+                                <br>
+                                <p class="mt-2">¿Se respetó el horario de la consulta? : </p>
+                                <div class="col-9">
+                                    <button type="button" class="btn btn-dark me-2 mb-2" (click)='this.respetoHorario = "Si"'>Si</button>
+                                    <button type="button" class="btn btn-dark me-2 mb-2" (click)='this.respetoHorario = "No"'>No</button>
+                                </div>
+                              </div>
+                              <div class="col-6">
+                                <p>Agregado: </p>
+                                <input type="text" class="form-control" placeholder="Ingrese una sugerencia" formControlName="agregado" required>
+                                <small class="invalid" *ngIf="formEncuesta.controls['agregado'].errors?.['minlength'] && formEncuesta.controls['agregado'].touched">Para completar la encuesta es necesario dar un agregado para que mejoremos el servicio</small>
+                                <small class="invalid" *ngIf="formEncuesta.controls.agregado.errors?.minlength || formEncuesta.controls.agregado.errors?.maxlength">Debe tener entre 10 y 40 caracteres</small>
+                              </div>
+
+                          </div>
+                      </div>
+                      <button type="submit" class="btn btn-outline-dark mb-3 mt-2" [disabled]='formEncuesta.invalid'>Enviar</button>
+                    </form>
+                  </div>
+                  <div *ngIf="this.calificar">
+                    <div class="row">
+                        <div class="col-5">
+                            <p>¿Cómo califica la atención del especialista {{turno.especialista.nombre}} {{turno.especialista.apellido}}? : </p>
+                                <div class="col-9">
+                                    <button class="btn btn-dark me-2" (click)='this.atencion = "Mala"'>Mala</button>
+                                    <button class="btn btn-dark me-2" (click)='this.atencion = "Regular"'>Regular</button>
+                                    <button class="btn btn-dark" (click)='this.atencion = "Buena"'>Buena</button>
+                                </div>
+                                <button class="btn btn-outline-dark mt-2" (click)='this.cargarCalificacion(turno)' *ngIf='this.atencion != ""'>Cargar calificación</button>
+                        </div>  
+                    </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+        <br>
+      </div>
+    </div>
+    <br>
+  </div>
+    <!--ESPECIALISTA-->
+    <div class="container" *ngIf='this.usuarioActual.tipoUsuario == "especialista"'>
+      <div class="row">
+        <input class="form-control col-12" type="text" placeholder="Busqueda" [(ngModel)]="datoABuscar" (ngModelChange)="buscar()">
+      </div>
+       <h2 *ngIf="this.todosLosTurnos.length == 0" class="mt-3 text-light">No hay turnos</h2>
+         <div *ngFor="let turno of todosLosTurnos">
+           <div class="card-body" style="border-radius: 2px;">
+            <div [ngClass]="{'card text-dark bg-secondary' : turno.estado == 'Pendiente','card text-dark bg-warning' : turno.estado == 'Cancelado',
+            'card text-dark bg-info' : turno.estado == 'Aceptado','card text-dark bg-danger' : turno.estado == 'Rechazado',
+            'card text-dark bg-success' : turno.estado == 'Realizado'}">
+               <div class="card-header"> 
+                <b class="fs-5">Fecha: {{turno.fecha.dia}} {{turno.fecha.hora}}</b> 
+                 </div>
+               <div class="card-body">
+                 <h5 class="card-title"> 
+                     <b>Estado:</b> {{turno.estado}} 
+                 </h5>
+                 <p class="card-text">
+                     <p>
+                         <b>Paciente:</b> {{turno.paciente.nombre}} {{turno.paciente.apellido}}
+                     </p>
+                     <p>
+                         <b>Especialidad:</b> {{turno.especialidad.nombre}}
+                     </p>
+                     <p *ngIf='this.verResena && (turno.estado == "Cancelado" || turno.estado == "Rechazado")'>
+                       <b *ngIf='turno.comentarioPaciente != undefined'>Comentario Paciente:</b> {{turno?.comentarioPaciente}}
+                       <b *ngIf='turno.comentarioAdministrador != undefined'>Comentario Administrador:</b> {{turno?.comentarioAdministrador}}
+                       <b *ngIf='turno.comentarioEspecialista != undefined'>Comentario Especialista:</b> {{turno?.comentarioEspecialista}}
+                     </p>
+                        <div *ngIf='this.verResena && turno.estado == "Realizado"'>
+
+                          <b *ngIf='turno.comentarioConsulta != undefined && turno.estado == "Realizado"'>Comentario Consulta:</b> {{turno?.comentarioConsulta}}
+                          <p *ngIf='this.verResena'>
+                            <b *ngIf='turno.diagnostico != undefined && turno.estado == "Realizado"'>Diagnóstico:</b> {{turno?.diagnostico}}
+                          </p>
+                           <p *ngIf='this.verResena'>
+                             <b *ngIf='turno.historiaClinica != undefined && turno.estado == "Realizado"'>Altura:</b> {{turno.historiaClinica?.altura}}
+                           </p>
+                           <p *ngIf='this.verResena'>
+                             <b *ngIf='turno.historiaClinica != undefined && turno.estado == "Realizado"'>Peso:</b> {{turno.historiaClinica?.peso}}
+                           </p>
+                           <p *ngIf='this.verResena'>
+                             <b *ngIf='turno.historiaClinica != undefined && turno.estado == "Realizado"'>Temperatura:</b> {{turno.historiaClinica?.temperatura}}
+                           </p>
+                           <p *ngIf='this.verResena'>
+                             <b *ngIf='turno.historiaClinica != undefined && turno.estado == "Realizado"'>Presión:</b> {{turno.historiaClinica?.presion}}
+                           </p>
+                           <p *ngIf='this.verResena'>
+                             <b *ngIf='turno.historiaClinica != undefined && turno.estado == "Realizado" && turno.historiaClinica.datoDinamico1 != ""'>{{turno.historiaClinica?.datoDinamico1?.clave}}:</b> {{turno.historiaClinica?.datoDinamico1?.valor}}
+                           </p>
+                           <p *ngIf='this.verResena'>
+                             <b *ngIf='turno.historiaClinica != undefined && turno.estado == "Realizado" && turno.historiaClinica.datoDinamico2 != ""'>{{turno.historiaClinica?.datoDinamico2?.clave}}:</b> {{turno.historiaClinica?.datoDinamico2?.valor}}
+                           </p>
+                           <p *ngIf='this.verResena'>
+                             <b *ngIf='turno.historiaClinica != undefined && turno.estado == "Realizado" && turno.historiaClinica.datoDinamico3 != ""'>{{turno.historiaClinica?.datoDinamico3?.clave}}:</b> {{turno.historiaClinica?.datoDinamico3?.valor}}
+                           </p>               
+                        </div>
+                   <div class="container">
+                     <div class="row">
+                       <div class="col" *ngIf="turno.estado == 'Pendiente'">
+                         <button class="btn btn-sm btn-danger " (click)='this.cancelado = !this.cancelado'>Cancelar</button>
+                       </div>
+                       <div class="col" *ngIf="turno.estado == 'Pendiente'">
+                        <button class="btn btn-sm btn-danger " (click)='this.rechazado = !this.rechazado'>Rechazar</button>
+                      </div>
+                       <div class="col" *ngIf='turno.comentarioPaciente != undefined || turno.comentarioAdministrador != undefined || turno.comentarioEspecialista != undefined || turno.estado == "Realizado"'>
+                         <button class="btn btn-sm btn-dark " (click)='this.verResena = !this.verResena'>Ver reseña</button>
+                       </div>
+                       <div class="col" *ngIf='turno.estado == "Pendiente"'>
+                         <button class="btn btn-sm btn-dark " (click)='this.aceptarTurno(turno)'>Aceptar</button>
+                       </div>
+                       <div class="col" *ngIf='turno.estado == "Aceptado"'>
+                         <button class="btn btn-sm btn-danger " (click)='this.finalizado = !this.finalizado'>Finalizar</button>
+                       </div>
+                     </div>
+                     <div class="mt-2 mb-2" *ngIf='(this.cancelado || this.rechazado) && turno.estado == "Pendiente"'>
+                         <form [formGroup]="formComentario" (ngSubmit)='this.cancelarTurno(turno)'>
+                           <div class="row">
+                             <div class="col">
+                               <input type="text" class="form-control" placeholder="Indique aquí la razon" formControlName="comentario"required>
+                               <small class="invalid" *ngIf="formComentario.controls.comentario.errors?.required">Para cancelar/rechazar el turno es necesario una razón</small>
+                               <small class="invalid" *ngIf="formComentario.controls.comentario.errors?.minlength || formComentario.controls.comentario.errors?.maxlength">Debe tener entre 10 y 30 caracteres</small>
+                             </div>
+                           </div>
+                           <button type="submit" class="btn btn-outline-dark btn-block mb-3 mt-2" *ngIf='this.cancelado || this.rechazado' [disabled]="formComentario.invalid">Enviar</button>
+                         </form>
+                       </div>
+                       <div class="mt-2 mb-2" *ngIf='this.finalizado && turno.estado == "Aceptado"'>
+                         <form [formGroup]="formFinalizado" (ngSubmit)='this.finalizarTurno(turno)'>
+                           <div class="row">
+                               <div class="col-5">
+                                   <div class="row">
+                                    <div class="col-6">
+                                      <p>Altura: </p>
+                                      <input type="number" class="form-control" placeholder="Ingrese la altura" formControlName="altura" required>
+                                      <small class="invalid" *ngIf="formFinalizado.controls.altura.errors?.required && formFinalizado.controls.altura.touched">La altura es requerida</small>
+                                    </div>
+                                    <div class="col-6">
+                                      <p>Peso: </p>
+                                      <input type="number" class="form-control" placeholder="Ingrese el peso" formControlName="peso" required>
+                                      <small class="invalid" *ngIf="formFinalizado.controls.peso.errors?.required && formFinalizado.controls.peso.touched">El peso es requerido</small>
+                                    </div>
+                                    <div class="col-6">
+                                      <p>Temperatura: </p>
+                                      <input type="number" class="form-control" placeholder="Ingrese la temperatura" formControlName="temperatura" required>
+                                      <small class="invalid" *ngIf="formFinalizado.controls.temperatura.errors?.required && formFinalizado.controls.temperatura.touched">La temperatura es requerida</small>
+                                    </div>
+                                    <div class="col-6">
+                                      <p>Presión: </p>
+                                      <input type="number" class="form-control" placeholder="Ingrese la presion" formControlName="presion" required>
+                                      <small class="invalid" *ngIf="formFinalizado.controls.presion.errors?.required && formFinalizado.controls.presion.touched">La presión es requerida</small>
+                                    </div>
+                                     <div class="col-6 mt-2">
+                                       <p>Comentario sobre la consulta: </p>
+                                       <input type="text" class="form-control" placeholder="Ingrese un comentario" formControlName="comentario" required>
+                                       <small class="invalid" *ngIf="formFinalizado.controls.comentario.errors?.required && formFinalizado.controls.comentario.touched">Para completar la finalizacion es necesario dar un comentario</small>
+                                       <small class="invalid" *ngIf="formFinalizado.controls.comentario.errors?.minlength || formFinalizado.controls.comentario.errors?.maxlength">Debe tener entre 10 y 40 caracteres</small>
+                                     </div>
+                                     <div class="col-9 mt-2">
+                                       <p>Diagnóstico : </p>
+                                      <input type="text" class="form-control" placeholder="Ingrese el diagnóstico" formControlName="diagnostico" required>
+                                      <small class="invalid" *ngIf="formFinalizado.controls.diagnostico.errors?.required && formFinalizado.controls.diagnostico.touched">Para completar la finalizacion dar el diagnóstico</small>
+                                      <small class="invalid" *ngIf="formFinalizado.controls.diagnostico.errors?.minlength || formFinalizado.controls.diagnostico.errors?.maxlength">Debe tener entre 20 y 60 caracteres</small>
+                                     </div>
+                                     <br>
+                                     <form [formGroup]="formDatosDinamicos">
+                                      <div class="row">
+                                          <div class="col-9">
+                                              <div class="row">
+                                                <div class="col-6 mt-2">
+                                                  <p>Dato: </p>
+                                                 <input type="text" class="form-control" placeholder="Ingrese un dato" formControlName="dato" required>
+                                                </div>
+                                                <div class="col-6 mt-2">
+                                                  <p>Valor: </p>
+                                                 <input type="text" class="form-control" placeholder="Ingrese su valor" formControlName="valor" required>
+                                                </div>                
+                                              </div>
+                                             <p *ngIf = 'this.dato1 != ""'>Dato: {{this.dato1.clave}} Valor: {{this.dato1.valor}} </p>
+                                             <p *ngIf = 'this.dato2 != ""'>Dato: {{this.dato2.clave}} Valor: {{this.dato2.valor}} </p>
+                                             <p *ngIf = 'this.dato3 != ""'>Dato: {{this.dato3.clave}} Valor: {{this.dato3.valor}} </p>
+                                          </div>
+                                      </div>
+                                      <button class="btn btn-dark mb-3 mt-2" [disabled]="formFinalizado.invalid" (click)="datosExtrasAgregar()">Agregar Dato</button>
+                                    </form>                             
+                                   </div>
+                               </div>
+                           </div>
+                           <button type="submit" class="btn btn-dark mb-3 mt-2" [disabled]='formFinalizado.invalid'>Enviar</button>
+                         </form>
+                       </div>
+                   </div>
+               </div>
+             </div>
+             <br>
+           </div>
+         </div>
+         <br>
+  </div>
+</div>

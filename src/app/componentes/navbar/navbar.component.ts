@@ -9,9 +9,11 @@ import { FirebaseService } from 'src/app/servicios/firebase.service';
 })
 export class NavbarComponent implements OnInit {
 
-  usuarioLogueado = this.authService.getCurrentUser();
+  usuarioLogueado = this.firebase.getCurrentUser();
   estaLogueado : any = null;
-  constructor(private authService:FirebaseService, private router: Router)
+  esAdministrador:boolean=false;
+  
+  constructor(public firebase:FirebaseService, private router: Router)
   {
     this.ObtenerUsuarioLogueado();
   }
@@ -22,8 +24,8 @@ export class NavbarComponent implements OnInit {
 
   ObtenerUsuarioLogueado()
   {
-    this.authService.getCurrentUser().subscribe(res =>{
-      console.log('obtener usuario log: '+ res?.email);
+    this.firebase.getCurrentUser().subscribe(res =>{
+      console.log('ObtenerEmailUsuarioLogueado: '+ res?.email);
       this.estaLogueado = res ? true: false;
     })
   }
@@ -31,7 +33,7 @@ export class NavbarComponent implements OnInit {
   CerrarSesion()
   {
     this.estaLogueado = false;
-    this.authService.logOut();
+    this.firebase.logOut();
   }
 
 

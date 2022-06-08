@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import 'firebase/compat/storage';
 //import firebase from 'firebase/compat';
 import firebase from 'firebase/compat/app';
+import { userInfo } from 'os';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -14,40 +16,81 @@ import firebase from 'firebase/compat/app';
 })
 export class FirebaseService {
 
-  private especialistasRef : AngularFirestoreCollection;
+  private usuariosRef : AngularFirestoreCollection;
   storageRef = firebase.app().storage().ref();
-  esAdmin :boolean = false
   esPaciente:boolean = false
   esEspecialista:boolean = false
+  estaLogueado : boolean=false;
+  esAdmin : boolean =false;
+  tipoUsuario:string=""
+  
+  usuarioDatos: any = "";//otro login
+  logeado : any = false; //otro login
 
 
   constructor(private afauth : AngularFireAuth, 
     private firestore : AngularFirestore
     ,private firestorage : AngularFireStorage,
-     private router : Router) 
+     private router : Router, private ts : ToastrService) 
   { 
-    this.especialistasRef = firestore.collection('especialistasColeccion');
+    this.usuariosRef= firestore.collection('usuariosColeccion');
+    
+    this.getCurrentUser().subscribe(res=>{
+      if(res!=null){
+         this.esAdmin=this.esAdministrador(res)
+         this.estaLogueado=true
+      }else{
+       this.estaLogueado=false
+       this.esAdmin=false;
+      }
+    })
+
+    this.obtenerTipoUsuario();
+
   }
 
-
-  esAdministrador(usuario:any){
-
-    if(usuario){
-      usuario.isAdmin?this.esAdmin=true:null
-    }
-
+  esAdministrador(usuario:any)
+  {
+      return usuario && usuario.email == 'admin@admin.com';
   }
+
+  obtenerTipoUsuario(){
+    this.getCurrentUser().subscribe(x => {
+      this.obtenerTodos("usuariosColeccion").subscribe(i => {
+        i.forEach(user => {
+          if(user.uid == x?.uid){
+            console.log("ObtenerTipoUsuario (login):", this.tipoUsuario)
+            this.tipoUsuario = user.tipoUsuario
+          }
+        })
+      })
+    })
+  }
+
+  obtenerUsuarioDatos(){
+    this.getCurrentUser().subscribe(x => {
+      this.obtenerTodos("usuariosColeccion").subscribe(i => {
+        i.forEach(user => {
+          if(user.uid == x?.uid){
+            console.log("Obtengo al usuario firestore:", this.usuarioDatos)
+            this.usuarioDatos = user
+          }
+        })
+      })
+    })
+  }
+
   esPacientefn(usuario:any){
 
     if(usuario){
-      usuario.perfil=='paciente'?this.esPaciente=true:null
+      usuario.tipoUsuario=='paciente'?this.esPaciente=true:null
     }
 
   }
   esEspecialistafn(usuario:any){
 
     if(usuario){
-      usuario.perfil=='especialista'?this.esEspecialista=true:null
+      usuario.tipoUsuario=='especialista'?this.esEspecialista=true:null
     }
 
   }
@@ -55,17 +98,45 @@ export class FirebaseService {
   async logIn(email: string, contrasenia : string)
   {
      return await this.afauth.signInWithEmailAndPassword(email,contrasenia)
-     .catch(error=>{
-      throw(error);
-      });
+    //  .then(x => {
+    //   if(x.user?.emailVerified){
+    //     this.obtenerTipoUsuario()
+    //     return x.user
+    //   }else{
+    //     return false
+    //   }
+    //  })
+    //  .catch(error=>{
+    //   throw(error);
+    //   });
+  }
+
+  verificarEmail(coleccion:any,id:string)
+  {
+    this.firestore.collection(coleccion).doc(id).update({emailVerificado: true});
   }
 
   async register(email: string, contrasenia : string)
   {
     return await this.afauth.createUserWithEmailAndPassword(email,contrasenia)
-    .catch(error=>{
-      throw(error);
-      });
+    // .then(x =>{
+    //   this.sendEmailForVerification(x)
+    //   this.logOut()
+    //   return x
+    // })
+    // .catch(error=>{
+    //   throw(error);
+    //   });
+  }
+
+  sendEmailForVerification(user:any)
+  {
+    return this.afauth.currentUser.then((u:any) => u.sendEmailVerification())
+    .then(() => {
+      // this.ruteo.navigateByUrl('verifyEmail');
+      //TODO: PANTALLA VERIFY EMAIL
+    })
+      
   }
 
   getCurrentUser()
@@ -73,31 +144,39 @@ export class FirebaseService {
     return this.afauth.authState;
   }
 
+  getUser(id:string|undefined)
+  { 
+    return this.usuariosRef.doc(id).get()
+  }
+
   logOut()
   {
+    this.tipoUsuario = ""
+    this.esAdmin = false
     this.afauth.signOut();
   }
   
   async crear(nombreColeccion : string, data : string)
   {
-    let resultado:boolean=false;
     return await this.firestore.collection<any>(nombreColeccion).add(data);
   }
 
-  getByEmail(email:string){
-    this.firestore.collection('pacientesColeccion', ref => ref.where('email', '==', email).limit(1)).get().subscribe(data => {return data})
-  }
 
-  crear2(nameColection:string,data:any){
+//Pone el mismo id en auth y firestore
+//TODO:"FIXME
+  crearDocumentoConIdEnCol(nameColection:string,nameDocument:string,data:any)
+  {
     let response = {status:true,error:''}
+    this.firestore.collection(nameColection).doc(nameDocument).set(data);
+
     let collection = this.firestore.collection<any>(nameColection)
     try {
-      collection.add(data) .then(data=>{
-        if(!data){
+      collection.doc(nameDocument).set(data).then(data=>{
+        
           response.status=false;
-          response.error='data vacia';}
+          response.error='vacio';
       })
-    } catch (error) {
+    }catch (error) {
         response.status=false;
         response.error=`${error}`; 
         console.log(error)
@@ -105,11 +184,46 @@ export class FirebaseService {
     return response
   }
 
+  // getByEmail(email:string){
+  //   this.firestore.collection('pacientesColeccion', ref => ref.where('email', '==', email).limit(1)).get().subscribe(data => {return data})
+  // }
+
+  getById(id:string):any{
+    // this.firestore.collection('usuariosColeccion', ref => ref.where('uid', '==', id).limit(1)).get().subscribe(data => {return data})
+    this.firestore.collection('usuariosColeccion').get().subscribe(data => {return data})
+
+  }
 
   obtenerTodos(nombreColeccion : string){
     let collection = this.firestore.collection<any>(nombreColeccion)
     return collection.valueChanges({idField: 'id'});
   }
+
+  obtenerUsuariosCollection(){
+    return this.usuariosRef.get();
+  }
+  habilitarEspecialista(id:string,valor: any): Promise<any> {
+    return this.usuariosRef.doc(id).update({
+      habilitado:valor
+    });
+  }
+
+  // cambiarAcceso(coleccion:any,id:string, nuevoValor:any)
+  // {
+  //   this.firestore.collection(coleccion).doc(id).update({acceso: nuevoValor});
+  // }
+
+  // obtenerTodosConId(coleccion:any, nombreIdField:string){
+  //   return this.firestore.collection(coleccion).valueChanges({ idField: nombreIdField });
+  // }
+
+
+
+  // habilitarAcceso(coleccion:any,id:string, nuevoValor:any)
+  // {
+  //   this.firestore.collection(coleccion).doc(id).update({acceso: nuevoValor});
+  // }
+
 
 
   //h
@@ -142,6 +256,22 @@ export class FirebaseService {
       console.log(err);
       return null;
     }
+  }
+
+  modificarPaciente(paciente : any, id : any)
+  {
+    return this.angularF.collection('pacientes').doc(id).update(paciente);
+  }
+
+  
+  RegistrarLog(user : any)
+  {
+    return this.angularF.collection("logs").add(user);
+  }
+
+  traerLogs()
+  {
+    return this.logs;
   }
 
 

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { Especialista } from 'src/app/clases/especialista';
-import { Paciente } from 'src/app/clases/paciente';
+import { EADDRINUSE } from 'constants';
+import { Especialista } from 'src/app/entidades/especialista';
+import { Paciente } from 'src/app/entidades/paciente';
 import { FirebaseService } from 'src/app/servicios/firebase.service';
 
 @Component({
@@ -10,27 +11,76 @@ import { FirebaseService } from 'src/app/servicios/firebase.service';
 })
 export class UsuariosListadoComponent implements OnInit {
 
-  listaPaciente:any[]=[]
-  listaEspecialista:any[]=[]
+  listaActualizadaUsuarios:any[]=[]
+
+  listaPacientes:any[]=[]
+  listaEspecialistas:any[]=[]
+  listaAdministradores:any[]=[]
+
   spinnerImgSubiendose:boolean=false;
-  constructor(private firebaseApi:FirebaseService,) {
+  constructor(private firebase:FirebaseService,) {
     this.spinnerImgSubiendose=true;
     setTimeout(() => {
       
-      this.firebaseApi.obtenerTodos2('pacientesColeccion').subscribe(data=>{
-        this.listaPaciente=data // mapeo de productos
-      }) 
-      this.firebaseApi.obtenerTodos2('especialistasColeccion').subscribe(data=>{
-        this.listaEspecialista=data // mapeo de productos
-      }) 
-      
+      this.firebase.obtenerTodos('usuariosColeccion').subscribe(data=>{
+        this.listaActualizadaUsuarios=[];
+        console.log("data ", data)
+        data.forEach(value=>{
+          let usuario : any ={
+            id:value.id,
+            nombre : value.nombre,
+            apellido : value.apellido,
+            edad: value.edad,
+            dni : value.dni,
+            especialidad : value.especialidad,
+            obraSocial : value.obraSocial,
+            email : value.email,
+            tipoUsuario : value.tipoUsuario,
+            habilitado: value.habilitado,
+            imgPerfil : value.imgPerfil,
+            imgsPerfil :value.imgsPerfil
+
+          }
+          this.listaActualizadaUsuarios.push(usuario);
+          this.cargarListados();
+        })
+        console.log("lista", this.listaActualizadaUsuarios)
+      })
+
       this.spinnerImgSubiendose=false;
-    }, 3000);
+    }, 2000);
     
    }
+
   ngOnInit(): void {}
 
+  actualizarHabilitado(especialista : any){
+    if(especialista.habilitado==false)
+    {
+      this.firebase.habilitarEspecialista(especialista.id,true)
+    }else{
+      this.firebase.habilitarEspecialista(especialista.id,false)
+    }
+  
+  }
 
+  cargarListados()
+  {
+    this.listaPacientes = [];
+    this.listaEspecialistas = [];
+    this.listaAdministradores = [];
+    for(let i=0; i<this.listaActualizadaUsuarios.length;i++){
+      if(this.listaActualizadaUsuarios[i].tipoUsuario == 'paciente'){
+        this.listaPacientes.push(this.listaActualizadaUsuarios[i]);
+      }else if(this.listaActualizadaUsuarios[i].tipoUsuario == 'especialista'){
+        this.listaEspecialistas.push(this.listaActualizadaUsuarios[i]);
+      }else if(this.listaActualizadaUsuarios[i].tipoUsuario == 'administrador')
+      {
+        this.listaAdministradores.push(this.listaActualizadaUsuarios[i]);
+      }
+    }
+    console.log("lista admins", this.listaAdministradores)
+  }
 
 
 

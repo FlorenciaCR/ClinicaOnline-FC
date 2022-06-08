@@ -1,8 +1,7 @@
 <main class="form-signin  text-center container shadow" style="margin-top: 100px;">
     <form [formGroup]="forma" (ngSubmit)="verificarUsuario()">
       <img class="mb-4" src="../../../assets/imgRegistro/login.png" alt="" width="70" height="70">
-      <h1 class="h3 mb-3 fw-normal">Loguearse</h1>
-  
+      <h1 class="h3 mb-3 fw-normal">Ingresar</h1>
       <div class="form-floating">
         <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" formControlName="email">
         <label for="floatingInput">Email address</label>
@@ -21,8 +20,31 @@
       </small>
       </div>
   
-      <button class="buttonNormal" >Acceso rapido</button>
+      <div style="display: flex; align-items:center; justify-content: end;">
+        <p style="width: 80%;" class="buttonNormal" >Accesos rapidos ➡️</p>
+      </div>
       <p>{{this.mensaje}}</p>
       <button class="w-100 buttonLog " type="submit" [disabled]="forma.invalid">Entrar</button>
     </form>
+    <div class="div.Derecho">
+      <div class="miniEspacio shadow-lg">
+        <button style="border-radius: 18px; border-color: #223A66; border-width: 3px; "><img  class="imgBoton"  height="50px" width="50px"  src="../../../assets/usuarios/paciente3.png" alt=""></button>
+      </div>
+      <div class="miniEspacio shadow-lg">
+        <button  style="border-radius: 18px; border-color: #223A66; border-width: 3px"><img class="imgBoton"  height="50px" width="50px" src="../../../assets/usuarios/paciente4.png" alt=""></button>
+      </div>
+      <div class="miniEspacio shadow-lg">
+        <button  style="border-radius: 18px; border-color: #223A66;border-width: 3px"><img class="imgBoton"  height="50px" width="50px" src="../../../assets/usuarios/pacientef2.png" alt=""></button>
+      </div>
+      <div class="miniEspacio shadow-lg">
+        <button  style="border-radius:18px; border-color: #223A66;border-width: 3px"><img class="imgBoton"  height="50px" width="50px" src="../../../assets/usuarios/admin.png" alt=""></button>
+      </div>
+      <div class="miniEspacio shadow-lg">
+        <button  style="border-radius: 18px; border-color: #223A66;border-width: 3px"><img class="imgBoton"  height="50px" width="50px" src="../../../assets/usuarios/cirujano.png" alt=""></button>     
+      </div>
+      <div class="miniEspacio shadow-lg">
+        <button  style="border-radius: 18px; border-color: #223A66;border-width: 3px"><img class="imgBoton"  height="50px" width="50px" src="../../../assets/usuarios/oculista.png" alt=""></button>
+      </div>
+    </div>
+
   </main>

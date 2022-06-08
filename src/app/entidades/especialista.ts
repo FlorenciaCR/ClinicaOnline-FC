@@ -1,5 +1,5 @@
 export class Especialista {
-
+    uid:string| undefined=''
     nombre:string
     apellido:string
     edad:number
@@ -8,11 +8,12 @@ export class Especialista {
     email:string
     password:string
     imgPerfil:string
-    esAdministrador:boolean
+    habilitado:boolean
     tipoUsuario:string
+    especialidades:string[] = []
     verificadoEmail:boolean
 
-    constructor(nombre:string='',apellido:string='',edad:number=0,dni:number=0,especialidad:string='',email:string='',password:string='',foto:string='', tipoUsuario:string='especialista',esAdministrador:boolean=false,verificadoEmail:boolean=false){
+    constructor(nombre:string='',apellido:string='',edad:number=0,dni:number=0,especialidad:string='',email:string='',password:string='',foto:string='', tipoUsuario:string='especialista',habilitado:boolean=false,verificadoEmail:boolean=false, especialidades:string[]=[]){
         this.nombre=nombre
         this.apellido=apellido
         this.edad=edad
@@ -21,8 +22,9 @@ export class Especialista {
         this.password=password
         this.imgPerfil=foto
         this.tipoUsuario=tipoUsuario
-        this.esAdministrador=esAdministrador
+        this.habilitado=habilitado
         this.verificadoEmail=verificadoEmail
+        this.especialidades=especialidades
     }
         
     }
