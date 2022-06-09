@@ -12,13 +12,11 @@ Solamente puede acceder el administrador, el cual podra ver la informacion de lo
 ## Perfil 👨🏽‍🦱
 Si es paciente podra ver su informacion y si es especialista ademas de su informacion podra ver sus horarios y marcar su disponibilidad horaria.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
 ## Solicitar turno 📝
 
 A esta seccion solo ingresara un administrador o un paciente. Se podra solicitar un turno que este disponible con un especialista, en caso de ser administrador debera marcar el paciente tambien.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
 ## Mis turnos 🗓️
 Los usuarios paciente o especialista pueden ver los turnos que ya hayan tenido y los que tienen pendientes
