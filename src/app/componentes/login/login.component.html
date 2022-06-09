@@ -2,8 +2,9 @@
     <form [formGroup]="forma" (ngSubmit)="verificarUsuario()">
       <img class="mb-4" src="../../../assets/imgRegistro/login.png" alt="" width="70" height="70">
       <h1 class="h3 mb-3 fw-normal">Ingresar</h1>
+
       <div class="form-floating">
-        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" formControlName="email">
+        <input type="email" class="form-control" id="email" placeholder="name@example.com" [(ngModel)]="emailu" formControlName="email">
         <label for="floatingInput">Email address</label>
         <small class="invalid" *ngIf="forma.controls['email'].errors?.['required']&& forma.controls['email'].touched" style="color:red ;">
           El email es requerido
@@ -13,7 +14,7 @@
          </small>
       </div>
       <div class="form-floating">
-        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" formControlName="password">
+        <input type="password" id="password" class="form-control" id="floatingPassword" placeholder="Password" [(ngModel)]="passu" formControlName="password">
         <label for="floatingPassword">Password</label>
         <small class="invalid" *ngIf="forma.controls['password'].errors?.['required']&& forma.controls['password'].touched" style="color:red ;">
           La contraseña es requerida
@@ -28,23 +29,41 @@
     </form>
     <div class="div.Derecho">
       <div class="miniEspacio shadow-lg">
-        <button style="border-radius: 18px; border-color: #223A66; border-width: 3px; "><img  class="imgBoton"  height="50px" width="50px"  src="../../../assets/usuarios/paciente3.png" alt=""></button>
+        <button (click)="accesoRapido('paciente@paciente.com','123456')" style="border-radius: 18px; border-color: #223A66; border-width: 3px; "><img  class="imgBoton"  height="50px" width="50px"  src="https://firebasestorage.googleapis.com/v0/b/tp-clinicaonline-fc.appspot.com/o/imgPerfilPacientes%2FPaciente_paciente%40paciente.com_img0?alt=media&token=65711620-73e6-4e24-9d55-892fd0b66aca" alt=""></button>
       </div>
-      <div class="miniEspacio shadow-lg">
+      <!-- <div class="miniEspacio shadow-lg">
         <button  style="border-radius: 18px; border-color: #223A66; border-width: 3px"><img class="imgBoton"  height="50px" width="50px" src="../../../assets/usuarios/paciente4.png" alt=""></button>
       </div>
       <div class="miniEspacio shadow-lg">
         <button  style="border-radius: 18px; border-color: #223A66;border-width: 3px"><img class="imgBoton"  height="50px" width="50px" src="../../../assets/usuarios/pacientef2.png" alt=""></button>
+      </div> -->
+      <div class="miniEspacio shadow-lg">
+        <button (click)="accesoRapido('admin@admin.com','123456')" style="border-radius:18px; border-color: #223A66;border-width: 3px"><img class="imgBoton"  height="50px" width="50px" src="https://firebasestorage.googleapis.com/v0/b/tp-clinicaonline-fc.appspot.com/o/imgperfilEspecialista%2Fadmin%40admin.com_Admin?alt=media&token=46754e25-4130-4b14-be17-6df458085924" alt=""></button>
       </div>
       <div class="miniEspacio shadow-lg">
-        <button  style="border-radius:18px; border-color: #223A66;border-width: 3px"><img class="imgBoton"  height="50px" width="50px" src="../../../assets/usuarios/admin.png" alt=""></button>
+        <button (click)="accesoRapido('especialista@especialista.com','123456')" style="border-radius: 18px; border-color: #223A66;border-width: 3px"><img class="imgBoton"  height="50px" width="50px" src="https://firebasestorage.googleapis.com/v0/b/tp-clinicaonline-fc.appspot.com/o/imgperfilEspecialista%2Fespecialista%40especialista.com_Especialista?alt=media&token=f3a6bd2f-49a2-4dab-a006-c706162eb843" alt=""></button>     
       </div>
+
+      <!--paciente-->
       <div class="miniEspacio shadow-lg">
-        <button  style="border-radius: 18px; border-color: #223A66;border-width: 3px"><img class="imgBoton"  height="50px" width="50px" src="../../../assets/usuarios/cirujano.png" alt=""></button>     
+        <button (click)="accesoRapido('especialista@especialista.com','123456')" style="border-radius: 18px; border-color: #223A66;border-width: 3px"><img class="imgBoton"  height="50px" width="50px" src="https://firebasestorage.googleapis.com/v0/b/tp-clinicaonline-fc.appspot.com/o/imgperfilEspecialista%2Fespecialista%40especialista.com_Especialista?alt=media&token=f3a6bd2f-49a2-4dab-a006-c706162eb843" alt=""></button>     
       </div>
+
+      
+      <!--paciente-->
       <div class="miniEspacio shadow-lg">
+        <button (click)="accesoRapido('especialista@especialista.com','123456')" style="border-radius: 18px; border-color: #223A66;border-width: 3px"><img class="imgBoton"  height="50px" width="50px" src="https://firebasestorage.googleapis.com/v0/b/tp-clinicaonline-fc.appspot.com/o/imgperfilEspecialista%2Fespecialista%40especialista.com_Especialista?alt=media&token=f3a6bd2f-49a2-4dab-a006-c706162eb843" alt=""></button>     
+      </div>
+
+      
+      <!--especialista-->
+      <div class="miniEspacio shadow-lg">
+        <button (click)="accesoRapido('especialista@especialista.com','123456')" style="border-radius: 18px; border-color: #223A66;border-width: 3px"><img class="imgBoton"  height="50px" width="50px" src="https://firebasestorage.googleapis.com/v0/b/tp-clinicaonline-fc.appspot.com/o/imgperfilEspecialista%2Fespecialista%40especialista.com_Especialista?alt=media&token=f3a6bd2f-49a2-4dab-a006-c706162eb843" alt=""></button>     
+      </div>
+      
+      <!-- <div class="miniEspacio shadow-lg">
         <button  style="border-radius: 18px; border-color: #223A66;border-width: 3px"><img class="imgBoton"  height="50px" width="50px" src="../../../assets/usuarios/oculista.png" alt=""></button>
-      </div>
+      </div> -->
     </div>
 
   </main>

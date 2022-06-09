@@ -3,7 +3,7 @@
       <div class="divh5">
           <h6 class="mb-3" >Registro Especialista</h6>
       </div>
-      <form [formGroup]="formaEspecialista" (ngSubmit)="obtenerDatosEnviarRegistroEspecialista()">
+      <form [formGroup]="this.formaEspecialista" (ngSubmit)="obtenerDatosEnviarRegistroEspecialista()">
         <div class="row g-4">
           <div class="col-sm-6">
             <label for="firstName" class="form-label">Nombre</label>
@@ -86,30 +86,6 @@
               </li>
             </div>
           </div>
-          
-          <!-- <div class="form-group">
-            <label class='margin' for="especialidad">Seleccione su especialidad, o elija crear una nueva:</label>
-            <select class="form-select" id="especialidad" formControlName="especialidad">
-                <option *ngFor="let especialidad of listadoEspecialidades">
-                    {{especialidad.especialidad}}</option>
-            </select>
-            <small
-                *ngIf="formaEspecialista.get('especialidad')?.touched && formaEspecialista.get('especialidad')?.errors?.['required']"
-                class="invalid">El especialidad es requerido.</small>
-        </div>
-    
-        <div *ngIf="this.formaEspecialista.get('especialidad')?.value == 'Agregar una especialidad'">
-            <div class="form-floating mb-2 margin">
-                <input type="name" class="form-control" id="nuevaEspecialidad" placeholder="Especialidad"
-                    formControlName="nuevaEspecialidad">
-                <label for="floatingInput">Nueva Especialidad</label>
-                <small
-                    *ngIf="formaEspecialista.get('nuevaEspecialidad')?.touched && formaEspecialista.get('nuevaEspecialidad')?.errors?.['required']"
-                    class="invalid">El nuevaEspecialidad es requerido.</small>
-    
-            </div>
-        </div> -->
-
 
           <div class="col-sm-6">
             <label for="lastName" class="form-label">Email</label>

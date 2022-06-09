@@ -27,19 +27,17 @@
                     </div>
                 </div>
   
-                <div class="feature-item mb-5 mb-lg-0" *ngIf="this.firebaseService.tipoUsuario == 'administrador'">
-                    <div class="feature-icon mb-4">
-                        <!-- <i class="icofont-surgeon-alt"></i> -->
+                <div class="feature-item mb-5 mb-lg-0" *ngIf="this.firebaseService.tipoUsuario == 'administrador'" style="display:flex; flex-direction:column; justify-content:center; align-items:center;">
+                    <div>
+                        <button class="botonRegistro" (click)='tipo = "especialista"'>
+                            <img src="../../../assets/usuarios/admin.png" alt=""width="250px" height="250px">
+                        </button>
                     </div>
-                    <span>24 Hours Service</span>
-                    <h4 class="mb-3">Registro administrador</h4>
-                    <img src="../../../assets/imgRegistro/paciente1.png" alt="" width="70px" height="70px">
-                    <ul class="w-hours list-unstyled">
-                        <li class="d-flex justify-content-between">Sun - Wed : <span>8:00 - 17:00</span></li>
-                        <li class="d-flex justify-content-between">Thu - Fri : <span>9:00 - 17:00</span></li>
-                    </ul>
-                    <button class="btnRegistro" (click)='tipo = "administrador"'>Registro administrador</button>
+                    <div>
+                        <h4 class="mb-3" >Registro administrador</h4>
+                    </div>
                 </div>
+  
 
             </div>
         </div>

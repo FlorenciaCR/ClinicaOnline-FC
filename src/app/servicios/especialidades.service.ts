@@ -13,16 +13,16 @@ export class EspecialidadesService {
   especialidadesArray : any = ""; 
 
   constructor(private angularF : AngularFirestore) {
-    this.especialidadCollectionReference = this.angularF.collection<Especialidad>('especialidades');
+    this.especialidadCollectionReference = this.angularF.collection<Especialidad[]>('especialidades');
     this.especialidades = this.especialidadCollectionReference.valueChanges();
 
-    this.traerEspecialidades().subscribe(value =>{
+    this.obtenerEspecialidades().subscribe(value =>{
       this.especialidadesArray = value;
     });
 
    }
 
-  traerEspecialidades()
+  obtenerEspecialidades()
   {
     return this.especialidades;
   }

@@ -21,6 +21,7 @@ export class TurnoService {
 
   traerTurnos()
   {
+    console.log(this.turnos);
     return this.turnos;
   }
 

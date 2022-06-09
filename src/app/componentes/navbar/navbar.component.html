@@ -23,6 +23,10 @@
             <a class="nav-link" [routerLink]="['/turno/misTurnos']">Mis turnos</a>
           </li>
         </ul>
+
+        <div class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" *ngIf=" usuarioLogueado | async as usuarioLogueado">
+          <p class="nav-item" style="color: white;">{{usuarioLogueado.email}}</p>
+        </div>
         <div class="text-end"  *ngIf="usuarioLogueado | async as usuarioLogueado">
           <button type="button" class="btn btn-outline-light me-2" (click)="CerrarSesion()" [routerLink]="['/login']"> Log Out</button>
         </div>

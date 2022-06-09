@@ -1,4 +1,3 @@
-import { ThisReceiver } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder,Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -77,6 +76,7 @@ export class RegistroEspecialistaComponent implements OnInit {
     {
 
       this.spinnerImgSubiendose=true;
+      this.miEspecialista.tipoUsuario='especialista'
       this.miEspecialista.nombre=this.formaEspecialista.value.nombre
       this.miEspecialista.apellido=this.formaEspecialista.value.apellido
       this.miEspecialista.edad=this.formaEspecialista.value.edad
@@ -91,6 +91,7 @@ export class RegistroEspecialistaComponent implements OnInit {
   
         this.firebase.subirImagenes('imgperfilEspecialista',`${this.miEspecialista.email}_${this.miEspecialista.nombre}`,reader.result)
         .then(rta=>{
+          console.log('hola1')
           if(rta != null )
           {
             this.miEspecialista.imgPerfil = rta
@@ -98,11 +99,11 @@ export class RegistroEspecialistaComponent implements OnInit {
             //se registra
             this.firebase.register(this.miEspecialista.email,this.miEspecialista.password)
             .then(res=>{
-              this.miEspecialista.uid = res.user?.uid //le da id auth al esp          
+              this.miEspecialista.uid = res.user?.uid //le da id auth al esp     
+              console.log('se supone es el del res'+this.miEspecialista.uid)     
               //Crea al esp en firestore 
               let retornoCrearDocId = this.firebase.crearDocumentoConIdEnCol('usuariosColeccion',`${res.user?.uid}`,JSON.parse(JSON.stringify(this.miEspecialista)))
               console.log('retorno status',retornoCrearDocId.status)
-  
               if(retornoCrearDocId.status==true)
               {
                 this.spinnerImgSubiendose=false;

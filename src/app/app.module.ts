@@ -18,7 +18,6 @@ import { RegistroAdminComponent } from './componentes/registro-admin/registro-ad
 import { PerfilComponent } from './componentes/perfil/perfil.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
-import { MisTurnosComponent } from './mis-turnos/mis-turnos.component';
 import { SolicitarTurnoComponent } from './solicitar-turno/solicitar-turno.component';
 import { TurnosComponent } from './turnos/turnos.component';
 
@@ -35,7 +34,6 @@ import { TurnosComponent } from './turnos/turnos.component';
     UsuariosListadoComponent,
     RegistroAdminComponent,
     PerfilComponent,
-    MisTurnosComponent,
     SolicitarTurnoComponent,
     TurnosComponent
   ],

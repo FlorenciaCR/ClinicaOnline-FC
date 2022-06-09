@@ -24,9 +24,14 @@ export class FirebaseService {
   esAdmin : boolean =false;
   tipoUsuario:string=""
   
-  usuarioDatos: any = "";//otro login
-  logeado : any = false; //otro login
+  logeado : any = false
 
+  usuariosObs:any
+
+  usuarioLogueado: any = ""
+  usuarios:any
+  especialistas:any
+  pacientes:any
 
   constructor(private afauth : AngularFireAuth, 
     private firestore : AngularFirestore
@@ -34,7 +39,14 @@ export class FirebaseService {
      private router : Router, private ts : ToastrService) 
   { 
     this.usuariosRef= firestore.collection('usuariosColeccion');
-    
+    this.usuariosObs = this.usuariosRef.valueChanges()
+
+    this.usuariosObs.subscribe(x => {
+      this.usuarios = x
+      this.especialistas = x.filter(k => k.tipoUsuario == "Especialista")
+      this.pacientes = x.filter(k => k.tipoUsuario == "Paciente")
+    })
+
     this.getCurrentUser().subscribe(res=>{
       if(res!=null){
          this.esAdmin=this.esAdministrador(res)
@@ -45,8 +57,9 @@ export class FirebaseService {
       }
     })
 
-    this.obtenerTipoUsuario();
+    this.obtenerUsuarioDatos()
 
+    this.obtenerTipoUsuario();
   }
 
   esAdministrador(usuario:any)
@@ -72,8 +85,8 @@ export class FirebaseService {
       this.obtenerTodos("usuariosColeccion").subscribe(i => {
         i.forEach(user => {
           if(user.uid == x?.uid){
-            console.log("Obtengo al usuario firestore:", this.usuarioDatos)
-            this.usuarioDatos = user
+            console.log("Obtengo al usuario firestore:", this.usuarioLogueado)
+            this.usuarioLogueado = user
           }
         })
       })
@@ -208,30 +221,10 @@ export class FirebaseService {
     });
   }
 
-  // cambiarAcceso(coleccion:any,id:string, nuevoValor:any)
-  // {
-  //   this.firestore.collection(coleccion).doc(id).update({acceso: nuevoValor});
-  // }
-
-  // obtenerTodosConId(coleccion:any, nombreIdField:string){
-  //   return this.firestore.collection(coleccion).valueChanges({ idField: nombreIdField });
-  // }
-
-
-
-  // habilitarAcceso(coleccion:any,id:string, nuevoValor:any)
-  // {
-  //   this.firestore.collection(coleccion).doc(id).update({acceso: nuevoValor});
-  // }
-
-
-
-  //h
   obtenerTodos2(nameColection:string){
     let collection = this.firestore.collection<any>(nameColection)
     return collection.valueChanges();
   }
-
 
   async subirImagenes (nombreAlbum:string,nombre:string,imgB64:any){
     try {
@@ -260,19 +253,17 @@ export class FirebaseService {
 
   modificarPaciente(paciente : any, id : any)
   {
-    return this.angularF.collection('pacientes').doc(id).update(paciente);
+    return this.firestore.collection('pacientes').doc(id).update(paciente);
   }
 
   
   RegistrarLog(user : any)
   {
-    return this.angularF.collection("logs").add(user);
+    return this.firestore.collection("logs").add(user);
   }
 
   traerLogs()
   {
-    return this.logs;
+    // return this.logs;
   }
-
-
 }

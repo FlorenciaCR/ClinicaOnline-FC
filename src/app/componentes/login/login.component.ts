@@ -15,6 +15,9 @@ export class LoginComponent implements OnInit {
   mensaje:string='';
 
   usuario : any = "";//otro login
+  acceso: boolean = false;
+  emailu : any;
+  passu : any;
 
   constructor(private firebase :FirebaseService,private fb :FormBuilder, private router : Router) 
   {
@@ -89,8 +92,17 @@ export class LoginComponent implements OnInit {
     {
       this.mensaje='NO existe el usuario'
     }
-
-
-   
   }
+
+  accesoRapido(email:any, password:any)
+  {
+    this.acceso=true;
+    this.emailu = email;
+    this.passu = password;
+  } 
+
+
+
+
+
 }
