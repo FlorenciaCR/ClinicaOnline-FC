@@ -22,7 +22,9 @@ export class MisTurnosComponent implements OnInit {
     turnoService.turnos.subscribe(x => {
       this.turnos = x
     })
-    console.log(this.turnos);
+
+    //this.turnos = this.turnoService.turnosArray
+    
   }
 
 
@@ -30,6 +32,7 @@ export class MisTurnosComponent implements OnInit {
   }
 
   obtenerTurnos(){
+    console.log("tur",this.turnos)
     return this.turnos
   }
 

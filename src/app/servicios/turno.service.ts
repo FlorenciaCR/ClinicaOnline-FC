@@ -11,6 +11,7 @@ export class TurnoService {
   turnos: Observable<any>;
   turnosArray : any = [];
 
+
   constructor(private angularF : AngularFirestore) {
     this.turnoCollectionReference = this.angularF.collection('turnos');
     this.turnos = this.turnoCollectionReference.valueChanges({idField : 'id'});
@@ -21,7 +22,6 @@ export class TurnoService {
 
   traerTurnos()
   {
-    console.log(this.turnos);
     return this.turnos;
   }
 

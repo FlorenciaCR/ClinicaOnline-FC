@@ -2,21 +2,20 @@
     <div>
       <h3>Turnos</h3>
     </div>
-    <div *ngFor="let turno of obtenerTurnos()">
-      
+    <div *ngFor="let tur of turnos">
       <ul>
         <li>
-          Fecha: {{obtenerFechaFormateada(turno.fecha)}}
+          Fecha: {{obtenerFechaFormateada(tur.fecha)}}
           <!-- Fecha: {{obtenerFechaFormateada(turno.fecha) | date: 'dd-MM-yyyy - hh:mm'}} -->
         </li>
         <li>
-          Especialidad: {{turno.nombreEspecialidad}}
+          Especialidad: {{tur.nombreEspecialidad}}
         </li>
         <li>
-          Estado: {{turno.estado}}
+          Estado: {{tur.estado}}
         </li>
-        <button (click)="aceptarTurno(turno)">ACEPTAR</button>
-        <button (click)="cancelarTurno(turno)">CANCELAR</button>
+        <button (click)="aceptarTurno(tur)">ACEPTAR</button>
+        <button (click)="cancelarTurno(tur)">CANCELAR</button>
       </ul>
     </div>
   </div>

@@ -13,13 +13,13 @@
           <li class="nav-item" *ngIf="firebase.esAdmin">
             <a class="nav-link" [routerLink]="['/usuarios']">Usuarios</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="estaLogueado">
             <a class="nav-link" [routerLink]="['/perfil']">Perfil</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="estaLogueado">
             <a class="nav-link" [routerLink]="['/turno/solicitarTurno']">Solicitar turnos</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="estaLogueado">
             <a class="nav-link" [routerLink]="['/turno/misTurnos']">Mis turnos</a>
           </li>
         </ul>
