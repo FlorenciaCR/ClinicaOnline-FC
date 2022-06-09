@@ -1,12 +1,12 @@
-<div style="margin-top: 100px;">
-    <div>
-      <h3>Turnos</h3>
+<div style="margin-top: 100px; background-color: white; border-radius: 15px;  " class="container d-flex flex-column">
+    <div style="background-color: white; color:#223A66;">
+      <h3>Turnos🗓️</h3>
     </div>
     <div *ngFor="let tur of turnos">
-      <ul>
+      <ul style="border: solid 2px #223A66;">
         <li>
-          Fecha: {{obtenerFechaFormateada(tur.fecha)}}
-          <!-- Fecha: {{obtenerFechaFormateada(turno.fecha) | date: 'dd-MM-yyyy - hh:mm'}} -->
+          <!-- Fecha: {{obtenerFechaFormateada(tur.fecha)}} -->
+          Fecha: {{obtenerFechaFormateada(tur.fecha) | date: 'dd-MM-yyyy - hh:mm'}}
         </li>
         <li>
           Especialidad: {{tur.nombreEspecialidad}}

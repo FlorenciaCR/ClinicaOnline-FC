@@ -32,11 +32,12 @@ export class MisTurnosComponent implements OnInit {
   }
 
   obtenerTurnos(){
-    console.log("tur",this.turnos)
     return this.turnos
   }
 
   obtenerFechaFormateada(time){
+    console.log("time", time)
+    console.log("nanos", time.nanoseconds)
     return new Date(time.nanoseconds)
   }
 
