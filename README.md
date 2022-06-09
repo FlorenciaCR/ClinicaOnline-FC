@@ -5,10 +5,14 @@
 
 ## Bienvenida 🏥
 En esta seccion el usuario puede ingresar o registrarse en el sistema y asi podra ver las demas secciones.
-Depende como se ingrese o registre se podran ver algunas u otras secciones en la parte superior 
+Depende como se ingrese o registre se podran ver algunas u otras secciones en la parte superior.
+  ![image](https://user-images.githubusercontent.com/60653223/172782999-f8ce422e-74ec-4572-b5c2-8504c5a1f6eb.png)
+
 
 ## Seccion usuarios 👥
 Solamente puede acceder el administrador, el cual podra ver la informacion de los usuarios y habilitar o inhabilitar el acceso al sistema de los especialistas y tamieb podra dar de alta usuarios.
+![image](https://user-images.githubusercontent.com/60653223/172783658-48684c2e-fc0c-42de-812c-5916aa2ee402.png)
+
 
 ## Perfil 👨🏽‍🦱
 Si es paciente podra ver su informacion y si es especialista ademas de su informacion podra ver sus horarios y marcar su disponibilidad horaria.
