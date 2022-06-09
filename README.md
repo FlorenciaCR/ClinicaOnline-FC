@@ -8,6 +8,12 @@ En esta seccion el usuario puede ingresar o registrarse en el sistema y asi podr
 Depende como se ingrese o registre se podran ver algunas u otras secciones en la parte superior.
   ![image](https://user-images.githubusercontent.com/60653223/172782999-f8ce422e-74ec-4572-b5c2-8504c5a1f6eb.png)
 
+Registro
+  ![image](https://user-images.githubusercontent.com/60653223/172784032-974496a7-7b2c-46d5-a3ae-3dcc0b79ba5e.png)
+Ingreso
+  ![image](https://user-images.githubusercontent.com/60653223/172784152-4e7bc8d1-f9c0-4af1-9986-a6fdfcaead38.png)
+
+
 
 ## Seccion usuarios 👥
 Solamente puede acceder el administrador, el cual podra ver la informacion de los usuarios y habilitar o inhabilitar el acceso al sistema de los especialistas y tamieb podra dar de alta usuarios.
