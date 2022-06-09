@@ -9,8 +9,10 @@ Depende como se ingrese o registre se podran ver algunas u otras secciones en la
   ![image](https://user-images.githubusercontent.com/60653223/172782999-f8ce422e-74ec-4572-b5c2-8504c5a1f6eb.png)
 
 Registro
+
   ![image](https://user-images.githubusercontent.com/60653223/172784032-974496a7-7b2c-46d5-a3ae-3dcc0b79ba5e.png)
 Ingreso
+
   ![image](https://user-images.githubusercontent.com/60653223/172784152-4e7bc8d1-f9c0-4af1-9986-a6fdfcaead38.png)
 
 
@@ -18,12 +20,12 @@ Ingreso
 ## Seccion usuarios 👥
 Solamente puede acceder el administrador, el cual podra ver la informacion de los usuarios y habilitar o inhabilitar el acceso al sistema de los especialistas y tamieb podra dar de alta usuarios.
 ![image](https://user-images.githubusercontent.com/60653223/172783658-48684c2e-fc0c-42de-812c-5916aa2ee402.png)
+![image](https://user-images.githubusercontent.com/60653223/172785178-f5c25421-2f2d-40ca-911b-e5f9a127b8c5.png)
 
-
+  
 ## Perfil 👨🏽‍🦱
 Si es paciente podra ver su informacion y si es especialista ademas de su informacion podra ver sus horarios y marcar su disponibilidad horaria.
 ![image](https://user-images.githubusercontent.com/60653223/172784500-5e7b95c2-c3e8-4006-86b5-12062f7d6d18.png)
-
 
 ## Solicitar turno 📝
 
