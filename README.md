@@ -22,6 +22,7 @@ Solamente puede acceder el administrador, el cual podra ver la informacion de lo
 
 ## Perfil 👨🏽‍🦱
 Si es paciente podra ver su informacion y si es especialista ademas de su informacion podra ver sus horarios y marcar su disponibilidad horaria.
+![image](https://user-images.githubusercontent.com/60653223/172784500-5e7b95c2-c3e8-4006-86b5-12062f7d6d18.png)
 
 
 ## Solicitar turno 📝
