@@ -1,8 +1,10 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { EADDRINUSE } from 'constants';
 import { Especialista } from 'src/app/entidades/especialista';
 import { Paciente } from 'src/app/entidades/paciente';
 import { FirebaseService } from 'src/app/servicios/firebase.service';
+import * as XLSX from 'xlsx'; 
+
+
 
 @Component({
   selector: 'app-usuarios-listado',
@@ -10,6 +12,15 @@ import { FirebaseService } from 'src/app/servicios/firebase.service';
   styleUrls: ['./usuarios-listado.component.scss']
 })
 export class UsuariosListadoComponent implements OnInit {
+
+
+
+    /*name of the excel-file which will be downloaded. */ 
+    fileName= 'usuariosClinica.xlsx';  
+
+  
+  
+
 
   listaActualizadaUsuarios:any[]=[]
 
@@ -62,6 +73,22 @@ export class UsuariosListadoComponent implements OnInit {
       this.firebase.habilitarEspecialista(especialista.id,false)
     }
   
+  }
+
+
+  exportexcel(): void 
+  {
+     /* table id is passed over here */   
+     let element = document.getElementById('excel-table'); 
+     const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
+
+     /* generate workbook and add the worksheet */
+     const wb: XLSX.WorkBook = XLSX.utils.book_new();
+     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+     /* save to file */
+     XLSX.writeFile(wb, this.fileName);
+    
   }
 
   cargarListados()

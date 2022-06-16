@@ -26,8 +26,10 @@
                         <h4 class="mb-3" >Registro especialista</h4>
                     </div>
                 </div>
+
+            
   
-                <div class="feature-item mb-5 mb-lg-0" *ngIf="this.firebaseService.tipoUsuario == 'administrador'" style="display:flex; flex-direction:column; justify-content:center; align-items:center;">
+                <div *ngIf="this.firebaseService.tipoUsuario == 'administrador'" class="feature-item mb-5 mb-lg-0" style="display:flex; flex-direction:column; justify-content:center; align-items:center;">
                     <div>
                         <button class="botonRegistro" (click)='tipo = "especialista"'>
                             <img src="../../../assets/usuarios/admin.png" alt=""width="250px" height="250px">
@@ -52,7 +54,8 @@
     <app-registro-especialista></app-registro-especialista>
    </div>
 
-    <div *ngIf="this.tipo == 'administrador'">
+   <!--*ngIf="this.tipo == 'administrador'"-->
+    <div *ngIf="this.tipo == 'administrador'" >
     <app-registro-admin></app-registro-admin>
    </div>
 

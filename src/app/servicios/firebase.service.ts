@@ -43,8 +43,8 @@ export class FirebaseService {
 
     this.usuariosObs.subscribe(x => {
       this.usuarios = x
-      this.especialistas = x.filter(k => k.tipoUsuario == "Especialista")
-      this.pacientes = x.filter(k => k.tipoUsuario == "Paciente")
+      this.especialistas = x.filter(k => k.tipoUsuario == "especialista")
+      this.pacientes = x.filter(k => k.tipoUsuario == "paciente")
     })
 
     this.getCurrentUser().subscribe(res=>{
@@ -57,7 +57,7 @@ export class FirebaseService {
       }
     })
 
-    this.obtenerUsuarioDatos()
+    
 
     this.obtenerTipoUsuario();
   }
@@ -72,7 +72,7 @@ export class FirebaseService {
       this.obtenerTodos("usuariosColeccion").subscribe(i => {
         i.forEach(user => {
           if(user.uid == x?.uid){
-            console.log("ObtenerTipoUsuario (login):", this.tipoUsuario)
+            //console.log("ObtenerTipoUsuario (login):", this.tipoUsuario)
             this.tipoUsuario = user.tipoUsuario
           }
         })
@@ -85,7 +85,7 @@ export class FirebaseService {
       this.obtenerTodos("usuariosColeccion").subscribe(i => {
         i.forEach(user => {
           if(user.uid == x?.uid){
-            console.log("Obtengo al usuario firestore:", this.usuarioLogueado)
+            //console.log("Obtengo al usuario firestore:", this.usuarioLogueado)
             this.usuarioLogueado = user
           }
         })
@@ -157,7 +157,7 @@ export class FirebaseService {
     return this.afauth.authState;
   }
 
-  getUser(id:string|undefined)
+  getUsuario(id:string|undefined)
   { 
     return this.usuariosRef.doc(id).get()
   }
@@ -172,6 +172,23 @@ export class FirebaseService {
   async crear(nombreColeccion : string, data : string)
   {
     return await this.firestore.collection<any>(nombreColeccion).add(data);
+  }
+
+  agregarDataCollection(nameColection:string,data:any){
+    let response = {status:true,error:''}
+    let collection = this.firestore.collection<any>(nameColection)
+    try {
+      collection.add(data) .then(data=>{
+        if(!data){
+          response.status=false;
+          response.error='data vacia';}
+      })
+    } catch (error) {
+        response.status=false;
+        response.error=`${error}`; 
+        console.log(error)
+    }
+    return response
   }
 
 
@@ -229,7 +246,7 @@ export class FirebaseService {
   async subirImagenes (nombreAlbum:string,nombre:string,imgB64:any){
     try {
       let rta = await this.storageRef.child(`${nombreAlbum}/${nombre}`).putString(imgB64,'data_url') // name carpeta/Nombre imagen 
-        console.log(rta)
+        //console.log(rta)
         return await rta.ref.getDownloadURL();
     } catch (error) {
       
@@ -243,7 +260,7 @@ export class FirebaseService {
     
     try {
       let respuesta = await storareRef.child("users/" + nombre).putString(imgBase64, 'data_url');
-      console.log(respuesta);
+      //console.log(respuesta);
       return await respuesta.ref.getDownloadURL();
     } catch (err) {
       console.log(err);
@@ -265,5 +282,10 @@ export class FirebaseService {
   traerLogs()
   {
     // return this.logs;
+  }
+
+
+  updateDuracion(idEspecialista:string|undefined,objActualizado:any): Promise<any> {
+    return this.usuariosRef.doc(idEspecialista).update(objActualizado);
   }
 }

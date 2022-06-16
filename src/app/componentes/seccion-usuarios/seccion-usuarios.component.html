@@ -1,0 +1,24 @@
+<div style="margin-top:100px" >
+    <p>seccion-usuarios works!</p>
+
+    <a style="cursor: pointer" (click)="exportexcel()">
+        <button> cloud_download</button>
+      </a>
+    
+      <table id="excel-table"> 
+        <tr>       
+           <th>ContainerNo</th> 
+           <th>SelCondition</th>  
+        </tr>    
+        <tr *ngFor="let sup of companies">
+           <td>{{ sup.containerNo }}</td>  
+           <td>{{ sup.SelConditioon }}</td> 
+        </tr> 
+    </table>
+    
+</div>
+
+
+
+
+

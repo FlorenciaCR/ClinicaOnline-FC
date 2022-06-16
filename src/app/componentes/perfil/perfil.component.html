@@ -10,88 +10,105 @@
     <div class="row g-4">
       <div class="col-sm-6">
         <label for="firstName" class="form-label">Nombre</label>
-        <input type="text" class="form-control" id="floatingInput" placeholder="nombre" [value]="miUsuario.nombre"
+        <input type="text" class="form-control" id="floatingInput" placeholder="nombre" [value]="miUsuario?.nombre"
           readonly>
 
       </div>
       <div class="col-sm-6">
         <label for="lastName" class="form-label">Apellido</label>
-        <input type="text" class="form-control" id="floatingInput" placeholder="apellido" [value]="miUsuario.apellido"
+        <input type="text" class="form-control" id="floatingInput" placeholder="apellido" [value]="miUsuario?.apellido"
           readonly>
 
       </div>
       <div class="col-sm-6">
         <label for="firstName" class="form-label">Edad</label>
-        <input type="text" class="form-control" id="floatingInput" placeholder="edad" [value]="miUsuario.edad" readonly>
+        <input type="text" class="form-control" id="floatingInput" placeholder="edad" [value]="miUsuario?.edad" readonly>
 
       </div>
       <div class="col-sm-6">
         <label for="lastName" class="form-label">DNI</label>
-        <input type="text" class="form-control" id="floatingInput" placeholder="dni" [value]="miUsuario.dni" readonly>
+        <input type="text" class="form-control" id="floatingInput" placeholder="dni" [value]="miUsuario?.dni" readonly>
 
       </div>
       <div class="col-sm-6">
         <label for="lastName" class="form-label">Email</label>
-        <input type="text" class="form-control" id="floatingInput" placeholder="email" [value]="miUsuario.email"
+        <input type="text" class="form-control" id="floatingInput" placeholder="email" [value]="miUsuario?.email"
           readonly>
       </div>
       <div class="col-sm-6">
         <label for="lastName" class="form-label">Tipo usuario</label>
-        <input type="text" class="form-control" id="floatingInput" placeholder="email" [value]="miUsuario.tipoUsuario"
+        <input type="text" class="form-control" id="floatingInput" placeholder="email" [value]="tipoUsuarioLogueado"
           readonly>
       </div>
-      <div class="col-sm-6" *ngIf="miUsuario.tipoUsuario == 'paciente'">
+      <div class="col-sm-6" *ngIf="tipoUsuarioLogueado== 'paciente'">
         <label for="lastName" class="form-label">Fotos: </label>
         <br>
         <img style="margin-right: 3px;" src="{{miUsuario?.imgsPerfil[0]}}" alt="" width="40px" height="40px">
         <img src="{{miUsuario?.imgsPerfil[1]}}" alt="" width="40px" height="40px">
       </div>
-      <div class="col-sm-6" *ngIf="miUsuario.tipoUsuario == 'paciente'">
+      <div class="col-sm-6" *ngIf="tipoUsuarioLogueado == 'paciente'">
         <label for="lastName" class="form-label">Obra social</label>
-        <input type="text" class="form-control" id="floatingInput" placeholder="email" [value]="miUsuario.obraSocial"
+        <input type="text" class="form-control" id="floatingInput" placeholder="email" [value]="miUsuario?.obraSocial"
           readonly>
       </div>
     </div>
 
-    <div class="col-sm-6" *ngIf="miUsuario.tipoUsuario == 'administrador'">
+    <div class="col-sm-6" *ngIf="tipoUsuarioLogueado == 'administrador'">
       <label for="lastName" class="form-label">Fotos: </label>
       <br>
       <img style="margin-right: 3px;" src="{{miUsuario?.imgPerfil}}" alt="" width="40px" height="40px">
     </div>
 
-    <div class="col-sm-6" *ngIf="miUsuario.tipoUsuario == 'especialista'">
+    <div class="col-sm-6" *ngIf="tipoUsuarioLogueado == 'especialista'">
       <label for="lastName" class="form-label">Fotos: </label>
       <br>
       <img style="margin-right: 3px;" src="{{miUsuario?.imgPerfil}}" alt="" width="40px" height="40px">
     </div>
+    <br>
 
-    <div *ngIf="miUsuario.tipoUsuario == 'especialista'">
-      <div style="margin-top: 20px;">
-        <div>
-          <h4>Especialidad</h4>
+    
+    <div *ngIf="tipoUsuarioLogueado==='especialista'"  class=" text-center divEspecialidades" >
+
+      <label for="country" class="form-label  text-center " style="font-size: 20px; color: #223a66;">Especialidades 🩺</label>
+      <div class="separador"></div>
+      <table  class="table">
+        <thead>
+          <tr>
+            <th scope="col">Especialidad</th>   
+            <th scope="col">Seleccionar</th>   
+          </tr>
+        </thead>
+        <tbody *ngFor="let especialidad of miUsuario?.especialidades" >
+          <tr>
+            <td>{{especialidad?.especialidad}}</td>
+            <td *ngIf="especialidadSelected?.id !=  especialidad?.id"> <button class=" btn btn-info " type="submit" (click)="selectedEspecialidad(especialidad?.id)"> Seleccionar </button>  </td>
+            <td *ngIf="especialidadSelected?.id ===  especialidad?.id"> <button class=" btn btn-success " type="submit" (click)="selectedEspecialidad(especialidad?.id)"> Seleccionar </button>  </td>
+            
+          </tr>
+        </tbody>
+      </table>
+      <div class="separador"></div>
+
+      <div class="divContenedorHorarios">
+        <div class="divDias">
+          <!-- <span class=" text-center" style="font-size: 20px;">Mis horarios </span> -->
+          <!-- <hr class="my-4"> -->
+          <label for="firstName" class="form-label">Dias</label>  
+          <div class="divBotonesDias">
+            <button *ngFor="let dia_ of diasSemana" class="btnDia"  type="submit" (click)="seleccionarDia(dia_.id)"> {{dia_.name}} </button>
+          </div>
         </div>
-        <div>
-          <button *ngFor="let especialidad of obtenerEspecialidades()" (click)="seleccionarEspecialidad(especialidad)" style="margin-right: 5px; margin-bottom: 5px;"> {{especialidad}} </button>
+
+        <div class="divDuracion">
+          <label for="firstName" class="form-label">Duracion del turno predemeditada: {{especialidadSelected?.disponibilidad}}' minutos.</label>    
+          <input type="number" class="form-control" id="firstName"  [(ngModel)]="newDisponibilidad">
         </div>
       </div>
-      <div>
-        <div>
-          <h4>Horarios</h4>
-        </div>
-        <div>
-          <button *ngFor="let franjaHoraria of obtenerFranjasHorarias()" (click)="seleccionarFranjaHoraria(franjaHoraria)"> {{franjaHoraria}} </button>
-        </div>
-      </div>
-      <div>
-        <ul>
-          <li>Especialidad seleccionada: {{especialidadSeleccionada}}</li>
-          <li>Franja horaria seleccionada: {{horarioSeleccionado}}</li>
-        </ul>
-      </div>
-      <div>
-        <button class="btn btn-success mr-5 mt-2 btnEspecialista" (click)="crearHorario()">Guardar</button>
-      </div>
+
+     
+      <button class=" btn btn-success  " type="submit" (click)="actualizarDuracionEspecialidad(especialidadSelected?.id)">Guardar cambios</button>
     </div>
-    </div>
+
+  </div>
     
 </div>

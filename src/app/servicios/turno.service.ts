@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -7,31 +7,47 @@ import { Observable } from 'rxjs';
 })
 export class TurnoService {
 
-  turnoCollectionReference: any;
+  usuariosCollectionReference: AngularFirestoreCollection;
+  turnosCollectionReference: AngularFirestoreCollection;
   turnos: Observable<any>;
   turnosArray : any = [];
 
 
   constructor(private angularF : AngularFirestore) {
-    this.turnoCollectionReference = this.angularF.collection('turnos');
-    this.turnos = this.turnoCollectionReference.valueChanges({idField : 'id'});
-    this.traerTurnos().subscribe(value =>{
-      this.turnosArray = value;
-    });
+    this.usuariosCollectionReference = this.angularF.collection('usuariosColeccion');
+    this.turnosCollectionReference = this.angularF.collection('turnos');
+    // this.traerTurnos().subscribe(value =>{
+    //   this.turnosArray = value;
+    // });
    }
 
-  traerTurnos()
-  {
+   
+   traerTurnos()
+   {
     return this.turnos;
   }
-
+  
   agregarTurno(turno : any)
   {
-    return this.turnoCollectionReference.add({...turno});
+    return this.turnosCollectionReference.add({...turno});
   }
-
+  
   modificarTurno(turno : any, id : any)
   {
     return this.angularF.collection('turnos').doc(id).update(turno);
+  }
+  modificarDuracion(idEspecialista:string|undefined,objActualizado:any): Promise<any> {
+    return this.usuariosCollectionReference.doc(idEspecialista).update(objActualizado);
+  }
+  umodificarPropiedad(idUsuario:string|undefined,objConCambio:any): Promise<any> {
+    return this.usuariosCollectionReference.doc(idUsuario).update(objConCambio);
+  }
+
+  modificarEstado(idTurno:string|undefined,estadoTurno:number, nombreEstado:string): Promise<any> {
+    return this.turnosCollectionReference.doc(idTurno).update({estadoTurno:estadoTurno, estado:nombreEstado});
+  }
+
+  tmodificarPropiedad(idTurno:string|undefined,objConCambio:any): Promise<any> {
+    return this.turnosCollectionReference.doc(idTurno).update(objConCambio);
   }
 }

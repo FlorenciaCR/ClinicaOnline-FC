@@ -1,9 +1,113 @@
-<div style="margin-top:200px;">
-
-    <p>turnos works!</p>
-    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Unde deleniti error facilis modi ipsum delectus veniam vitae reiciendis sapiente. Minima mollitia ex ipsam ea non. Illo voluptas at dolor iure.
-    Alias error labore inventore quo fuga laboriosam soluta eum. Sint fugit velit nobis alias eaque consequatur dolor dignissimos accusantium debitis cupiditate corrupti explicabo eius, molestias nihil, exercitationem consectetur aliquam et.
-    Unde quibusdam quis esse doloribus in eaque perspiciatis, dolores reiciendis, consectetur nihil repudiandae fugiat quos. Sint ipsa esse repudiandae, necessitatibus consectetur quo rem autem quos nisi sequi neque doloremque corporis!
-    Esse beatae tenetur nobis possimus debitis at natus ipsam nihil, consectetur ducimus quis ipsa nam earum provident! Voluptate non reiciendis corrupti atque nobis eos sed corporis autem dolore cupiditate. Cupiditate!
-    Quas fuga, laudantium, molestias cum nam eius velit enim ad doloremque aut corporis quasi. Itaque, tempore quisquam! Doloremque expedita minima excepturi cum, esse labore, aperiam omnis deleniti, ea cupiditate eveniet?
+<div class="container" style="margin-top: 100px; background-color: white; border-radius: 20px;">
+    <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+      <div style="background-color: #E12454; color:white; border-radius: 20px;" >
+        <h4 style="padding: 4px;">Gestion de turnos📝</h4>
+      </div>
+      
+      <h5 style="padding:5px" class="text-end">Filtros🔎</h5>
+       <div>
+          <button     style="margin: 5px;color: #17B3AB; width: 10% ;height:8%; " type="button" class="btn btn-outline-info" (click)="activarFiltroEspecialistas()" > Filtrar por Especialista</button>
+          <button    style="margin: 5px;color: #17B3AB; width: 10% ;height:8%; " type="button" class=" btn btn-outline-info" (click)="activarFiltroEspecialidades()">  Filtrar por Especialidad  </button>
+          
+          <!-- <button *ngIf="filtroAplicado" style="margin: 10px;color: white; " type="button" class="btn btn-danger" (click)="eliminarFiltros()"> ❌ Eliminar Filtros ❌ </button> -->
+      </div>
+        
+        <table  *ngIf="switchFiltroEspecialista" class="table"  >
+          <thead>
+            <tr>
+              <th scope="col">Nombre:</th>
+              <th scope="col">Apellido:</th>
+              <th  scope="col">Perfil:</th>  
+              <th  scope="col">Opcion </th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let especialistA of listaEspeciaistas" >
+            <tr>
+              <td>{{especialistA?.nombre}}</td>
+              <td>{{especialistA?.apellido}}</td>
+              <td>{{especialistA?.tipoUsuario}}</td>
+              <td><button  style="margin: 10px;color: white; " type="button" class="btnAzul" (click)="seleccionarEspecialistaParaFiltrar(especialistA)" > Elegir Especialista </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <table  *ngIf="switchFiltroEspecialidades" class="table"  >
+          <thead>
+            <tr>
+              <th scope="col">Nombre:</th>
+              <th scope="col"></th>
+        
+            </tr>
+          </thead>
+          <tbody *ngFor="let especialidad of listaEspedialidades" >
+            <tr>
+              <td><button style="margin: 10px;color: white; " type="button" class="btnAzul" (click)="seleccionarEspecialidadParaFiltrar(especialidad)" >{{especialidad?.especialidad}}</button> </td>
+              <td>
+                <img src="" alt="" width="150">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <!-- LISTADO DE TDOSO LOS TURNOS -->
+        <table *ngIf="turnosCargados" class="table" >
+            <thead>
+              <tr>
+                <th scope="col">Fecha</th>   
+                <th scope="col">Paciente</th>
+                <th scope="col">Obra Social</th>
+                <th scope="col">Especialista</th>   
+                <th scope="col">Especialidad</th>   
+                <th scope="col">Estado</th>  
+                <th scope="col">Opcion </th>
+        
+              </tr>
+            </thead>
+            <tbody *ngFor="let turno of listaTurnos" >
+              <tr>
+                <td>{{turno.fecha.toLocaleDateString()}}</td>
+                <td>{{turno.paciente.nombre}} {{turno.paciente.apellido}}</td>
+                <td>{{turno.paciente.obraSocial}}</td>
+                <td>{{turno.especialista.nombre}} {{turno.especialista.apellido}}</td>
+                <td> {{turno.especialidad.especialidad}} </td>
+                <td style="font-weight: bold;"> {{obtenerEstadoTurno(turno.estadoTurno)}} </td>
+                <td>
+                    <button *ngIf="turno.estadoTurno == 1"  style="margin: 10px;color: black; " type="button" class="btnRosa" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="justiciarCancelamiento(turno)"> Cancelar Turno </button>
+                    
+                </td>
+              </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
+
+      
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Debes escribir un comentario para eliminar el turno ({{turnoSelectedForComentary.id}}) de {{turnoSelectedForComentary.paciente.nombre}} </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+      
+            <form [formGroup]="formaComentario" (ngSubmit)="cancelarTurno()" >
+            <div class="modal-body">
+              <div class="input-group">         
+                <textarea class="form-control" aria-label="With textarea" placeholder="Ingresa una Reseña" formControlName="comentario" > </textarea>
+                <small class="invalid" *ngIf="formaComentario.controls['comentario'].errors?.['required']&& formaComentario.controls['comentario'].touched" style="color:red ;">
+                  El comentario es requerido.
+              </small>
+              </div>
+            </div>
+            
+      
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" > Cancelar</button>
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" [disabled]="formaComentario.invalid" (click)="cancelarTurno()">Cancelar  Turno</button>
+            </div>
+          </form>
+          </div>
+        </div>
+      </div>
+      

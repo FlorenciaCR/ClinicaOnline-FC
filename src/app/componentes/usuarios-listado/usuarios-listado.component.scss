@@ -16,3 +16,47 @@
     height: 3px;
     background: #e12454;
 }
+
+.btnRegistro{
+    border-radius: 50px;
+    background: #223a66;
+    color: #fff;
+    border-color: #223a66;
+    display: inline-block;
+    font-size: 11px;
+    font-size: 0.8125rem;
+    font-weight:200;
+    letter-spacing: .5px;
+    font-family: "Exo", sans-serif;
+    text-transform: capitalize;
+    border: 2px solid transparent;
+    transition: all .35s ease;
+}
+
+.btnRosa{
+    border-radius: 50px;
+    background: #e12454;
+    color: #fff;
+    border-color: #e12454;
+    display: inline-block;
+    font-size: 11px;
+    font-size: 0.8125rem;
+    font-weight:200;
+    letter-spacing: .5px;
+    font-family: "Exo", sans-serif;
+    text-transform: capitalize;
+    border: 2px solid transparent;
+    transition: all .35s ease;
+}
+
+.btnRosa:hover{
+    background: #223a66;
+    color: #fff;
+    border-color: #223a66;
+}
+
+.btnRegistro:hover{
+    background: #e12454;
+    color: #fff;
+    border-color: #e12454;
+}

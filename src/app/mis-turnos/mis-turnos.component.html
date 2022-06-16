@@ -1,21 +1,148 @@
 <div style="margin-top: 100px; background-color: white; border-radius: 15px;  " class="container d-flex flex-column">
     <div style="background-color: white; color:#223A66;">
-      <h3>Turnos🗓️</h3>
+      <h1 class="text-center">Mis turnos🗓️</h1>
     </div>
-    <div *ngFor="let tur of turnos">
-      <ul style="border: solid 2px #223A66;">
+    <div style="display: flex; justify-content:flex-start" >
+      <!-- <button class="btnRegistro" style="display: flex; justify-content:center; align-items:center;" (click)="activarFiltrosUnicos()">
+        <h5 style="padding:5px">{{activarFiltros?'Filtros 🔍':'Filtros🔎'}}  </h5>
+      </button> -->
+      <h5 style="padding:5px" class="text-end">Filtros🔎</h5>
+    </div>
+
+    <div class="d-flex justify-content-end">
+      <button   style="margin: 5px;color: #17B3AB; width: 10% ;height:8%; " type="button" class="btn btn-outline-info" (click)="activarFiltroEspecialistas()" >Por: Especialista</button>
+      <button  style="margin: 5px;color: #17B3AB; width: 10% ;height:8%; " type="button" class="btn btn-outline-info" (click)="activarFiltroEspecialidades()">Por: Especialidad</button>
+      
+      <!-- <button *ngIf="filtroAplicado" style="margin: 10px;color: white; " type="button" class="btn btn-danger" (click)="eliminarFiltros()">Eliminar Filtros</button> -->
+    </div>
+
+    <div  *ngIf="filtroEspecialista">
+      <div class="d-flex flex-column justify-content-center align-items-center" style="background-color: pink; border-radius: 5px;">
+        <h5>Especialistas👨🏽‍⚕️</h5>
+      </div>
+      <br>
+        <div class="divider text-center"></div>
+
+        <div *ngFor="let usuario of listadoEspecialistas" class="shadow cardInfo" >
+          <ul style="border: solid 2px #223A66; list-style: none; border-radius: 10px;padding:10px">
+            <li>Nombre: {{usuario?.nombre}}</li>
+            <li>Apellido: {{usuario?.apellido}}</li>
+            <li>Opcion: <button  style="margin: 10px;color: white; " type="button" class="btnRegistro" (click)="seleccionarEspecialistaParaFiltrar(usuario)" >Elegir</button></li>
+          </ul>
+        </div>
+    </div>
+
+    <div  *ngIf="filtroEspecialidades">
+      <div class="d-flex flex-column justify-content-center align-items-center" style="background-color: pink; border-radius: 5px;">
+        <h5>Especialidades🩺</h5>
+      </div>
+      <br>
+
+        <div class="divider text-center"></div>
+        <div style="display: flex; justify-content:space-around; flex-wrap: wrap; ">
+          <div *ngFor="let especialidad of listadoEspecialidades" class="shadow cardInfo2"  style="border: solid 2px #223A66; list-style: none; border-radius: 10px;">
+              <ul style="list-style: none; display: flex; justify-content: center; flex-direction: column; align-items: center;">
+                <li>Especialidad: {{especialidad?.valor}}</li>
+                <li><button style="margin: 10px;color: white; " type="button" class="btnRegistro" (click)="seleccionarEspecialidadParaFiltrar(especialidad)" >Elegir</button></li>
+              </ul>
+          </div>
+        </div>
+    </div>
+
+    <!--TURNOS-->
+    <hr>
+    <div style="display:flex; justify-content: space-around;">
+      <div *ngFor="let turno of listaTurnos" class="shadow cardInfo" >
+        <ul style="border: solid 2px #223A66; list-style: none; border-radius: 10px;padding:10px; ">
         <li>
-          <!-- Fecha: {{obtenerFechaFormateada(tur.fecha)}} -->
-          Fecha: {{obtenerFechaFormateada(tur.fecha) | date: 'dd-MM-yyyy - hh:mm'}}
+         Fecha: {{turno.fecha.toLocaleDateString()}}
         </li>
         <li>
-          Especialidad: {{tur.nombreEspecialidad}}
+          <strong>Paciente:</strong>  {{turno.paciente.nombre}}, {{turno.paciente.apellido}} <img src="{{turno.paciente.imgsPerfil[0]}}" alt="" width="20px" height="20px"><img src="{{turno.paciente.imgsPerfil[1]}}" alt="" width="20px" height="20px">
         </li>
         <li>
-          Estado: {{tur.estado}}
+          <strong>Especialista:</strong>
+           {{turno.especialista.nombre}}, {{turno.especialista.apellido}}
         </li>
-        <button (click)="aceptarTurno(tur)">ACEPTAR</button>
-        <button (click)="cancelarTurno(tur)">CANCELAR</button>
+        <li>
+          <strong>Especialidad:</strong>
+       {{turno.especialidad.especialidad}}
+        </li>
+        <li>
+          Estado del turno: {{obtenerEstadoTurno(turno.estadoTurno)}}
+        </li>
+        <li>
+          <button *ngIf="turno.estadoTurno!= 3 && turno.estadoTurno != 6 && turno.estadoTurno==1"  style="margin: 10px;color: white; " type="button" class="btn btnRosa" data-toggle="modal" data-target="#exampleModal" (click)="justificarCancelamiento(turno)"  >Cancelar</button>
+          <button *ngIf="turno.estadoTurno!= 3 && turno.estadoTurno != 6 && turno.estadoTurno==1"  style="margin: 10px;color: white; " type="button" class="btn btnRosa" (click)="aceptarTurno(turno)"  >Aceptar</button>
+        </li>
+        <li>
+          <button *ngIf="turno.resenia || turno.comentario "  style="margin: 10px;color: white; " type="button" class="btnRegistro"  data-toggle="modal" data-target="#exampleModal2" (click)="seleccionarTurnoParaComentario(turno)"  >Resenia</button>
+        </li>
       </ul>
+      
     </div>
-  </div>
+    </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Debes escribir un comentario para eliminar el turno ({{turnoSeleccionadoComentario.id}}) de {{turnoSeleccionadoComentario.paciente.nombre}} </h5>
+            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <form [formGroup]="formaComentario" (ngSubmit)="cancelarTurno()" >
+          <div class="modal-body">
+            <div class="input-group">         
+              <textarea class="form-control" aria-label="With textarea" placeholder="Ingresa una Reseña" formControlName="comentario" > </textarea>
+              <small class="invalid" *ngIf="formaComentario.controls['comentario'].errors?.['required']&& formaComentario.controls['comentario'].touched" style="color:red ;">
+                El comentario es requerido.
+            </small>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" > Cancelar</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" [disabled]="formaComentario.invalid" (click)="cancelarTurno()">Cancelar  Turno</button>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Modal Reseñas -->
+    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Reseñas / Comentarios del turno ({{turnoSeleccionadoComentario.id}}) </h5>
+            <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+
+          <div class="modal-body">
+            <h3>Comentario:</h3>
+            <p>
+              {{turnoSeleccionadoComentario.comentario}}
+            </p>
+            <h3>Reseña:</h3>
+            <p>
+              {{turnoSeleccionadoComentario.resenia}}
+            </p>
+          </div>
+          
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" > Cerrar </button>
+          
+          </div>
+      
+        </div>
+      </div>
+    </div>
+
+</div>
+

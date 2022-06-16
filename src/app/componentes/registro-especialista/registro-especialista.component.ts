@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Especialista } from 'src/app/entidades/especialista';
 import { FirebaseService } from 'src/app/servicios/firebase.service';
-
+var uniqid = require('uniqid'); 
 
 @Component({
   selector: 'app-registro-especialista',
@@ -23,9 +23,12 @@ export class RegistroEspecialistaComponent implements OnInit {
   spinnerImgSubiendose:boolean=false;
   numeroRandom : number;
 
+  formaNewEspecialidad:FormGroup;
+
   constructor(private fb :FormBuilder, private firebase : FirebaseService, private router : Router,private mts: ToastrService)  
   {
     this.firebase.obtenerTodos('especialidades').subscribe(data=>{
+      console.log("especialidades", data)
       this.listadoEspecialidades=data // mapeo de productos
     })
     this.formaEspecialista = this.fb.group({
@@ -36,9 +39,16 @@ export class RegistroEspecialistaComponent implements OnInit {
       'email':['',[Validators.required,Validators.email]],
       'password':['',[Validators.required,Validators.minLength(6)]],
       'imagen':['',[Validators.required,]],
+      'especialidad' : ['',[Validators.required]],
       'capcha' : ['',[Validators.required]]
     
     });
+
+    //Nueva especialidad h
+    this.formaNewEspecialidad = this.fb.group({
+      'nombreEspecialidad':['',[Validators.required,]],
+    })
+
     this.numeroRandom = Math.floor(Math.random() *  (500 - 100)) + 100;
     this.miEspecialista = new Especialista();
   }
@@ -58,9 +68,11 @@ export class RegistroEspecialistaComponent implements OnInit {
 
   nuevaEspecialidad(especialidad:string){
     let esp = {
+      //id:uniqid(),
       valor:especialidad
     }
     this.firebase.crear("especialidades", JSON.parse(JSON.stringify(esp)))
+    //this.miEspecialista.especialidades.push({})
   }
 
   agregarEspecialidad(especialidad:string){
@@ -76,7 +88,6 @@ export class RegistroEspecialistaComponent implements OnInit {
     {
 
       this.spinnerImgSubiendose=true;
-      this.miEspecialista.tipoUsuario='especialista'
       this.miEspecialista.nombre=this.formaEspecialista.value.nombre
       this.miEspecialista.apellido=this.formaEspecialista.value.apellido
       this.miEspecialista.edad=this.formaEspecialista.value.edad
@@ -84,26 +95,38 @@ export class RegistroEspecialistaComponent implements OnInit {
       this.miEspecialista.email=this.formaEspecialista.value.email
       this.miEspecialista.password=this.formaEspecialista.value.password
   
-   
+      if(this.formaEspecialista.value.especialidad != 'agregar'){
+        this.listadoEspecialidades.forEach(value=>{
+          if(value.id === this.formaEspecialista.value.especialidad){
+
+            this.miEspecialista.especialidades.push({id:value.id,especialidad:value.valor,disponibilidad:30,diasDisponibles:[]})
+          }
+        })
+      }else{ 
+        let newEspecialidad = {id:uniqid(),especialidad:this.formaNewEspecialidad.value.nombreEspecialidad}
+        let rtaGuardarEspecialidad = this.firebase.agregarDataCollection('especialidades',newEspecialidad)
+        if (rtaGuardarEspecialidad.status){
+          this.miEspecialista.especialidades.push({...newEspecialidad,disponibilidad:30,diasDisponibles:[]})
+        }else{
+          this.mts.error('No se pudo guardar la especialidad');
+          return
+        }  
+      }
       let reader =new FileReader()
       reader.readAsDataURL(this.fotoEspecialista)
       reader.onloadend=()=>{
-  
         this.firebase.subirImagenes('imgperfilEspecialista',`${this.miEspecialista.email}_${this.miEspecialista.nombre}`,reader.result)
         .then(rta=>{
-          console.log('hola1')
           if(rta != null )
           {
             this.miEspecialista.imgPerfil = rta
-            console.log('esta en subir imagen'+rta)
             //se registra
             this.firebase.register(this.miEspecialista.email,this.miEspecialista.password)
             .then(res=>{
               this.miEspecialista.uid = res.user?.uid //le da id auth al esp     
-              console.log('se supone es el del res'+this.miEspecialista.uid)     
-              //Crea al esp en firestore 
+              //Crea al esp en firestore
+              console.log("mi usuario", this.miEspecialista)
               let retornoCrearDocId = this.firebase.crearDocumentoConIdEnCol('usuariosColeccion',`${res.user?.uid}`,JSON.parse(JSON.stringify(this.miEspecialista)))
-              console.log('retorno status',retornoCrearDocId.status)
               if(retornoCrearDocId.status==true)
               {
                 this.spinnerImgSubiendose=false;

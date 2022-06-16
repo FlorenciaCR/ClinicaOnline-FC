@@ -1,0 +1,33 @@
+.divider {
+    width: 40px;
+    height: 3px;
+    background: #e12454;
+}
+
+
+      .btnAzul{
+        background: #223a66;
+        color: #fff;
+        border-color: #223a66;
+        width: 35%;
+      }
+
+      .btnRosa{
+        background: #e12454;
+        color: #fff;
+        border-color: #e12454;
+        width: 50%;
+        border-radius: 10px;
+      }
+    
+      .btnAzul:hover{
+        background: #e12454;
+        color: #fff;
+        border-color: #e12454;
+    }
+      
+    .btnRosa:hover{
+          background: #223a66;
+          color: #fff;
+          border-color: #223a66;
+      }

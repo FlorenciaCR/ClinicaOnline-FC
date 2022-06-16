@@ -85,8 +85,8 @@ export class RegistroPacienteComponent implements OnInit {
                     .then( async res=>{ 
                       this.miPaciente.uid = res.user?.uid
                       let retornoCrearDocId = this.firebase.crearDocumentoConIdEnCol('usuariosColeccion',`${res.user?.uid}`,JSON.parse(JSON.stringify(this.miPaciente)))
-                      await res.user?.sendEmailVerification();
-                      setTimeout(() => {
+                      //await res.user?.sendEmailVerification();
+                    
                         if(retornoCrearDocId.status==true)
                         {
                           this.spinnerImgSubiendose=false;
@@ -95,7 +95,7 @@ export class RegistroPacienteComponent implements OnInit {
                           this.router.navigate(['login']);
                         }
                         
-                      }, 2000);
+                   
                     }).catch(err=>{
                       console.log('Error al registrar',err);
                     })

@@ -8,48 +8,51 @@
           <div class="col-sm-6">
             <label for="firstName" class="form-label">Nombre</label>
             <input type="text" class="form-control" id="floatingInput" placeholder="nombre" value="" formControlName="nombre">
-            <small class="invalid" *ngIf="formaEspecialista.controls['nombre'].errors?.['required']&& formaEspecialista.controls['nombre'].touched" style="color:red ;">
+            <small class="invalid" *ngIf="formaEspecialista.controls['nombre']?.errors?.['required']&& formaEspecialista.controls['nombre'].touched" style="color:red ;">
               El nombre es requerido
             </small>
           </div>
           <div class="col-sm-6">
             <label for="lastName" class="form-label">Apellido</label>
             <input type="text" class="form-control" id="floatingInput" placeholder="apellido" formControlName="apellido">
-            <small class="invalid" *ngIf="formaEspecialista.controls['apellido'].errors?.['required']&& formaEspecialista.controls['apellido'].touched" style="color:red ;">
+            <small class="invalid" *ngIf="formaEspecialista.controls['apellido']?.errors?.['required']&& formaEspecialista.controls['apellido'].touched" style="color:red ;">
               El apellido es requerido
             </small>
           </div>
           <div class="col-sm-6">
             <label for="firstName" class="form-label">Edad</label>
             <input type="text" class="form-control" id="floatingInput" placeholder="edad" formControlName="edad">
-            <small class="invalid" *ngIf="formaEspecialista.controls['edad'].errors?.['required']&& formaEspecialista.controls['edad'].touched" style="color:red ;">
+            <small class="invalid" *ngIf="formaEspecialista.controls['edad']?.errors?.['required']&& formaEspecialista.controls['edad'].touched" style="color:red ;">
               El edad es requerido
             </small>
-            <small class="invalid" *ngIf="formaEspecialista.controls['edad'].errors?.['min']&& formaEspecialista.controls['edad'].touched" style="color:red ;">
+            <small class="invalid" *ngIf="formaEspecialista.controls['edad']?.errors?.['min']&& formaEspecialista.controls['edad'].touched" style="color:red ;">
               No puede menor a 18 
             </small>
-            <small class="invalid" *ngIf="formaEspecialista.controls['edad'].errors?.['max']&& formaEspecialista.controls['edad'].touched" style="color:red ;">
+            <small class="invalid" *ngIf="formaEspecialista.controls['edad']?.errors?.['max']&& formaEspecialista.controls['edad'].touched" style="color:red ;">
               No puede mayor a 99 
             </small>
-            <small class="invalid" *ngIf="formaEspecialista.controls['edad'].errors?.['pattern']&& formaEspecialista.controls['edad'].touched" style="color:red ;">
+            <small class="invalid" *ngIf="formaEspecialista.controls['edad']?.errors?.['pattern']&& formaEspecialista.controls['edad'].touched" style="color:red ;">
               Solo numeros 
             </small>
           </div>
           <div class="col-sm-6">
             <label for="lastName" class="form-label">DNI</label>
             <input type="text" class="form-control" id="floatingInput" placeholder="dni" formControlName="dnidoc">
-            <small class="invalid" *ngIf="formaEspecialista.controls['dnidoc'].errors?.['required']&& formaEspecialista.controls['dnidoc'].touched" style="color:red ;">
+            <small class="invalid" *ngIf="formaEspecialista.controls['dnidoc']?.errors?.['required']&& formaEspecialista.controls['dnidoc'].touched" style="color:red ;">
               El dni es requerido
             </small>
-            <small class="invalid" *ngIf="formaEspecialista.controls['dnidoc'].errors?.['pattern']&& formaEspecialista.controls['dnidoc'].touched" style="color:red ;">
+            <small class="invalid" *ngIf="formaEspecialista.controls['dnidoc']?.errors?.['pattern']&& formaEspecialista.controls['dnidoc'].touched" style="color:red ;">
               Solo numeros 
             </small>
-            <small class="invalid" *ngIf="formaEspecialista.controls['dnidoc'].errors?.['minlength']&& formaEspecialista.controls['dnidoc'].touched" style="color:red ;">
+            <small class="invalid" *ngIf="formaEspecialista.controls['dnidoc']?.errors?.['minlength']&& formaEspecialista.controls['dnidoc'].touched" style="color:red ;">
               No puede ser menos de 8 caracteres 
             </small>
           </div>
 
-          <div class="col-sm-12">
+          
+
+
+          <!-- <div class="col-sm-12">
             <div></div>
               <label class="form-label">Nueva especialidad</label>
             <div></div>
@@ -57,9 +60,6 @@
             <div></div>
             <button type="button" (click)="nuevaEspecialidad(nuevaEsp.value)">CREAR</button>
           </div>
-          
-
-          <!--ESPECIALIDAD AGREGAR Y LISTAR-->
           <div class="col-sm-12">
             <div>
               <label for="especialidad" class="form-label">Especialidad</label>
@@ -74,8 +74,6 @@
               <button type="button" (click)="agregarEspecialidad(agregarEsp.value)">AGREGAR</button>
             </div>
           </div>
-
-
           <div class="col-sm-12">
             <div>
               <label class="form-label">Listado especialidades seleccionadas:</label>
@@ -85,7 +83,10 @@
                 {{es}}
               </li>
             </div>
-          </div>
+          </div> -->
+
+
+
 
           <div class="col-sm-6">
             <label for="lastName" class="form-label">Email</label>
@@ -102,10 +103,10 @@
           <div class="col-sm-6">
             <label for="firstName" class="form-label">Password</label>
             <input type="password" class="form-control" id="floatingInput" placeholder="password" formControlName="password">
-            <small class="invalid" *ngIf="formaEspecialista.controls['password'].errors?.['required']&& formaEspecialista.controls['password'].touched" style="color:red ;">
+            <small class="invalid" *ngIf="formaEspecialista.controls['password']?.errors?.['required']&& formaEspecialista.controls['password'].touched" style="color:red ;">
               El password es requerido
             </small>
-            <small class="invalid" *ngIf="formaEspecialista.controls['password'].errors?.['minlength']&& formaEspecialista.controls['password'].touched" style="color:red ;">
+            <small class="invalid" *ngIf="formaEspecialista.controls['password']?.errors?.['minlength']&& formaEspecialista.controls['password'].touched" style="color:red ;">
               No puede ser menos de 6 caracteres 
             </small>
         </div>
@@ -113,19 +114,46 @@
         <div class="col-sm-6">
           <label for="imagen" class="form-label">Imagen de perfil</label>
           <input type="file" accept=".png, .jpg, .jpeg" multiple class="form-control" id="imagen" formControlName="imagen" (change)="cargarImagen($event)">
-          <small class="invalid" *ngIf="formaEspecialista.controls['imagen'].errors?.['required']&& formaEspecialista.controls['imagen'].touched" style="color:red ;">
+          <small class="invalid" *ngIf="formaEspecialista.controls['imagen']?.errors?.['required']&& formaEspecialista.controls['imagen'].touched" style="color:red ;">
             El imagen es requerido
           </small>
         </div>
+
+        <div class="col-sm-6">
+   
+        </div>
+
+        <div class="col-sm-6">
+          <label class="" for="inlineFormCustomSelect">Especialidad</label>
+          <select class="custom-select " id="inlineFormCustomSelect"   formControlName="especialidad" style="margin-right: 10px;" >
+            <option  value='addEspecialidad'>Add Especialidad.</option>
+            <option *ngFor="let especialidad of listadoEspecialidades" value={{especialidad.id}} > {{especialidad.valor}} </option>
+          </select> 
+
+          <small class="invalid" *ngIf="formaEspecialista.controls['especialidad']?.errors?.['required']&& formaEspecialista.controls['especialidad'].touched" style="color:red ;">
+            La Especialidad es requerida
+        </small>
+        </div>
+
+        <div *ngIf="formaEspecialista.value.especialidad==='agregar'" class="col-12" style="border-color: aqua;border: width 10px;">
+          <form [formGroup]="formaNewEspecialidad">
+          <label class="" for="nameEspecialidad"> Agregar Nueva Especialidad</label>
+            <input type="text" class="form-control" id="nameEspecialidad" placeholder="especialidad" formControlName="nombreEspecialidad" style="margin-bottom: 5px;">
+            <small class="invalid" *ngIf="formaNewEspecialidad.controls['nombreEspecialidad']?.errors?.['required']&& formaNewEspecialidad.controls['nombreEspecialidad'].touched" style="color:red ;">
+              La nombre de la especialidad es requerido.
+            </small>           
+          </form>
+        </div>
+
 
         <div class="col-sm-12">
           <label for="imagen" class="form-label">Capcha</label>
           <div style="display: flex; justify-content:space-around">
             <input type="number" class="form-control " value={{this.numeroRandom}} readonly style="width:25% ;">
             <input type="text" style="width:40% ;" class="form-control " formControlName='capcha' name="capcha" required>
-            <small  style="color:red ;" class="invalid" *ngIf="formaEspecialista.controls['capcha'].errors?.['required'] && formaEspecialista.controls['capcha'].touched">El capcha es requerido</small>
-            <input type="text" style="width:10% ;" required readonly value="❌" *ngIf='this.formaEspecialista.get("capcha")?.value != this.numeroRandom'>
-            <input type="text" style="width:10% ;" required readonly value="✔️" *ngIf='this.formaEspecialista.get("capcha")?.value == this.numeroRandom'>
+            <small  style="color:red ;" class="invalid" *ngIf="formaEspecialista.controls['capcha']?.errors?.['required'] && formaEspecialista.controls['capcha'].touched">El capcha es requerido</small>
+            <input type="text" style="width:8% ;" required readonly value="❌" *ngIf='this.formaEspecialista.get("capcha")?.value != this.numeroRandom'>
+            <input type="text" style="width:8% ;" required readonly value="✔️" *ngIf='this.formaEspecialista.get("capcha")?.value == this.numeroRandom'>
           </div>
         </div>
         

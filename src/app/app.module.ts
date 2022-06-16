@@ -20,6 +20,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { SolicitarTurnoComponent } from './solicitar-turno/solicitar-turno.component';
 import { TurnosComponent } from './turnos/turnos.component';
+import { SeccionUsuariosComponent } from './componentes/seccion-usuarios/seccion-usuarios.component';
+import { SeccionPacientesComponent } from './componentes/seccion-pacientes/seccion-pacientes.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import { TurnosComponent } from './turnos/turnos.component';
     RegistroAdminComponent,
     PerfilComponent,
     SolicitarTurnoComponent,
-    TurnosComponent
+    TurnosComponent,
+    SeccionUsuariosComponent,
+    SeccionPacientesComponent
   ],
   imports: [
     BrowserModule,

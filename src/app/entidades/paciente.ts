@@ -11,7 +11,7 @@ export class Paciente {
     tipoUsuario:string
     verificadoEmail:boolean
   
-    constructor(nombre:string='',apellido:string='',edad:number=0,dni:number=0,obraSocial:string='',email:string='',password:string='',fotoPerfil:string[]=[],tipoUsuario:string='paciente',verificadoEmail:boolean=false){
+    constructor(nombre:string='',apellido:string='',edad:number=0,dni:number=0,obraSocial:string='',email:string='',password:string='',fotoPerfil:string[]=[''],tipoUsuario:string='paciente',verificadoEmail:boolean=false){
 
         this.nombre=nombre
         this.apellido=apellido
@@ -20,7 +20,11 @@ export class Paciente {
         this.obraSocial=obraSocial
         this.email=email
         this.password=password
-        this.imgsPerfil= fotoPerfil
+        if(fotoPerfil == null){
+            this.imgsPerfil = ['https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png']
+        }else{
+            this.imgsPerfil= fotoPerfil
+        }
         this.tipoUsuario=tipoUsuario
         this.verificadoEmail=verificadoEmail
     }
