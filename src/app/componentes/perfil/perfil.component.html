@@ -39,6 +39,10 @@
         <label for="lastName" class="form-label">Tipo usuario</label>
         <input type="text" class="form-control" id="floatingInput" placeholder="email" [value]="tipoUsuarioLogueado"
           readonly>
+          <!-- <input type="text" class="form-control" id="floatingInput" value="{{tipoUsuarioPipe.transform(tipoUsuarioLogueado)}}"
+          readonly>  -->
+
+        
       </div>
       <div class="col-sm-6" *ngIf="tipoUsuarioLogueado== 'paciente'">
         <label for="lastName" class="form-label">Fotos: </label>
@@ -100,8 +104,9 @@
         </div>
 
         <div class="divDuracion">
-          <label for="firstName" class="form-label">Duracion del turno predemeditada: {{especialidadSelected?.disponibilidad}}' minutos.</label>    
-          <input type="number" class="form-control" id="firstName"  [(ngModel)]="newDisponibilidad">
+          <!-- <label for="firstName" class="form-label">Duracion del turno predemeditada: {{especialidadSelected?.disponibilidad}}' minutos.</label>     -->
+          <label for="">Duracion de turno</label>
+          <input type="text" class="form-control" id="firstName"  [(ngModel)]="newDisponibilidad">
         </div>
       </div>
 
@@ -110,5 +115,9 @@
     </div>
 
   </div>
+
+  
+  <app-historial-clinico [idPaciente]="miUsuario?.uid"></app-historial-clinico>
+  
     
 </div>

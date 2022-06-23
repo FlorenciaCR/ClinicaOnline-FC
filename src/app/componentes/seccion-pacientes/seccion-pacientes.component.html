@@ -1,1 +1,31 @@
-<p>seccion-pacientes works!</p>
+<div style=" margin-top: 100px;">
+
+    <div style="background-color: #E12454; color:white; border-radius: 20px;" >
+        <h4 style="padding: 4px;" class="text-center">Pacientes atendidos</h4>
+      </div>
+    <br>
+    <div *ngIf="poseePaciente"  style="display:flex; justify-content: space-around;">
+        <div *ngFor="let paciente of listadoPacientes" style="border: 1px solid red;">
+                <button  class="shadow buttonPaciente" style="padding:10px;"  (click)="pacienteSeleccionado(paciente)">
+                    <br>
+                    <br>
+                    <img src="{{paciente?.imgsPerfil[0]}}" alt="" width="30px" height="30px">
+                    <ul style="list-style: none; padding:20px;">
+                        <li>Nombre: {{paciente?.nombre}}</li>
+                        <li>Apellido: {{paciente?.apellido}}</li>
+                    </ul>
+                </button>
+        </div>
+    </div>
+    <div *ngIf="!poseePaciente">No tiene pacientes atendidos</div>
+    <br>
+    <app-lista-turnosp *ngIf="turnoDePacienteSeleccionado.length >0" [recibeListaTurnos]="turnoDePacienteSeleccionado"></app-lista-turnosp>
+
+
+
+
+
+  
+
+    
+</div>

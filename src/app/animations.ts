@@ -2,7 +2,7 @@ import { animate, animateChild, group, query, style, transition, trigger } from 
 
 export const slideInAnimation =
   trigger('routeAnimations', [
-    transition('LoginPage => *,RegistroPage => BienvenidoPage, SolicitarTurnoPage => PerfilGeneralPage, PerfilGeneralPage => MiPerfilPage, MisTurnosPage => PerfilGeneralPage, PerfilGeneralPage => TurnosPage, ErrorPage => BienvenidoPage',[
+    transition('LoginPage => *,RegistroPage => BienvenidoPage, SolicitarTurnoPage => PerfilGeneralPage, PerfilGeneralPage => MiPerfilPage, MisTurnosPage => PerfilGeneralPage, BienvenidoPage => TurnosPage, BienvenidoPage => MisTurnosPage',[
       style({ position: 'relative' }),
       query(':enter, :leave', [
         style({

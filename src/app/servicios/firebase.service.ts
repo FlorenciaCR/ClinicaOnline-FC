@@ -111,17 +111,19 @@ export class FirebaseService {
   async logIn(email: string, contrasenia : string)
   {
      return await this.afauth.signInWithEmailAndPassword(email,contrasenia)
-    //  .then(x => {
-    //   if(x.user?.emailVerified){
-    //     this.obtenerTipoUsuario()
-    //     return x.user
-    //   }else{
-    //     return false
-    //   }
-    //  })
-    //  .catch(error=>{
-    //   throw(error);
-    //   });
+     .then(x => {
+      console.log("is email verified: ", x.user?.emailVerified)
+      if(x.user?.emailVerified){
+        this.obtenerTipoUsuario()
+        console.log("returning user;", x.user)
+        return x.user
+      }else{
+        throw("auth/email-not-verified");
+      }
+     })
+     .catch(error=>{
+      throw(error);
+      });
   }
 
   verificarEmail(coleccion:any,id:string)
@@ -132,20 +134,24 @@ export class FirebaseService {
   async register(email: string, contrasenia : string)
   {
     return await this.afauth.createUserWithEmailAndPassword(email,contrasenia)
-    // .then(x =>{
-    //   this.sendEmailForVerification(x)
-    //   this.logOut()
-    //   return x
-    // })
-    // .catch(error=>{
-    //   throw(error);
-    //   });
+    .then(x =>{
+      this.sendEmailForVerification(x)
+      let userId = x.user?.uid
+      setTimeout(() => {
+        this.logOut() 
+      }, 2000);
+      return userId
+    })
+    .catch(error=>{
+      throw(error);
+      });
   }
 
   sendEmailForVerification(user:any)
   {
     return this.afauth.currentUser.then((u:any) => u.sendEmailVerification())
     .then(() => {
+      console.log("email sent, should log out")
       // this.ruteo.navigateByUrl('verifyEmail');
       //TODO: PANTALLA VERIFY EMAIL
     })

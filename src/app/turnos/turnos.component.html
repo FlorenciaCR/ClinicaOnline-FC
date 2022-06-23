@@ -31,33 +31,53 @@
             </tr>
           </tbody>
         </table>
-        <table  *ngIf="switchFiltroEspecialidades" class="table"  >
+
+        <div  *ngIf="switchFiltroEspecialidades">
+          <div class="d-flex flex-column justify-content-center align-items-center" style="background-color: pink; border-radius: 5px;">
+            <h5>Especialidades🩺</h5>
+          </div>
+          <br>
+    
+            <div class="divider text-center"></div>
+            <div style="display: flex; justify-content:space-around; flex-wrap: wrap; ">
+              <div *ngFor="let especialidad of listaEspedialidades" class="shadow cardInfo2"  style="border: solid 2px #223A66; list-style: none; border-radius: 10px;">
+                  <ul style="list-style: none; display: flex; justify-content: center; flex-direction: column; align-items: center;">
+                    <li>Especialidad: {{especialidad?.especialidad}}</li>
+                    <li><button style="margin: 10px;color: black; " type="button" class="btnRegistro" (click)="seleccionarEspecialidadParaFiltrar(especialidad)" >Elegir</button></li>
+                  </ul>
+              </div>
+            </div>
+        </div>
+    
+
+        <!-- <table  *ngIf="switchFiltroEspecialidades" class="table"  >
+          <div  *ngFor="let especialidad of listaEspedialidades"><button>{{especialidad?.especialidad}}</button></div>
           <thead>
             <tr>
-              <th scope="col">Nombre:</th>
+              <th scope="col">Especialidad:</th>
               <th scope="col"></th>
         
             </tr>
           </thead>
           <tbody *ngFor="let especialidad of listaEspedialidades" >
             <tr>
-              <td><button style="margin: 10px;color: white; " type="button" class="btnAzul" (click)="seleccionarEspecialidadParaFiltrar(especialidad)" >{{especialidad?.especialidad}}</button> </td>
+              <td><button style="margin: 10px;color: white; " type="button" class="btnRosa" (click)="seleccionarEspecialidadParaFiltrar(especialidad)" >{{especialidad?.especialidad}}</button> </td>
               <td>
                 <img src="" alt="" width="150">
               </td>
             </tr>
           </tbody>
-        </table>
+        </table> -->
         
         <!-- LISTADO DE TDOSO LOS TURNOS -->
         <table *ngIf="turnosCargados" class="table" >
             <thead>
               <tr>
                 <th scope="col">Fecha</th>   
-                <th scope="col">Paciente</th>
-                <th scope="col">Obra Social</th>
                 <th scope="col">Especialista</th>   
                 <th scope="col">Especialidad</th>   
+                <th scope="col">Paciente</th>
+                <th scope="col">Obra Social</th>
                 <th scope="col">Estado</th>  
                 <th scope="col">Opcion </th>
         
@@ -66,10 +86,10 @@
             <tbody *ngFor="let turno of listaTurnos" >
               <tr>
                 <td>{{turno.fecha.toLocaleDateString()}}</td>
-                <td>{{turno.paciente.nombre}} {{turno.paciente.apellido}}</td>
-                <td>{{turno.paciente.obraSocial}}</td>
                 <td>{{turno.especialista.nombre}} {{turno.especialista.apellido}}</td>
                 <td> {{turno.especialidad.especialidad}} </td>
+                <td>{{turno.paciente.nombre}} {{turno.paciente.apellido}}</td>
+                <td>{{turno.paciente.obraSocial}}</td>
                 <td style="font-weight: bold;"> {{obtenerEstadoTurno(turno.estadoTurno)}} </td>
                 <td>
                     <button *ngIf="turno.estadoTurno == 1"  style="margin: 10px;color: black; " type="button" class="btnRosa" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="justiciarCancelamiento(turno)"> Cancelar Turno </button>

@@ -22,6 +22,7 @@
                 <th scope="col">Email</th>
                 <th scope="col">Tipo</th>
                 <th scope="col">Habilitar </th>
+                <th>Historia;</th>
              
                
               </tr>
@@ -44,22 +45,15 @@
                 <td *ngIf="usuario.tipoUsuario == 'especialista' && usuario.habilitado" style="color: green;" > habilitado
                   <button type="button" (click)="actualizarHabilitado(usuario)" class="button2">Deshabilitar</button>
                 </td>
-                
-             
-               
-
+                <td *ngIf="usuario?.tipoUsuario == 'paciente'"><button (click)="seleccionarUsuario(usuario)">Historial</button></td>
               </tr>
             </tbody>
           </table>
 
-
-
-
-
-
-   
-
 <button (click)="exportexcel()" class="btnRosa">Descargar excel</button>
-        
+<div *ngIf="mostrarHistorial">
+  <app-historial-clinico [idPaciente]="usuarioSeleccionado?.uid" *ngIf="usuarioSeleccionado?.uid"></app-historial-clinico>  
+  <button (click)="cerrarHistorial()">Cerrar historial</button>    
+</div>
       </div>
 </div>

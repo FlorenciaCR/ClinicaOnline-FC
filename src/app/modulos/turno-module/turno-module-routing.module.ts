@@ -5,9 +5,9 @@ import { SolicitarTurnoComponent } from 'src/app/solicitar-turno/solicitar-turno
 import { TurnosComponent } from 'src/app/turnos/turnos.component';
 
 const routes: Routes = [
-  {path: 'gestionTurnos', component: TurnosComponent},
-  {path: 'solicitarTurno', component: SolicitarTurnoComponent},
-  {path: 'misTurnos', component: MisTurnosComponent}
+  {path: 'gestionTurnos', component: TurnosComponent,data: { animation: 'TurnosPage' }},
+  {path: 'solicitarTurno', component: SolicitarTurnoComponent,data: { animation: 'SolicitarTurnoPage' }}, 
+  {path: 'misTurnos', component: MisTurnosComponent,data: { animation: 'MisTurnosPage' }}
 ];
 
 @NgModule({

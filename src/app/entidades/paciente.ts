@@ -1,3 +1,5 @@
+import { HistoriaClinica } from "./HistoriaClinica"
+
 export class Paciente {
     uid:string | undefined=''
     nombre:string
@@ -10,6 +12,8 @@ export class Paciente {
     imgsPerfil:string[]
     tipoUsuario:string
     verificadoEmail:boolean
+    historialClinico:HistoriaClinica[]=[]
+   
   
     constructor(nombre:string='',apellido:string='',edad:number=0,dni:number=0,obraSocial:string='',email:string='',password:string='',fotoPerfil:string[]=[''],tipoUsuario:string='paciente',verificadoEmail:boolean=false){
 

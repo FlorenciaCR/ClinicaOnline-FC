@@ -17,11 +17,12 @@ export class RegistroEspecialistaComponent implements OnInit {
   mensaje : string='';
   agregarEsp : boolean=false;
   formaEspecialista : FormGroup;
-  listadoEspecialidades:any
+  listadoEspecialidades:any[]=[];
   fotoEspecialista:any
   miEspecialista : Especialista;
   spinnerImgSubiendose:boolean=false;
   numeroRandom : number;
+  imgDefault = 'https://firebasestorage.googleapis.com/v0/b/tp-clinicaonline-fc.appspot.com/o/imgEspecialidades%2Fdefault.png?alt=media&token=910c9ae3-b0b6-40ab-b6ab-2bad28a05428';
 
   formaNewEspecialidad:FormGroup;
 
@@ -59,26 +60,6 @@ export class RegistroEspecialistaComponent implements OnInit {
 
   cargarImagen(event:any){
     this.fotoEspecialista = event.target.files[0]    
-    //this.subirImgEspecialista('pruebaAlbum','fotoPrueba2',event.target.files[0]  )  
-  }
-
-  subirImgEspecialista(nameAlbum:string,nameFoto:string,foto:any){
-    let retorno = {status:false,url:''}
-  }
-
-  nuevaEspecialidad(especialidad:string){
-    let esp = {
-      //id:uniqid(),
-      valor:especialidad
-    }
-    this.firebase.crear("especialidades", JSON.parse(JSON.stringify(esp)))
-    //this.miEspecialista.especialidades.push({})
-  }
-
-  agregarEspecialidad(especialidad:string){
-    if(this.miEspecialista.especialidades.find(x => x == especialidad) == null){
-      this.miEspecialista.especialidades.push(especialidad)
-    }
   }
 
   obtenerDatosEnviarRegistroEspecialista()
@@ -99,17 +80,18 @@ export class RegistroEspecialistaComponent implements OnInit {
         this.listadoEspecialidades.forEach(value=>{
           if(value.id === this.formaEspecialista.value.especialidad){
 
-            this.miEspecialista.especialidades.push({id:value.id,especialidad:value.valor,disponibilidad:30,diasDisponibles:[]})
+            this.miEspecialista.especialidades.push({id:value.id,especialidad:value.especialidad,disponibilidad:30,diasDisponibles:[],img:value.img})
+            // this.miEspecialista.especialidades.push({id:value.id,especialidad:value.valor,disponibilidad:30,diasDisponibles:[],img:value.img})
           }
         })
       }else{ 
-        let newEspecialidad = {id:uniqid(),especialidad:this.formaNewEspecialidad.value.nombreEspecialidad}
+        let newEspecialidad = {id:uniqid(),especialidad:this.formaNewEspecialidad.value.nombreEspecialidad,img:this.imgDefault}
         let rtaGuardarEspecialidad = this.firebase.agregarDataCollection('especialidades',newEspecialidad)
         if (rtaGuardarEspecialidad.status){
           this.miEspecialista.especialidades.push({...newEspecialidad,disponibilidad:30,diasDisponibles:[]})
         }else{
           this.mts.error('No se pudo guardar la especialidad');
-          return
+          return;
         }  
       }
       let reader =new FileReader()
@@ -123,10 +105,10 @@ export class RegistroEspecialistaComponent implements OnInit {
             //se registra
             this.firebase.register(this.miEspecialista.email,this.miEspecialista.password)
             .then(res=>{
-              this.miEspecialista.uid = res.user?.uid //le da id auth al esp     
+              this.miEspecialista.uid = res //le da id auth al esp     
               //Crea al esp en firestore
               console.log("mi usuario", this.miEspecialista)
-              let retornoCrearDocId = this.firebase.crearDocumentoConIdEnCol('usuariosColeccion',`${res.user?.uid}`,JSON.parse(JSON.stringify(this.miEspecialista)))
+              let retornoCrearDocId = this.firebase.crearDocumentoConIdEnCol('usuariosColeccion',`${res}`,JSON.parse(JSON.stringify(this.miEspecialista)))
               if(retornoCrearDocId.status==true)
               {
                 this.spinnerImgSubiendose=false;

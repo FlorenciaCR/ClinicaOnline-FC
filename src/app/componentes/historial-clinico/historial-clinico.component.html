@@ -1,0 +1,38 @@
+<div style="margin-top: 100px;" class="container d-flex justify-content-center" style="width: 60%; background-color: white; border-radius: 20px; " >
+    <div>
+        <h4>Historiales clinicos del paciente.</h4>
+        <table *ngIf="poseeHistorial" class="table table-sm"  id="excel-table">
+            <thead>
+              <tr style="background-color: pink; border-radius: 5px;">
+                <!-- <th>id</th> -->
+                <th>Altura</th>
+                <th>Peso</th>
+                <th>Temperatura</th>
+                <th>Presion</th>
+                <th>Datos</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let historia of historialesClinicos">
+              <tr>
+                <td>{{historia?.altura}}</td>
+                <td>{{historia?.peso +'' +estadoHistoriaClinica.transform('peso',historia?.peso)}}</td>
+                <td>{{historia?.temperatura +'' +estadoHistoriaClinica.transform('temperatura',historia?.temperatura)}}</td>
+                <td>{{historia?.presion +'' +estadoHistoriaClinica.transform('presion',historia?.presion)}}</td>
+                <td>
+                    <p *ngFor="let datito of historia.anexos">Dato:{{datito.clave}} - Valor :{{datito.valor}}</p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <button>Guardar pdf</button>
+    </div>
+    <div *ngIf="!poseeHistorial">
+        No tiene historiales clinicos.
+    </div>
+
+</div>
+
+
+
+
+

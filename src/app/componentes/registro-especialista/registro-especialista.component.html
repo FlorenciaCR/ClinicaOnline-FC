@@ -2,6 +2,7 @@
   <div class="col-md-7 col-lg-8" style="margin-top:15px;">
       <div class="divh5">
           <h6 class="mb-3" >Registro Especialista</h6>
+          NO ES ESTE!!!!
       </div>
       <form [formGroup]="this.formaEspecialista" (ngSubmit)="obtenerDatosEnviarRegistroEspecialista()">
         <div class="row g-4">
@@ -126,8 +127,8 @@
         <div class="col-sm-6">
           <label class="" for="inlineFormCustomSelect">Especialidad</label>
           <select class="custom-select " id="inlineFormCustomSelect"   formControlName="especialidad" style="margin-right: 10px;" >
-            <option  value='addEspecialidad'>Add Especialidad.</option>
-            <option *ngFor="let especialidad of listadoEspecialidades" value={{especialidad.id}} > {{especialidad.valor}} </option>
+            <option  value='agregar'>Agregar</option>
+            <option *ngFor="let especialidad of listadoEspecialidades" value={{especialidad.id}} > {{especialidad.especialidad}} </option>
           </select> 
 
           <small class="invalid" *ngIf="formaEspecialista.controls['especialidad']?.errors?.['required']&& formaEspecialista.controls['especialidad'].touched" style="color:red ;">
@@ -137,7 +138,7 @@
 
         <div *ngIf="formaEspecialista.value.especialidad==='agregar'" class="col-12" style="border-color: aqua;border: width 10px;">
           <form [formGroup]="formaNewEspecialidad">
-          <label class="" for="nameEspecialidad"> Agregar Nueva Especialidad</label>
+          <label class="" for="nameEspecialidad"> Agregar especialidad:</label>
             <input type="text" class="form-control" id="nameEspecialidad" placeholder="especialidad" formControlName="nombreEspecialidad" style="margin-bottom: 5px;">
             <small class="invalid" *ngIf="formaNewEspecialidad.controls['nombreEspecialidad']?.errors?.['required']&& formaNewEspecialidad.controls['nombreEspecialidad'].touched" style="color:red ;">
               La nombre de la especialidad es requerido.

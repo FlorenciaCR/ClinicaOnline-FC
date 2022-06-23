@@ -47,8 +47,21 @@ export class LoginComponent implements OnInit {
     this.listaUsuarios.forEach(value=>{
       if(value.email == this.forma.value.email && value.password == this.forma.value.password){
         this.firebase.logIn(this.forma.value.email,this.forma.value.password)
+        .then(res =>{
+            this.router.navigate(['bienvenido'])
+        })
         .catch(err =>{
-          //this.responseMessage = err.message;
+          this.mensaje  = 'Error'
+
+          //Custom
+          switch(err)
+          {
+            case 'auth/email-not-verified':
+              this.mensaje = 'Email no verificado.';
+              break;
+          }
+
+          //Firebase
           switch(err.code)
           {
             case 'auth/invalid-email':
@@ -66,23 +79,14 @@ export class LoginComponent implements OnInit {
             case 'auth/user-not-found':
               this.mensaje ='Usuario no encontrado.';
               break;
-            default:
-              this.mensaje  = 'Error';
           }
-          console.log('Error en login.ts: ',err);
         }); 
-        this.mensaje='existe en la lista de usuarios'
-
-        console.log(value)
         this.firebase.esEspecialistafn(value)
         this.firebase.esAdministrador(value)
         this.firebase.esPacientefn(value)
         encontrado=true
-        setTimeout(() => {
-          
-          this.router.navigate(['bienvenido'])
-        }, 2000);
 
+        this.firebase.logOut()
       }
     })
     

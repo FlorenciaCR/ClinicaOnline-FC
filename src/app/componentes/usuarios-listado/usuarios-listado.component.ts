@@ -18,6 +18,7 @@ export class UsuariosListadoComponent implements OnInit {
     /*name of the excel-file which will be downloaded. */ 
     fileName= 'usuariosClinica.xlsx';  
 
+    mostrarHistorial : boolean=false;
   
   
 
@@ -27,6 +28,7 @@ export class UsuariosListadoComponent implements OnInit {
   listaPacientes:any[]=[]
   listaEspecialistas:any[]=[]
   listaAdministradores:any[]=[]
+  usuarioSeleccionado:any;
 
   spinnerImgSubiendose:boolean=false;
   constructor(private firebase:FirebaseService,) {
@@ -38,7 +40,7 @@ export class UsuariosListadoComponent implements OnInit {
         console.log("data ", data)
         data.forEach(value=>{
           let usuario : any ={
-            id:value.id,
+            uid:value.uid,
             nombre : value.nombre,
             apellido : value.apellido,
             edad: value.edad,
@@ -49,7 +51,8 @@ export class UsuariosListadoComponent implements OnInit {
             tipoUsuario : value.tipoUsuario,
             habilitado: value.habilitado,
             imgPerfil : value.imgPerfil,
-            imgsPerfil :value.imgsPerfil
+            imgsPerfil :value.imgsPerfil,
+            historialClinico: value.historialClinico
 
           }
           this.listaActualizadaUsuarios.push(usuario);
@@ -106,10 +109,21 @@ export class UsuariosListadoComponent implements OnInit {
         this.listaAdministradores.push(this.listaActualizadaUsuarios[i]);
       }
     }
-    console.log("lista admins", this.listaAdministradores)
+    //console.log("lista admins", this.listaAdministradores)
   }
 
 
+  seleccionarUsuario(usuario:any)
+  {
+    this.usuarioSeleccionado = usuario;
+    console.log(this.usuarioSeleccionado)
+    this.mostrarHistorial=true;
+  }
+
+  cerrarHistorial()
+  {
+    this.mostrarHistorial=false;
+  }
 
 
 

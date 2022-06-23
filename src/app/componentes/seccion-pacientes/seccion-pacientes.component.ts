@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
+import { ignoreElements } from 'rxjs';
+import { Paciente } from 'src/app/entidades/paciente';
+import { Turno } from 'src/app/interfaces/turno';
 import { FirebaseService } from 'src/app/servicios/firebase.service';
-import { DatePipe } from '@angular/common';
-import { EstadoHistoriaClinicaPipe } from 'src/app/pipes/estado-historia-clinica.pipe';
 
 @Component({
   selector: 'app-seccion-pacientes',
@@ -10,157 +12,127 @@ import { EstadoHistoriaClinicaPipe } from 'src/app/pipes/estado-historia-clinica
 })
 export class SeccionPacientesComponent implements OnInit {
 
-  coleccion : any;
-  usuarios : any;
-  usuariosBD : any;
+  miUsuario:any;
+  tipoUsuarioLogueado:any;
+  listadoPacientes:any[]=[]
+  poseePaciente : boolean=false;
+  listadoTurnos:Turno[]=[];
+  listaTurnos:Turno[]=[]
+  listaAuxTurnos:Turno[]=[]
+  turnosCargados:boolean = false
+  turnoDePacienteSeleccionado =[];
+  pacienteSelecionado : Paciente;
 
-  turnos : any;
-  turnosBD : any;
-
-  mostrarPacientes : boolean = true;
-  mostrarHistoriaClinica : boolean = false;
-
-  pacientesValidos : any[] = [];
-  pacienteSeleccionado : any;
-  turnosPaciente : any[] = [];
-
-  constructor(private  firebase : FirebaseService, private datePipe : DatePipe, public estadoHistoriaClinica : EstadoHistoriaClinicaPipe) { }
-  ngOnInit(): void {}
-  //   this.coleccion = this.db.collection<any>('usuarios');
-  //   this.usuarios = this.coleccion.valueChanges({idField: 'id'});
-
-  //   this.coleccion = this.db.collection<any>('turnos');
-  //   this.turnos = this.coleccion.valueChanges({idField: 'id'});
-  // }
-
-  // ngOnInit(): void {
-  //   this.usuarios.subscribe((usuarios : any) => {
-  //     this.usuariosBD = usuarios;
-  //   });
-
-  //   this.turnos.subscribe((turnos : any) => {
-  //     this.turnosBD = turnos;
-  //     this.validarPacientes()
-  //   });
-
-  // }
-
-  // seleccionarPaciente(item : any){
-  //   this.pacienteSeleccionado = item;
-  //   this.validarTurnosPaciente();
-  //   this.mostrarPacientes = false;
-  //   this.mostrarHistoriaClinica = true;
-  // }
-
-  // validarPacientes(){
-
-  //   let dniPacientes : any[] = [];
-  //   let arrAux : any[] = [];
-  //   let index : any;
-
-  //     for(let turno of this.turnosBD){
-        
-  //       if(turno.dniEspecialista == this.auth.currentUser.dni){
+  constructor(public firebase : FirebaseService, private ts :ToastrService) 
+  {
+   
+    this.firebase.getCurrentUser().subscribe(obs=>{
+      if(obs!=null){
+        this.firebase.getUsuario(obs.uid).subscribe(res=>{
+          let aux = res.data();
+          this.tipoUsuarioLogueado =aux?.['tipoUsuario'] 
+          //console.log('getCurrentUser tipoUsuarioLogueado: ',this.tipoUsuarioLogueado)
           
-  //         index = dniPacientes.indexOf(turno.dniPaciente);
+          this.miUsuario ={
+            uid : aux?.['uid'],
+            nombre : aux?.['nombre'],
+            apellido : aux?.['apellido'],
+            dni : aux?.['dni'],
+            edad : aux?.['edad'],
+            email : aux?.['email'],
+            imgPerfil : aux?.['imgPerfil'],
+            imgsPerfil : aux?.['imgsPerfil'],
+            tipoUsuario :aux?.['tipoUsuario'] ,
+            obraSocial : aux?.['obraSocial'],
+            especialidades : aux?.['especialidades'],
+            especialidad : aux?.['especialidad'],
+            password : aux?.['password'],
+            historialClinico : aux?.['historialClinico'],
+            pacientesFinalizados : aux?.['pacientesFinalizados']
+          }
+          console.log('usuario logueado',this.miUsuario.pacientesFinalizados)
+       
 
-  //         if(index == -1){
-            
-  //           dniPacientes.push(turno.dniPaciente);
+          
+        })
+      }
+      
+      setTimeout(() => {
+        this.firebase.obtenerTodos('usuariosColeccion').subscribe(res=>{
+          //let especialistas:Especialista[]=[];
+          let pacientes:Paciente[]=[];
+    
+          res.forEach(value=>{
+            if(value.tipoUsuario=='paciente')
+            {
+              let paciente = value;
+              console.log('paciente:',paciente)
+    
+              if(this.miUsuario.pacientesFinalizados.length>0)
+              {
+                if(this.miUsuario.pacientesFinalizados.includes(paciente.uid))
+                {
+                  pacientes.push(paciente)
+                  this.poseePaciente =true;
+                }
+              }
+            }
+          })
+        //this.listadoEspecialistas=especialistas;
+        console.log('listado pacientes finalizados',this.listadoPacientes);
+        this.listadoPacientes=pacientes;
+    
+        })
+      }, 2000);
+    })
 
-  //         }
+    setTimeout(() => {
+      this.firebase.obtenerTodos('turnos').subscribe(res=>{
+        let turnos : Turno[]=[];
+        res.forEach(inf=>{
+          let turno = new Turno();
+          turno.duracion= inf.duracion
+          turno.especialidad= inf.especialidad
+          turno.especialista = inf.especialista
+          turno.paciente = inf.paciente
+          turno.fecha = new Date(inf.fecha) 
+          turno.estadoTurno= inf.estadoTurno
+          turno.id= inf.id
+          turno.atencionCalificada=inf.atencionCalificada
+          turno.comentario=inf.comentario
+          turno.resenia=inf.resenia
 
-  //       }
+          if(this.tipoUsuarioLogueado == 'especialista'){
+            if(turno.especialista.uid === this.miUsuario.uid){
+              turnos.push(turno)
+            }  
+          }else if(this.tipoUsuarioLogueado == 'paciente'){
+            if(turno.paciente.uid === this.miUsuario.uid){
+              turnos.push(turno)
+            } 
+          }
+        })
+        this.listaTurnos=turnos
+        this.listaAuxTurnos=turnos
+        this.turnosCargados=true
+      })
+    }, 1500);
+  }
 
-  //     }
+  pacienteSeleccionado(paciente: any)
+  {
+    this.pacienteSelecionado = paciente;
+   
+    this.listaTurnos.forEach(value=>{
+      if(value.paciente.uid === paciente.uid && value.especialista.uid === this.miUsuario.uid)
+      {
+        this.turnoDePacienteSeleccionado.push(value);
+      }
+    })
+    console.log(this.turnoDePacienteSeleccionado);
+  }
 
-  //     for(let item of this.usuariosBD){
+  ngOnInit(): void {
+  }
 
-  //         if(dniPacientes.includes(item.dni)){
-  //             arrAux.push(item);
-  //         }
-
-  //     }
-
-  //     console.log(arrAux);
-  //     this.pacientesValidos = arrAux;
-  // }
-
-  // validarTurnosPaciente(){
-
-  //   this.turnosPaciente = [];
-
-  //   for(let item of this.turnosBD){
-  //     if(item.dniPaciente == this.pacienteSeleccionado.dni && item.dniEspecialista == this.auth.currentUser.dni){
-  //       this.turnosPaciente.push(item);
-  //     }
-  //   }
-  // }
-
-  // tabla : any;
-
-  // async descargarPDF(){
-
-  //   PdfMakeWrapper.setFonts(pdfFonts);
-  //   const pdf = new PdfMakeWrapper();
-  //   pdf.add((await new Img('./../../../../assets/especialidadDefault.png').width(100).alignment('center').build()))
-  //   let fecha = new Date();
-  //   let footer : any;
-  //   footer = this.datePipe.transform(fecha, 'dd/MM/yyyy');
-  //   pdf.pageSize('A4');
-  //   pdf.pageMargins(40);
-  //   pdf.add({text: 'Clinica Bernheim', alignment: 'center',fontSize: 22, bold: true,  margin: [50, 20]});
-  //   pdf.add({text: footer, alignment: 'center',fontSize: 22, bold: true,  margin: [50, 20]});
-  //   pdf.add({text: 'Historia clinica paciente: ' + this.pacienteSeleccionado.nombre + ' ' + this.pacienteSeleccionado.apellido, alignment: 'center',fontSize: 22, bold: true,  margin: [50, 20]})
-  //   pdf.add(this.createTable());
-  //   pdf.create().download();
-
-  // }
-
-  // createTable(){
-  //   this.formatDataToTable();
-  //   [{}]
-  //   return new Table(this.tabla).alignment('center').end;
-  // }
-
-  // formatDataToTable(){
-
-  //   let turnosPDF : any[] = []
-
-  //   for(let item of this.turnosPaciente){
-  //     if(item.historiaClinica != null){
-  //       turnosPDF.push(item);
-  //     }
-  //   }
-
-  //   this.tabla = turnosPDF.map((turno:any)=>{
-  //     let row = [];
-  //     let rowAux = [];
-  //     row.push(
-  //       'Fecha: ' + turno.dia + ' ' + turno.hora + '\n' +
-  //       'Especialidad: ' + turno.especialidad + '\n'
-  //     );
-  //     row.push(
-  //       'Altura: ' + turno.historiaClinica.altura + '\n' + 
-  //       'Peso: ' +  turno.historiaClinica.peso + '\n' +
-  //       'Temperatura: ' +  turno.historiaClinica.temperatura + '\n' + 
-  //       'Presion: ' + turno.historiaClinica.presion + '\n'
-  //       );
-  //       for(let item of turno.historiaClinica.claveValor){
-  //         if(item.clave != null && item.valor != null){
-  //           rowAux.push(item.clave + ': ' + item.valor + '\n');
-  //         }
-  //       }
-  //       if(rowAux.length != 0){
-  //         row.push(rowAux);
-  //       }
-  //       return row;
-  //     });
-  // }
-
-
-  // cerrarHistoriaClinica(){
-  //   this.mostrarHistoriaClinica = false;
-  //   this.mostrarPacientes = true;
-  // }
 }

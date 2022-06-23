@@ -22,6 +22,10 @@ import { SolicitarTurnoComponent } from './solicitar-turno/solicitar-turno.compo
 import { TurnosComponent } from './turnos/turnos.component';
 import { SeccionUsuariosComponent } from './componentes/seccion-usuarios/seccion-usuarios.component';
 import { SeccionPacientesComponent } from './componentes/seccion-pacientes/seccion-pacientes.component';
+import { HistorialClinicoComponent } from './componentes/historial-clinico/historial-clinico.component';
+import { EstadoHistoriaClinicaPipe } from './pipes/estado-historia-clinica.pipe';
+import { ListaTurnospComponent } from './componentes/lista-turnosp/lista-turnosp.component';
+import { TipoUsuarioPipe } from './pipes/tipo-usuario.pipe';
 
 @NgModule({
   declarations: [
@@ -38,8 +42,12 @@ import { SeccionPacientesComponent } from './componentes/seccion-pacientes/secci
     PerfilComponent,
     SolicitarTurnoComponent,
     TurnosComponent,
+    TipoUsuarioPipe,
     SeccionUsuariosComponent,
-    SeccionPacientesComponent
+    SeccionPacientesComponent,
+    HistorialClinicoComponent,
+    EstadoHistoriaClinicaPipe,
+    ListaTurnospComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +63,7 @@ import { SeccionPacientesComponent } from './componentes/seccion-pacientes/secci
     })
    
   ],
-  providers: [],
+  providers: [EstadoHistoriaClinicaPipe, TipoUsuarioPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

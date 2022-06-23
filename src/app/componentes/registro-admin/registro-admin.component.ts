@@ -75,9 +75,9 @@ export class RegistroAdminComponent implements OnInit {
           console.log('esta en subir imagen'+rta)
           this.firebase.register(this.miAdministrador.email,this.miAdministrador.password)
           .then(res=>{
-            this.miAdministrador.uid = res.user?.uid
+            this.miAdministrador.uid = res
             console.log('entro a registro',this.miAdministrador)
-            let retornoCrearDocId = this.firebase.crearDocumentoConIdEnCol('usuariosColeccion',`${res.user?.uid}`,JSON.parse(JSON.stringify(this.miAdministrador)))
+            let retornoCrearDocId = this.firebase.crearDocumentoConIdEnCol('usuariosColeccion',`${res}`,JSON.parse(JSON.stringify(this.miAdministrador)))
             if(retornoCrearDocId.status==true)
             {
               this.spinnerImgSubiendose=false;

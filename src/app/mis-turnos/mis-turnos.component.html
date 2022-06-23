@@ -3,22 +3,43 @@
       <h1 class="text-center">Mis turnos🗓️</h1>
     </div>
     <div style="display: flex; justify-content:flex-start" >
-      <!-- <button class="btnRegistro" style="display: flex; justify-content:center; align-items:center;" (click)="activarFiltrosUnicos()">
-        <h5 style="padding:5px">{{activarFiltros?'Filtros 🔍':'Filtros🔎'}}  </h5>
-      </button> -->
       <h5 style="padding:5px" class="text-end">Filtros🔎</h5>
     </div>
 
     <div class="d-flex justify-content-end">
-      <button   style="margin: 5px;color: #17B3AB; width: 10% ;height:8%; " type="button" class="btn btn-outline-info" (click)="activarFiltroEspecialistas()" >Por: Especialista</button>
+      <button *ngIf="tipoUsuarioLogueado != 'especialista'"   style="margin: 5px;color: #17B3AB; width: 10% ;height:8%; " type="button" class="btn btn-outline-info" (click)="activarFiltroEspecialistas()" >Por: Especialista</button>
+
+      <button *ngIf="tipoUsuarioLogueado == 'especialista' "  style="margin: 5px;color: #17B3AB; width: 10% ;height:8%; " type="button" class="btn btn-outline-info" (click)="activarFiltroPacientes()">Por: Pacientes</button>
+
       <button  style="margin: 5px;color: #17B3AB; width: 10% ;height:8%; " type="button" class="btn btn-outline-info" (click)="activarFiltroEspecialidades()">Por: Especialidad</button>
       
+      <label for="">Filtro paalrbas</label>
+      <input type="text" (input)="filtroPalabra($event.target)" placeholder="Filtro palabras">
+    
       <!-- <button *ngIf="filtroAplicado" style="margin: 10px;color: white; " type="button" class="btn btn-danger" (click)="eliminarFiltros()">Eliminar Filtros</button> -->
     </div>
 
+    <div  *ngIf="filtroPaciente">
+      <div class="d-flex flex-column justify-content-center align-items-center" style="background-color: pink; border-radius: 5px;">
+        <h5>Pacientes</h5>
+      </div>
+      <br>
+        <div class="divider text-center"></div>
+
+        <div *ngFor="let usuario of listadoPacientes" class="shadow cardInfo" >
+          <ul style="border: solid 2px #223A66; list-style: none; border-radius: 10px;padding:10px">
+            <li>Nombre: {{usuario?.nombre}}</li>
+            <li>Apellido: {{usuario?.apellido}}</li>
+            <li>Opcion: <button  style="margin: 10px;color: white; " type="button" class="btnRegistro" (click)="seleccionarPacienteParaFiltrar(usuario)" >Elegir</button></li>
+          </ul>
+        </div>
+      
+    </div>
+
+
     <div  *ngIf="filtroEspecialista">
       <div class="d-flex flex-column justify-content-center align-items-center" style="background-color: pink; border-radius: 5px;">
-        <h5>Especialistas👨🏽‍⚕️</h5>
+        <h5>Especialistas</h5>
       </div>
       <br>
         <div class="divider text-center"></div>
@@ -42,7 +63,7 @@
         <div style="display: flex; justify-content:space-around; flex-wrap: wrap; ">
           <div *ngFor="let especialidad of listadoEspecialidades" class="shadow cardInfo2"  style="border: solid 2px #223A66; list-style: none; border-radius: 10px;">
               <ul style="list-style: none; display: flex; justify-content: center; flex-direction: column; align-items: center;">
-                <li>Especialidad: {{especialidad?.valor}}</li>
+                <li>Especialidad: {{especialidad?.especialidad}}</li>
                 <li><button style="margin: 10px;color: white; " type="button" class="btnRegistro" (click)="seleccionarEspecialidadParaFiltrar(especialidad)" >Elegir</button></li>
               </ul>
           </div>
@@ -55,32 +76,70 @@
       <div *ngFor="let turno of listaTurnos" class="shadow cardInfo" >
         <ul style="border: solid 2px #223A66; list-style: none; border-radius: 10px;padding:10px; ">
         <li>
-         Fecha: {{turno.fecha.toLocaleDateString()}}
+         Fecha: {{turno?.fecha.toLocaleDateString()}}
         </li>
         <li>
-          <strong>Paciente:</strong>  {{turno.paciente.nombre}}, {{turno.paciente.apellido}} <img src="{{turno.paciente.imgsPerfil[0]}}" alt="" width="20px" height="20px"><img src="{{turno.paciente.imgsPerfil[1]}}" alt="" width="20px" height="20px">
+          <strong>Paciente:</strong>  {{turno?.paciente.nombre}}, {{turno?.paciente.apellido}} <img src="{{turno?.paciente.imgsPerfil[0]}}" alt="" width="20px" height="20px"><img src="{{turno?.paciente.imgsPerfil[1]}}" alt="" width="20px" height="20px">
+          
         </li>
         <li>
           <strong>Especialista:</strong>
-           {{turno.especialista.nombre}}, {{turno.especialista.apellido}}
+           {{turno?.especialista.nombre}}, {{turno?.especialista.apellido}}
         </li>
         <li>
           <strong>Especialidad:</strong>
-       {{turno.especialidad.especialidad}}
+       {{turno?.especialidad.especialidad}}
         </li>
         <li>
-          Estado del turno: {{obtenerEstadoTurno(turno.estadoTurno)}}
+          Estado del turno: {{obtenerEstadoTurno(turno?.estadoTurno)}}
         </li>
         <li>
-          <button *ngIf="turno.estadoTurno!= 3 && turno.estadoTurno != 6 && turno.estadoTurno==1"  style="margin: 10px;color: white; " type="button" class="btn btnRosa" data-toggle="modal" data-target="#exampleModal" (click)="justificarCancelamiento(turno)"  >Cancelar</button>
+
+
+          <!-- <button *ngIf="turno.estadoTurno!= 3 && turno.estadoTurno != 6 && turno.estadoTurno==1"  style="margin: 10px;color: white; " type="button" class="btn btnRosa" data-toggle="modal" data-target="#exampleModal" (click)="justificarCancelamiento(turno)"  >Cancelar</button>
           <button *ngIf="turno.estadoTurno!= 3 && turno.estadoTurno != 6 && turno.estadoTurno==1"  style="margin: 10px;color: white; " type="button" class="btn btnRosa" (click)="aceptarTurno(turno)"  >Aceptar</button>
+          <button *ngIf="turno.resenia || turno.comentario "  style="margin: 10px;color: white; " type="button" class="btnRegistro"  data-toggle="modal" data-target="#exampleModal2" (click)="seleccionarTurnoParaComentario(turno)"  >Resenia</button> -->
+          <!--Todos los que faltan  hizoEncuesta:boolean=false
+    atencionCalificada:number=0-->
+    <!--Los dos cancelarn, ver resenia-->
+    <!--Paciente completa encuesta, califica atencion-->
+    <!--especialista: rechazar, aceptar, finalizar-->
+            
+
+    <button *ngIf="turno.estadoTurno != 3 && turno.estadoTurno != 6 "  style="margin: 10px;color: black; " type="button" class="btn btn-danger"data-toggle="modal" data-target="#exampleModal" (click)="justificarCancelamiento(turno)"  > Cancelar Turno </button>
+
+    <button *ngIf="turno.resenia || turno.comentario "  style="margin: 10px;color: black; " type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal2" (click)="seleccionarTurnoParaComentario(turno)"  >  Ver Reseña </button>
+    
+    <div  *ngIf="tipoUsuarioLogueado=='paciente'">
+      <button *ngIf="turno.estadoTurno === 3 &&  turno.hizoEncuesta == false"  style="margin: 10px;color: black; " type="button" class="btn btn-warning"  data-toggle="modal" data-target="#exampleModal3" (click)="realizarEncuesta(turno)"  >  Realizar Encuesta  </button>
+      <button *ngIf=" turno.hizoEncuesta"  style="margin: 10px;color: black; " type="button" class="btn btn-success"    >Encuesta realizada  </button>
+      <button *ngIf="turno.estadoTurno === 3 && !turno.atencionCalificada"  style="margin: 10px;color: black;background-color: blueviolet; " type="button" class="btn "  data-toggle="modal" data-target="#exampleModal4" (click)="calificar(turno)"  >  Calificar  </button>
+      <button *ngIf="turno.atencionCalificada"  style="margin: 10px;color: black;background-color: blueviolet; " type="button" class="btn "   >Calificado   </button> 
+    </div>
+
+    <div *ngIf="tipoUsuarioLogueado=='especialista'">
+      <button *ngIf="turno.estadoTurno != 3 && turno.estadoTurno != 4 && turno.estadoTurno != 6 && turno.estadoTurno != 2 "  style="margin: 10px;color: black; background-color: #39ff14; " type="button" class="btn " (click)="aceptarTurno(turno)"  >Aceptar  Turno </button>
+
+      <button *ngIf="turno.estadoTurno != 3 && turno.estadoTurno != 6  && turno.estadoTurno != 4 "  style="margin: 10px;color: black; background-color: olive; " type="button" class="btn "data-toggle="modal" data-target="#exampleModal" (click)="justificarCancelamiento(turno,1)"  > Rechazar Turno </button>
+
+      <!--Realizar/Finalizar turno e historial clinico- especialista-->
+      <button *ngIf="turno.estadoTurno == 2 "  style="margin: 10px;color: black; background-color: #cd04d1; " type="button" class="btn "  data-toggle="modal" data-target="#exampleModal5"  (click)="seleccionarTurnoParaComentario(turno)"   >Finalizar Turno</button>      
+      <!--2 aceptado, 3 finalizado-->
+      <!-- <button *ngIf="turno.status == 3 "  style="margin: 10px;color: rgb(255, 255, 255); background-color: #000000; " type="button" class="btn "  data-bs-toggle="modal" data-bs-target="#exampleModal6"  (click)="seleccionarTurnoParaComentario(turno)">Generar Historial Clinico </button>    -->
+
+    </div> 
+
+
+
+    
+
         </li>
         <li>
-          <button *ngIf="turno.resenia || turno.comentario "  style="margin: 10px;color: white; " type="button" class="btnRegistro"  data-toggle="modal" data-target="#exampleModal2" (click)="seleccionarTurnoParaComentario(turno)"  >Resenia</button>
+        
         </li>
       </ul>
       
-    </div>
+      </div>
     </div>
 
 
@@ -89,7 +148,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Debes escribir un comentario para eliminar el turno ({{turnoSeleccionadoComentario.id}}) de {{turnoSeleccionadoComentario.paciente.nombre}} </h5>
+            <h5 class="modal-title" id="exampleModalLabel">{{rechazarTurno?'Rechazar turno':'Cancelar turno'}}</h5>
             <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
           </div>
 
@@ -105,7 +164,7 @@
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal" > Cancelar</button>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" [disabled]="formaComentario.invalid" (click)="cancelarTurno()">Cancelar  Turno</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" [disabled]="formaComentario.invalid" (click)="cancelarTurno()">{{rechazarTurno?'Rechazar':' Cancelar '}}</button>
           </div>
         </form>
         </div>
@@ -118,31 +177,246 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Reseñas / Comentarios del turno ({{turnoSeleccionadoComentario.id}}) </h5>
+            <h5 class="modal-title" id="exampleModalLabel">Resenia</h5>
             <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
           </div>
 
-
           <div class="modal-body">
-            <h3>Comentario:</h3>
+            <h5>Comentarios del turno:</h5>
             <p>
               {{turnoSeleccionadoComentario.comentario}}
             </p>
-            <h3>Reseña:</h3>
+            <h5>Resenias del turno:</h5>
             <p>
               {{turnoSeleccionadoComentario.resenia}}
             </p>
           </div>
-          
-
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal" > Cerrar </button>
-          
           </div>
       
         </div>
       </div>
     </div>
 
+    <!-- Modal encuesta -->
+    <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5>Encuesta</h5>
+          </div>
+
+          <form [formGroup]="formaEncuesta" (ngSubmit)="hacerEncuesta()" > 
+            <div class="modal-body">
+              <div class="text-center">
+                <h5 class="modal-title" id="exampleModalLabel">Especialista:{{turnoSeleccionadoComentario.especialista.nombre}} {{turnoSeleccionadoComentario.especialista.apellido}} </h5>    
+             
+                <h5 class="modal-title">{{turnoSeleccionadoComentario.especialidad?.especialidad}} </h5>
+                <img src={{turnoSeleccionadoComentario.especialidad?.img}}  alt="" width=100px>
+              </div>
+              
+              <label for="firstNamep" class="form-label" style="font-weight: bold;" >Recomadacion</label>
+              <input class="form-control" type="text" formControlName="recomendar">
+              <small class="invalid" *ngIf="formaEncuesta.controls['recomendar'].errors?.['required']&& formaEncuesta.controls['recomendar'].touched" style="color:red ;">
+                el cmapo es requerido
+             </small>
+
+              <label for="firstNamep" class="form-label"  style="font-weight: bold;" >Sugerencia</label>
+              <textarea class="form-control" aria-label="With textarea" placeholder="" formControlName="sugerencia" > </textarea>
+              <small class="invalid" *ngIf="formaEncuesta.controls['sugerencia'].errors?.['required']&& formaEncuesta.controls['sugerencia'].touched" style="color:red ;">
+                el cmapo es requerido
+            </small>
+            </div>
+            
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal"  > Cancelar</button>
+              <button type="submit" class="btn btn-success" data-dismiss="modal"  > Enviar</button>
+            </div>
+          </form>
+      
+        </div>
+      </div>
+    </div>
+
+    <!--Modal calificacion-->
+    <div class="modal fade" id="exampleModal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5>Calificar</h5>
+          </div>
+          <div class=" text-center"> 
+            <h5 class="modal-title" id="exampleModalLabel">Especialista:{{turnoSeleccionadoComentario.especialista.nombre}} {{turnoSeleccionadoComentario.especialista.apellido}} </h5>
+         
+            
+          </div>
+          
+          <h4>Califica la consulta (Del 1 al 10): </h4>
+          <input type="number" min="1" max="10" class="form-control" id="floatingInput" placeholder="dni" [(ngModel)]="auxCalificacion">
+     
+         
+          <form [formGroup]="formaCalificacion" > 
+          <div class="modal-body">
+            
+            <label for="firstNamep" class="form-label"  style="font-weight: bold;" >Comentario:</label>
+            <textarea class="form-control" aria-label="With textarea" placeholder="Deja un comentario" formControlName="calificacion" > </textarea>
+            <small class="invalid" *ngIf="formaCalificacion.controls['calificacion']?.errors?.['required']&& formaCalificacion.controls['calificacion'].touched" style="color:red ;">
+              El comentario en necesario. 
+            </small>
+           
+    
+          </div>
+          
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary"  data-dismiss="modal"  > Cancelar</button>
+            <button type="submit" (click)="hacerCalificacion()" class="btn btn-success"  data-dismiss="modal" [disabled]="formaCalificacion.invalid" > Enviar   </button>
+          
+          </div>
+        </form>
+
+        
+      
+        </div>
+      </div>
+    </div>
+
+
+    <!--Modal finalizar turno y Modal historial clinico del paciente (Siendo especialista)-->
+    <div class="modal fade" id="exampleModal5" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3>Finalizar/Realizar turno.🗒️</h3>
+          </div>
+          <!--formaFinalizar-->
+          <form [formGroup]="formaFinalizar" (ngSubmit)="finalizarTurnoCrearHistorial()" > 
+
+            <div  class="modal-body">
+              <div class="">
+                <h6 class="modal-title" id="exampleModalLabel">- Especialista: {{turnoSeleccionadoComentario.especialista.nombre}}, {{turnoSeleccionadoComentario.especialista.apellido}} </h6>    
+                <h6 class="modal-title" id="exampleModalLabel">- Paciente: {{turnoSeleccionadoComentario.paciente.nombre}}, {{turnoSeleccionadoComentario.paciente.apellido}} </h6>  
+                <h6 class="modal-title">- Especialidad:{{turnoSeleccionadoComentario.especialidad?.especialidad}} </h6>
+                <!-- <img src={{turnoSeleccionadoComentario.especialidad?.img}}  alt="" width=150px> -->
+              </div>
+              
+              <label for="firstNamep" class="form-label"> Comentario reseña:</label>
+              <textarea class="form-control" aria-label="With textarea" placeholder="" formControlName="comentario" > </textarea>
+              <small class="invalid" *ngIf="formaFinalizar.controls['comentario'].errors?.['required']&& formaFinalizar.controls['comentario'].touched" style="color:red ;">
+                el campo es requerido.
+             </small>
+              <label for="firstNamep" class="form-label" > Diagnostico del paciente: </label>
+              <textarea class="form-control" aria-label="With textarea" placeholder="" formControlName="diagnostico" > </textarea>
+              <small class="invalid" *ngIf="formaFinalizar.controls['diagnostico'].errors?.['required']&& formaFinalizar.controls['diagnostico'].touched" style="color:red ;">
+                El diagnostico es requerido.
+              </small>
+              <hr>
+              <div class="divHistorialClinico">
+                <div style="background-color:darkorange ;border-radius: 2px;">
+                  <h5 style="padding: 4px; color:white; ">HISTORIAL CLINICO📒</h5>
+                </div>
+                <p>Del paciente: {{turnoSeleccionadoComentario.paciente.nombre}}, {{turnoSeleccionadoComentario.paciente.apellido}}</p>
+                <label for="" class="form-label" >Altura</label>
+                <input type="text" class="form-control" id="firstNamep" placeholder="" value="" formControlName="altura" >
+                <small class="invalid" *ngIf="formaFinalizar.controls['altura'].errors?.['required']&& formaFinalizar.controls['altura'].touched" style="color:red ;">
+                    campo requerido.
+                </small>
+                <label for="" class="form-label" >Peso</label>
+                <input type="text" class="form-control" id="firstNamep" placeholder="" value="" formControlName="peso" >
+                <small class="invalid" *ngIf="formaFinalizar.controls['peso'].errors?.['required']&& formaFinalizar.controls['peso'].touched" style="color:red ;">
+                campo requerido.
+                </small>
+                <label for="" class="form-label" >Temperatura</label>
+                <input type="text" class="form-control" id="firstNamep" placeholder="" value="" formControlName="temperatura" >
+                <small class="invalid" *ngIf="formaFinalizar.controls['temperatura'].errors?.['required']&& formaFinalizar.controls['temperatura'].touched" style="color:red ;">
+                campo requerido.
+                </small>
+                <label for="" class="form-label" >Presion</label>
+                <input type="text" class="form-control" id="lastNamePx" placeholder="" formControlName="presion" >
+                <small class="invalid" *ngIf="formaFinalizar.controls['presion'].errors?.['required']&& formaFinalizar.controls['presion'].touched" style="color:red ;">
+                    campo requerido.
+                </small>
+                <hr>
+                <h6>Datos agregados del paciente.</h6>
+                <form *ngIf="agregarDato1" [formGroup]="formaAgregado1" > 
+                
+                  <div class="row g-3">
+                    <div class="col-sm-6"> 
+                      
+                      <label for="firstNamepx" class="form-label"> Dato </label>
+                      <input type="text" class="form-control" id="firstNamepx" placeholder="" value="" formControlName="clave1" >
+                      <small class="invalid" *ngIf="formaAgregado1.controls['clave1'].errors?.['required']&& formaAgregado1.controls['clave1'].touched" style="color:red ;">
+                          campo requerido.
+                      </small>
+                    </div>
+                    <div class="col-sm-6">
+                      <label for="lastNamePx" class="form-label">Valor</label>
+                      <input type="text" class="form-control" id="lastNamePx" placeholder="" formControlName="valor1" >
+                      <small class="invalid" *ngIf="formaAgregado1.controls['valor1'].errors?.['required']&& formaAgregado1.controls['valor1'].touched" style="color:red ;">
+                          campo requerido.
+                      </small>
+                      
+                    </div>
+                  </div>
+                  </form>
+                  <form *ngIf="agregarDato2" [formGroup]="formaAgregado2"  > 
+                    
+                  <div class="row g-3">
+                    <div class="col-sm-6"> 
+                      
+                      <label for="firstNamepx" class="form-label"> Nombre </label>
+                      <input type="text" class="form-control" id="firstNamepx" placeholder="" value="" formControlName="clave2" >
+                      <small class="invalid" *ngIf="formaAgregado2.controls['clave2'].errors?.['required']&& formaAgregado2.controls['clave2'].touched" style="color:red ;">
+                          campo requerido.
+                      </small>
+                    </div>
+                    <div class="col-sm-6">
+                      <label for="lastNamePx" class="form-label">Valor</label>
+                      <input type="text" class="form-control" id="lastNamePx" placeholder="" formControlName="valor2" >
+                      <small class="invalid" *ngIf="formaAgregado2.controls['valor2'].errors?.['required']&& formaAgregado2.controls['valor2'].touched" style="color:red ;">
+                          campo requerido.
+                      </small>
+                      
+                    </div>
+                  </div>
+                  </form>
+                  <form *ngIf="agregarDato3" [formGroup]="formaAgregado3"  > 
+              
+                  <div class="row g-3">
+                    <div class="col-sm-6"> 
+                      
+                      <label for="firstNamepx" class="form-label"> Nombre </label>
+                      <input type="text" class="form-control" id="firstNamepx" placeholder="" value="" formControlName="clave3" >
+                      <small class="invalid" *ngIf="formaAgregado3.controls['clave3'].errors?.['required']&& formaAgregado3.controls['clave3'].touched" style="color:red ;">
+                          campo requerido.
+                      </small>
+                    </div>
+                    <div class="col-sm-6">
+                      <label for="lastNamePx" class="form-label">Valor</label>
+                      <input type="text" class="form-control" id="lastNamePx" placeholder="" formControlName="valor3" >
+                      <small class="invalid" *ngIf="formaAgregado3.controls['valor3'].errors?.['required']&& formaAgregado3.controls['valor3'].touched" style="color:red ;">
+                          campo requerido.
+                      </small>
+                      
+                    </div>
+                  </div>
+                  </form>
+                  <button style="background-color:darkorange ;border-radius: 10px; color:white;padding: 5px; border-style: none; " (click)="agregarCampo()" type="button" class="text-center">Agregar dato</button>
+              </div>
+
+            </div>
+      
+            <div class="modal-footer">
+              <button type="button" class="btn" (click)="closeModalHistorialClinico()"> Cancelar</button>
+              <button type="submit" class="btn btn-success"  [disabled]="formaFinalizar.invalid"> Guardar</button>
+            </div>
+          </form>
+
+
+    
+      
+        </div>
+      </div>
+    </div>
 </div>
 

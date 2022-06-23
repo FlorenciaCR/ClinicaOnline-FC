@@ -83,8 +83,12 @@ export class RegistroPacienteComponent implements OnInit {
                 {
                     this.firebase.register(this.miPaciente.email,this.miPaciente.password)
                     .then( async res=>{ 
-                      this.miPaciente.uid = res.user?.uid
-                      let retornoCrearDocId = this.firebase.crearDocumentoConIdEnCol('usuariosColeccion',`${res.user?.uid}`,JSON.parse(JSON.stringify(this.miPaciente)))
+                      console.log("res after register:", res)
+                      this.miPaciente.uid = res
+                      console.log("save user", this.miPaciente)
+                      console.log("stringify user,", JSON.parse(JSON.stringify(this.miPaciente)))
+                      let retornoCrearDocId = this.firebase.crearDocumentoConIdEnCol('usuariosColeccion',`${res}`,JSON.parse(JSON.stringify(this.miPaciente)))
+                      console.log("save return", retornoCrearDocId)
                       //await res.user?.sendEmailVerification();
                     
                         if(retornoCrearDocId.status==true)

@@ -99,7 +99,8 @@ export class SolicitarTurnoComponent implements OnInit {
             tipoUsuario :aux?.['tipoUsuario'] ,
             obraSocial : aux?.['obraSocial'],
             especialidades : aux?.['especialidades'],
-            password : aux?.['password']
+            password : aux?.['password'],
+            historialClinico : aux?.['historialClinico']
           }
         })
       }
@@ -162,7 +163,7 @@ export class SolicitarTurnoComponent implements OnInit {
   }
 
   seleccionarEspecialidad(especialidad: Especialidad) {
-    this.datos.especialidad = especialidad.valor
+    //this.datos.especialidad = especialidad.valor
 
   }
 

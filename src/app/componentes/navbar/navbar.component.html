@@ -10,7 +10,7 @@
           <li class="nav-item">
             <a class="nav-link" [routerLink]="['/bienvenido']" >Bienvendo</a>
           </li>
-          <li class="nav-item" *ngIf="firebase.esAdmin">
+          <li class="nav-item" *ngIf="tipoUsuarioLogueado =='administrador'">
             <a class="nav-link" [routerLink]="['/usuarios']">Usuarios</a>
           </li>
           <li class="nav-item" *ngIf="estaLogueado">
@@ -22,12 +22,13 @@
           <li class="nav-item" *ngIf="estaLogueado">
             <a class="nav-link" [routerLink]="['/turno/misTurnos']">Mis turnos</a>
           </li>
-          <li class="nav-item" *ngIf="estaLogueado">
+          <li class="nav-item" *ngIf="tipoUsuarioLogueado =='administrador'">
             <a class="nav-link" [routerLink]="['/turno/gestionTurnos']">Gestion turnos</a>
           </li>
-          <li class="nav-item" *ngIf="estaLogueado">
-            <a class="nav-link" [routerLink]="['/seccionUsuarios']">Seccion usuarios </a>
+          <li>
+            <a class="nav-link" [routerLink]="['/seccionPacientes']">Seccion pacientes</a>
           </li>
+
         </ul>
 
         <div class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" *ngIf=" usuarioLogueado | async as usuarioLogueado">

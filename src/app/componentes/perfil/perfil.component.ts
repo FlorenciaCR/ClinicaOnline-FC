@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Horario } from 'src/app/entidades/horario';
+import { TipoUsuarioPipe } from 'src/app/pipes/tipo-usuario.pipe';
 import { FirebaseService } from 'src/app/servicios/firebase.service';
 import { HorarioService } from 'src/app/servicios/horario.service';
+
 
 @Component({
   selector: 'app-perfil',
@@ -26,20 +28,19 @@ export class PerfilComponent implements OnInit {
   horarioSeleccionado : any = "";
   dia : any;
 
-
- //h
  usuarioLoggeado:any
  tipoUsuarioLogueado:any;
  uidUser:string|boolean=false
 
  especialidadSelected:any={"especilidaD":'','disponibilidad':0,'id':0}
- newDisponibilidad:number=0
+ newDisponibilidad:number=30
  diasSemana:any[]=[{id:1,name:'Lunes'},{id:2,name:'Martes'},{id:3,name:'Miercoles'},{id:4,name:'Jueves'},{id:5,name:'Viernes'},{id:6,name:'Sabado'}]
  diasSeleccionados:number[]=[]
+ mostrarHistoriales : Boolean=false;
 
 
   
-  constructor(public firebase : FirebaseService, private router : Router,private horarioService : HorarioService, private ts : ToastrService) 
+  constructor(public firebase : FirebaseService, private router : Router,private horarioService : HorarioService, private ts : ToastrService,public tipoUsuarioPipe : TipoUsuarioPipe) 
   { 
     setTimeout(() => {
       

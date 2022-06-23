@@ -13,6 +13,7 @@ export class Especialista  {
     imgPerfil:any
     tipoUsuario:string='especialista'
     habilitado:boolean=false
+    pacientesFinalizados:any[]=[]
 
     
     

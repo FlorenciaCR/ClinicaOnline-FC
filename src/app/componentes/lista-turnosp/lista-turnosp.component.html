@@ -1,0 +1,34 @@
+<div style="margin-top: 100px;">
+    <div class="d-flex justify-content-center">
+
+        <div *ngFor="let turno of recibeListaTurnos" class="shadow cardInfo" >
+            <ul style="border: solid 2px #223A66; list-style: none; border-radius: 10px;padding:10px; ">
+            <li>
+             Fecha: {{turno?.fecha.toLocaleDateString()}}
+            </li>
+            <li>
+              <strong>Paciente:</strong>  {{turno?.paciente.nombre}}, {{turno?.paciente.apellido}} <img src="{{turno?.paciente.imgsPerfil[0]}}" alt="" width="20px" height="20px"><img src="{{turno?.paciente.imgsPerfil[1]}}" alt="" width="20px" height="20px">
+              
+            </li>
+            <li>
+              <strong>Especialista:</strong>
+               {{turno?.especialista.nombre}}, {{turno?.especialista.apellido}}
+            </li>
+            <li>
+              <strong>Especialidad:</strong>
+           {{turno?.especialidad.especialidad}}
+            </li>
+            <li>
+              Estado del turno: {{obtenerEstadoTurno(turno?.estadoTurno)}}
+            </li>
+            <li>
+                Comtario/Resenia: {{turno?.comentario}}
+            
+            <li>
+                Calificacion: {{turno?.atencionCalificada}}
+            </li>
+            </ul> 
+            
+        </div> 
+    </div>
+</div>

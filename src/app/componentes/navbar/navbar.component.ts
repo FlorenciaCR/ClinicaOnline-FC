@@ -12,6 +12,8 @@ export class NavbarComponent implements OnInit {
   usuarioLogueado = this.firebase.getCurrentUser();
   estaLogueado : any = null;
   esAdministrador:boolean=false;
+
+  tipoUsuarioLogueado: any;
   
   constructor(public firebase:FirebaseService, private router: Router)
   {
@@ -25,7 +27,13 @@ export class NavbarComponent implements OnInit {
   ObtenerUsuarioLogueado()
   {
     this.firebase.getCurrentUser().subscribe(res =>{
-      console.log('ObtenerEmailUsuarioLogueado: '+ res?.email);
+      //console.log('ObtenerEmailUsuarioLogueado: '+ res?.email);
+      this.firebase.getUsuario(res?.uid).subscribe(res=>{
+        let aux = res.data();
+        this.tipoUsuarioLogueado =aux?.['tipoUsuario'] 
+        
+
+      })
       this.estaLogueado = res ? true: false;
     })
   }
