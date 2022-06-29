@@ -285,6 +285,10 @@ export class FirebaseService {
     return this.firestore.collection("logs").add(user);
   }
 
+  agregarLog(coleccion:string,datos:any){
+    this.firestore.collection(coleccion).add(datos);
+  }
+
   traerLogs()
   {
     // return this.logs;

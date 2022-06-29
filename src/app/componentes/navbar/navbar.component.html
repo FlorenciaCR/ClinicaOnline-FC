@@ -14,9 +14,9 @@
             <a class="nav-link" [routerLink]="['/usuarios']">Usuarios</a>
           </li>
           <li class="nav-item" *ngIf="estaLogueado">
-            <a class="nav-link" [routerLink]="['/perfil']">Perfil</a>
+            <a class="nav-link"  [routerLink]="['/perfil']">Perfil</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="tipoUsuarioLogueado =='paciente' ||tipoUsuarioLogueado =='administrador'  ">
             <a class="nav-link" [routerLink]="['/turno/solicitarTurno']">Solicitar turnos</a>
           </li>
           <li class="nav-item" *ngIf="estaLogueado">
@@ -25,14 +25,17 @@
           <li class="nav-item" *ngIf="tipoUsuarioLogueado =='administrador'">
             <a class="nav-link" [routerLink]="['/turno/gestionTurnos']">Gestion turnos</a>
           </li>
-          <li>
+          <li *ngIf="tipoUsuarioLogueado =='especialista'">
             <a class="nav-link" [routerLink]="['/seccionPacientes']">Seccion pacientes</a>
+          </li>
+          <li *ngIf="tipoUsuarioLogueado =='administrador'">
+            <a class="nav-link" [routerLink]="['/estadisticas']">Estadisticas</a>
           </li>
 
         </ul>
 
         <div class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" *ngIf=" usuarioLogueado | async as usuarioLogueado">
-          <p class="nav-item" style="color: white;">{{usuarioLogueado.email}}</p>
+          <p class="nav-item" style="color: white;">👤: {{usuarioNombre}}</p>
         </div>
         <div class="text-end"  *ngIf="usuarioLogueado | async as usuarioLogueado">
           <button type="button" class="btn btn-outline-light me-2" (click)="CerrarSesion()" [routerLink]="['/login']"> Log Out</button>

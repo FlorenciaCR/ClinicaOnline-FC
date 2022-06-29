@@ -9,15 +9,16 @@
 					<h1 class="mb-3 mt-3">Clinica Laboratorio</h1>
 					
 					<p class="mb-4 pr-5">Bienvenido a la clinica, por favor loguearse para acceder</p>
-					<div class="btn-container contenedorBotones">
-						<button [routerLink]="['/login']">Entrar</button>
-                        <button class="btnRegistro" [routerLink]="['/registro']">Registro</button>
+					<div class="contenedorBotones">
+						<button appAgrandar  [routerLink]="['/login']">Entrar</button>
+                        <button appAgrandar class="btnRegistro" [routerLink]="['/registro']">Registro</button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </section>
+
 <!-- <div class="container">
     <div class="row justify-content-center">
         <div class="col-lg-7 text-center">

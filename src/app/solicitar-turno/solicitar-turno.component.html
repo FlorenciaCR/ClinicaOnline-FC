@@ -91,11 +91,12 @@
         <div  *ngIf="tieneDiasDisponibles" class="divListado2">
           <div class="divListado2">
             <div class="dias">
-              <button *ngFor="let dia_ of fechasDisponiblesParaTurno" class="btnRegistro" type="button" (click)="seleccionarFechaTurno(dia_)">   {{dia_.toDateString()}} </button>
+              <button *ngFor="let dia_ of fechasDisponiblesParaTurno" class="btnRegistro" type="button" (click)="seleccionarFechaTurno(dia_)">{{dia_ | fecha}}</button>
             </div>
             <br>
               <div class="divHoras">
-                <button *ngFor="let hora of horasDisponibles" class="btnDia" type="button"  (click)="seleccionarHora(hora)"> {{hora.getHours()}}:{{hora.getMinutes()}} </button>
+                <button *ngFor="let hora of horasDisponibles" class="btnDia" type="button"  (click)="seleccionarHora(hora )">{{hora | date :'H:mm'}} </button>
+
               </div>
           </div>
         </div>

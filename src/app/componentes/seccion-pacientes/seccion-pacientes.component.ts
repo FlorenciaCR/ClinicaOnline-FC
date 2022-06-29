@@ -98,7 +98,7 @@ export class SeccionPacientesComponent implements OnInit {
           turno.fecha = new Date(inf.fecha) 
           turno.estadoTurno= inf.estadoTurno
           turno.id= inf.id
-          turno.atencionCalificada=inf.atencionCalificada
+          turno.calificacion=inf.calificacion
           turno.comentario=inf.comentario
           turno.resenia=inf.resenia
 

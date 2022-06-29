@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BienvenidoComponent } from './componentes/bienvenido/bienvenido.component';
+import { EstadisticasComponent } from './componentes/estadisticas/estadisticas.component';
 import { LoginComponent } from './componentes/login/login.component';
 import { PerfilComponent } from './componentes/perfil/perfil.component';
 import { RegistroComponent } from './componentes/registro/registro.component';
@@ -18,7 +19,8 @@ const routes: Routes = [
   {path: 'perfil', component: PerfilComponent,data: { animation: 'MiPerfilPage' }},
   {path: 'turno', loadChildren: () => import('./modulos/turno-module/turno-module.module').then(m => m.TurnoModuleModule)},
   {path: 'seccionUsuarios', component: SeccionUsuariosComponent,data: { animation: 'MiPerfilPage' }},
-  {path: 'seccionPacientes', component: SeccionPacientesComponent}
+  {path: 'seccionPacientes', component: SeccionPacientesComponent},
+  {path: 'estadisticas', component: EstadisticasComponent},
 ];
 
 @NgModule({

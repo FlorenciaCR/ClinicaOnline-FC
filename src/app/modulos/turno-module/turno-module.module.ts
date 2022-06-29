@@ -7,12 +7,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
+
 @NgModule({
   declarations: [MisTurnosComponent],
   imports: [
     CommonModule,
     TurnoModuleRoutingModule,
-    FormsModule,ReactiveFormsModule,
+    FormsModule,
+    ReactiveFormsModule,
+    
     
   ]
 })

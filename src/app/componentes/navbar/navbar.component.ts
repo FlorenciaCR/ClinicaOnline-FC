@@ -12,6 +12,7 @@ export class NavbarComponent implements OnInit {
   usuarioLogueado = this.firebase.getCurrentUser();
   estaLogueado : any = null;
   esAdministrador:boolean=false;
+  usuarioNombre:any=false;
 
   tipoUsuarioLogueado: any;
   
@@ -31,6 +32,7 @@ export class NavbarComponent implements OnInit {
       this.firebase.getUsuario(res?.uid).subscribe(res=>{
         let aux = res.data();
         this.tipoUsuarioLogueado =aux?.['tipoUsuario'] 
+        this.usuarioNombre = aux?.['nombre'];
         
 
       })

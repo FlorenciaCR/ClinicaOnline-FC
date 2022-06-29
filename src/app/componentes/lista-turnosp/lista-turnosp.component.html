@@ -7,7 +7,7 @@
              Fecha: {{turno?.fecha.toLocaleDateString()}}
             </li>
             <li>
-              <strong>Paciente:</strong>  {{turno?.paciente.nombre}}, {{turno?.paciente.apellido}} <img src="{{turno?.paciente.imgsPerfil[0]}}" alt="" width="20px" height="20px"><img src="{{turno?.paciente.imgsPerfil[1]}}" alt="" width="20px" height="20px">
+              <strong>Paciente:</strong>  {{turno?.paciente.nombre}}, {{turno?.paciente.apellido}}<img src="{{turno?.paciente.imgsPerfil[1]}}" alt="" width="20px" height="20px">
               
             </li>
             <li>
@@ -22,11 +22,8 @@
               Estado del turno: {{obtenerEstadoTurno(turno?.estadoTurno)}}
             </li>
             <li>
-                Comtario/Resenia: {{turno?.comentario}}
-            
-            <li>
-                Calificacion: {{turno?.atencionCalificada}}
-            </li>
+                Resenia: {{turno?.comentario}}   
+            </li>       
             </ul> 
             
         </div> 

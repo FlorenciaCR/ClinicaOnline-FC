@@ -100,7 +100,7 @@ export class MisTurnosComponent implements OnInit {
                 turno.fecha = new Date(inf.fecha) 
                 turno.estadoTurno= inf.estadoTurno
                 turno.id= inf.id
-                turno.atencionCalificada=inf.atencionCalificada
+                turno.calificacion=inf.calificacion
                 turno.comentario=inf.comentario
                 turno.resenia=inf.resenia
     
@@ -272,8 +272,8 @@ export class MisTurnosComponent implements OnInit {
        this.filtroEspecialidades=false
      }
      this.filtroEspecialista = !this.filtroEspecialista
-     
    }
+
    activarFiltroEspecialidades(){
     if(!this.filtroEspecialidades){
       this.filtroEspecialista=false
@@ -291,8 +291,6 @@ export class MisTurnosComponent implements OnInit {
      this.filtroEspecialista=false
      this.filtroEspecialidades=false
      this.filtroAplicado=false
- 
-
    }
  
    seleccionarTurnoParaComentario(turno:Turno){
@@ -559,9 +557,6 @@ export class MisTurnosComponent implements OnInit {
         .catch(err=>{
           console.log("error al actualizar pacientes atendidos")
         })
-
-
-
 
       this.ts.success('Turno finalizado');
         console.log('turno finalizado con exito')

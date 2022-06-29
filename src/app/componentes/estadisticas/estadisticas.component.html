@@ -1,0 +1,61 @@
+<div style="margin-top: 100px; background-color:rgb(254, 254, 254);">
+    <br>
+    <div class="d-flex justify-content-center align-items center">
+        <img *ngIf="spinner" src="../../../assets/imgRegistro/loading-icegif-1.gif" alt="imagenSubida" class="gifCargando" width="100px" height="100px">
+    </div>
+
+    <div class="padreGraficos">
+        <div class="divGraficos1">
+            <div class="grafico">
+                <h4>Cantidad de turnos por especialiadad</h4>
+                    <canvas id="myChart" ></canvas>
+            </div>
+            
+            <div class="grafico">
+                <h4>Cantidad de turnos por dia</h4>
+                <canvas id="myChart2" ></canvas>
+            </div>
+        </div>
+    
+        <div class="divGraficos2">
+            <div class="grafico">
+                <h4>Cantidad de turnos por dia</h4>
+                <canvas id="myChart3" ></canvas>
+            </div>
+            <div class="grafico">
+                <h4>Logs de usuarios</h4>
+                <table class="table"  id="excel-table">
+                    <thead>
+                      <tr style="background-color: pink; border-radius: 5px;">
+                        <th  scope="col">usuario</th>
+                        <th scope="col">email</th>
+                        <th scope="col">fecha</th>
+                        <th scope="col">horario</th>
+                        <th  scope="col">tipoUsuario</th>             
+                      </tr>
+                    </thead>
+                    <tbody *ngFor="let log of listaLogs" >
+                      <tr>
+                        <td>{{log?.usuario}}</td>
+                        <td>{{log?.email}}</td>
+                        <td>{{log?.fecha}}</td>
+                        <td>{{log?.horario}}</td>
+                        <td>{{log?.tipoUsuario}}</td>
+                      </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    
+
+
+
+
+    <!-- <div  id="divChart" class="contenedorGraficos">
+        <h2 class="titulo">Turnos pedidos por Semana</h2>
+        <canvas id="myChart" ></canvas>
+    </div> -->
+
+</div>

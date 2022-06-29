@@ -5,7 +5,7 @@
       </div>
     <br>
     <div *ngIf="poseePaciente"  style="display:flex; justify-content: space-around;">
-        <div *ngFor="let paciente of listadoPacientes" style="border: 1px solid red;">
+        <div *ngFor="let paciente of listadoPacientes" >
                 <button  class="shadow buttonPaciente" style="padding:10px;"  (click)="pacienteSeleccionado(paciente)">
                     <br>
                     <br>

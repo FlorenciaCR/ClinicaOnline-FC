@@ -13,7 +13,9 @@ export class Turno {
     resenia:string=''
     estadoTurno:number=0
     hizoEncuesta:boolean=false
-    atencionCalificada:number=0
+    calificacion:any=0
+    encuesta:any=''
+    idHistorial:string=''
     
     constructor(duracion:number=30){
         this.duracion=duracion

@@ -3,12 +3,18 @@
     color: white;
     background-color: green;
     border-radius: 5px;
+    width: 70px;
+    height: 20px;
+    font-size: 12px;
 
 }
 .button2{
     border-style: none;
     background-color: red;
     border-radius: 5px;
+    width: 70px;
+    height: 20px;
+    font-size: 12px;
 }
 
 .divider {
@@ -49,6 +55,23 @@
     transition: all .35s ease;
 }
 
+.buttonHistorial{
+    width: 60px;
+    height: 20px;
+    font-size: 11px;
+    border-radius: 10px;
+    background: #223a66;
+    color: #fff;
+    border-color: #223a66;
+}
+
+
+.buttonHistorial:hover{
+    background: #e12454;
+    color: #fff;
+    border-color: #e12454;
+}
+
 .btnRosa:hover{
     background: #223a66;
     color: #fff;
@@ -59,4 +82,17 @@
     background: #e12454;
     color: #fff;
     border-color: #e12454;
+}
+
+.buttonPaciente{
+    border-radius: 100px;
+    height: 90%;
+    width: 90%;
+}
+   .divListadoPadre{
+    display: flex;
+    flex-direction: column;
+    //border: 1px solid red;
+    justify-content: space-around;
+
 }

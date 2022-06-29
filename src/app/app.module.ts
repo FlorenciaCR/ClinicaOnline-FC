@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BienvenidoComponent } from './componentes/bienvenido/bienvenido.component';
@@ -25,7 +24,13 @@ import { SeccionPacientesComponent } from './componentes/seccion-pacientes/secci
 import { HistorialClinicoComponent } from './componentes/historial-clinico/historial-clinico.component';
 import { EstadoHistoriaClinicaPipe } from './pipes/estado-historia-clinica.pipe';
 import { ListaTurnospComponent } from './componentes/lista-turnosp/lista-turnosp.component';
-import { TipoUsuarioPipe } from './pipes/tipo-usuario.pipe';
+import { FechaPipe } from 'src/app/pipes/fecha.pipe';
+import { HoraPipe } from './pipes/hora.pipe';
+import { AgrandarDirective } from './directivas/agrandar.directive';
+import { BordeDirective } from './directivas/borde.directive';
+import { ColorDirective } from './directivas/color.directive';
+import { EstadisticasComponent } from './componentes/estadisticas/estadisticas.component';
+
 
 @NgModule({
   declarations: [
@@ -42,12 +47,17 @@ import { TipoUsuarioPipe } from './pipes/tipo-usuario.pipe';
     PerfilComponent,
     SolicitarTurnoComponent,
     TurnosComponent,
-    TipoUsuarioPipe,
     SeccionUsuariosComponent,
     SeccionPacientesComponent,
     HistorialClinicoComponent,
     EstadoHistoriaClinicaPipe,
-    ListaTurnospComponent
+    ListaTurnospComponent,
+    HoraPipe,
+    FechaPipe,
+    AgrandarDirective,
+    BordeDirective,
+    ColorDirective,
+    EstadisticasComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +73,7 @@ import { TipoUsuarioPipe } from './pipes/tipo-usuario.pipe';
     })
    
   ],
-  providers: [EstadoHistoriaClinicaPipe, TipoUsuarioPipe],
+  providers: [EstadoHistoriaClinicaPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

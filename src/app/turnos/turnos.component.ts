@@ -76,7 +76,7 @@ export class TurnosComponent implements OnInit {
           turno.fecha = new Date(inf.fecha) 
           turno.estadoTurno= inf.estadoTurno // pendiente
           turno.id= inf.id
-          turno.atencionCalificada=inf.atencionCalificada
+          turno.calificacion=inf.calificacion
           turno.comentario=inf.comentario
           turno.resenia=inf.resenia
   

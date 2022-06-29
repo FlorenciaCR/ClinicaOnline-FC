@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Especialista } from 'src/app/entidades/especialista';
 import { Paciente } from 'src/app/entidades/paciente';
+import { Turno } from 'src/app/interfaces/turno';
 import { FirebaseService } from 'src/app/servicios/firebase.service';
 import * as XLSX from 'xlsx'; 
 
@@ -16,12 +17,18 @@ export class UsuariosListadoComponent implements OnInit {
 
 
     /*name of the excel-file which will be downloaded. */ 
-    fileName= 'usuariosClinica.xlsx';  
+  fileName= 'usuariosClinica.xlsx';  
+  fileName2= 'turnosDelUsuario.xlsx';  
 
-    mostrarHistorial : boolean=false;
-  
-  
+  tablaTodosUsuarios:boolean=true;
 
+  mostrarHistorial : boolean=false;
+  
+  filtroPaciente:boolean = false
+  filtroEspecialista:boolean = false
+  listaTurnos:Turno[]=[]
+  listaAuxTurnos:Turno[]=[]
+  turnosCargados:boolean = false
 
   listaActualizadaUsuarios:any[]=[]
 
@@ -29,15 +36,25 @@ export class UsuariosListadoComponent implements OnInit {
   listaEspecialistas:any[]=[]
   listaAdministradores:any[]=[]
   usuarioSeleccionado:any;
+  tipoUsuarioLogueado:any;
 
   spinnerImgSubiendose:boolean=false;
   constructor(private firebase:FirebaseService,) {
     this.spinnerImgSubiendose=true;
     setTimeout(() => {
+      this.firebase.getCurrentUser().subscribe(obs=>{
+        if(obs!=null)
+        {
+          this.firebase.getUsuario(obs.uid).subscribe(res=>{
+            let aux = res.data();
+            this.tipoUsuarioLogueado =aux?.['tipoUsuario'] 
+          })
+        }
+      })
       
       this.firebase.obtenerTodos('usuariosColeccion').subscribe(data=>{
         this.listaActualizadaUsuarios=[];
-        console.log("data ", data)
+        //console.log("data ", data)
         data.forEach(value=>{
           let usuario : any ={
             uid:value.uid,
@@ -53,12 +70,49 @@ export class UsuariosListadoComponent implements OnInit {
             imgPerfil : value.imgPerfil,
             imgsPerfil :value.imgsPerfil,
             historialClinico: value.historialClinico
-
           }
           this.listaActualizadaUsuarios.push(usuario);
-          this.cargarListados();
+          //this.cargarListados();
+
+            this.firebase.obtenerTodos('turnos').subscribe(res=>{
+              let turnos : Turno[]=[];
+              res.forEach(inf=>{
+                let turno = new Turno();
+                turno.duracion= inf.duracion
+                turno.especialidad= inf.especialidad
+                turno.especialista = inf.especialista
+                turno.paciente = inf.paciente
+                turno.fecha = new Date(inf.fecha) 
+                turno.estadoTurno= inf.estadoTurno
+                turno.id= inf.id
+                turno.calificacion=inf.calificacion
+                turno.comentario=inf.comentario
+                turno.resenia=inf.resenia
+
+                //if(this.tipoUsuarioLogueado == 'administrador'){
+                  turnos.push(turno)
+                //}
+                // }else if(turno.especialista.tipoUsuario == 'especialista'){
+                //   if(turno.especialista.uid === usuario.uid){
+                //     turnos.push(turno)
+                //   }  
+                // }else if(turno.paciente.tipoUsuario == 'paciente'){
+                //   if(turno.paciente.uid === usuario.uid){
+                //     turnos.push(turno)
+                //   } 
+                // }
+              })
+              this.listaTurnos=turnos
+              this.listaAuxTurnos=turnos
+              this.turnosCargados=true
+
+              console.log('lista turnos completa',this.listaAuxTurnos)
+            })
+
+          
         })
-        console.log("lista", this.listaActualizadaUsuarios)
+        //console.log("lista", this.listaActualizadaUsuarios)
+     
       })
 
       this.spinnerImgSubiendose=false;
@@ -81,6 +135,7 @@ export class UsuariosListadoComponent implements OnInit {
 
   exportexcel(): void 
   {
+    
      /* table id is passed over here */   
      let element = document.getElementById('excel-table'); 
      const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
@@ -91,6 +146,40 @@ export class UsuariosListadoComponent implements OnInit {
 
      /* save to file */
      XLSX.writeFile(wb, this.fileName);
+    
+  }
+  obtenerEstadoTurno(n:number){
+    let e = '-';
+    switch(n){
+      case 1:
+        e = 'pendiente'
+        break;
+      case 2:
+        e = 'aceptado'
+        break;
+      case 3:
+        e = 'realizado'
+        break;
+      case 6:
+        e = 'cancelado'
+        break;     
+    }
+    return e;
+  }
+  exportexcel2(): void 
+  {
+    console.log("lista excel listaTurnos", this.listaTurnos)
+
+     /* table id is passed over here */   
+     let element = document.getElementById('excel-tableTurnoUsuario'); 
+     const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
+
+     /* generate workbook and add the worksheet */
+     const wb: XLSX.WorkBook = XLSX.utils.book_new();
+     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+     /* save to file */
+     XLSX.writeFile(wb, this.fileName2);
     
   }
 
@@ -113,19 +202,84 @@ export class UsuariosListadoComponent implements OnInit {
   }
 
 
-  seleccionarUsuario(usuario:any)
+  seleccionarPacienteHistorial(usuario:any)
   {
     this.usuarioSeleccionado = usuario;
     console.log(this.usuarioSeleccionado)
     this.mostrarHistorial=true;
   }
 
+ // seleccionarUsuario
+
   cerrarHistorial()
   {
     this.mostrarHistorial=false;
   }
 
+  seleccionarPacienteParaFiltrar(paciente:Paciente){
+    this.filtrarTurnosxPaciente(paciente)
+    //this.filtroAplicado=true
+    //this.filtroPaciente=false
+ }
+   seleccionarEspecialistaParaFiltrar(especialista:Especialista){
+     this.filtrarTurnosxEspecialista(especialista)
+     //this.filtroAplicado=true
+     //this.filtroEspecialista=false
+     
+}
 
+
+
+
+filtrarTurnosxPaciente(pac:Paciente){
+  let listaFiltrada = this.listaAuxTurnos.filter(value=> {
+    if( value.paciente.uid == pac.uid ){
+      console.log("encontro paciente: ", value.paciente.nombre)
+    }
+    return value.paciente.uid == pac.uid 
+    })
+  this.listaTurnos=listaFiltrada
+  console.log('Listado de turnos del paciente selecc: ',  this.listaTurnos)
+}
+
+ filtrarTurnosxEspecialista(esp:Especialista){
+  //console.log("esp uid: ", esp.uid)
+  //console.log("lista aux turnos: ", this.listaAuxTurnos)
+  let listaFiltrada = this.listaAuxTurnos.filter(value=> {
+    if( value.especialista.uid == esp.uid ){
+      console.log("encontro especialista: ", value.especialista.nombre)
+    }
+    return value.especialista.uid == esp.uid 
+    })
+  //console.log("lista filtrada esp", listaFiltrada)
+  this.listaTurnos=listaFiltrada
+  console.log('Listado de turnos del especialista selecc: ',this.listaTurnos)
+}
+
+filtrarTurnoUsuarioExcel(usuario:any)
+{
+  //alert('suario clickeado : ' + usuario.tipoUsuario);
+  console.log("tipo paciente", usuario.tipoUsuario)
+  if(usuario.tipoUsuario=='paciente'){
+    this.filtrarTurnosxPaciente(usuario);
+  setTimeout(() => {
+    this.exportexcel2();
+  }, 3000);
+
+  }else if(usuario.tipoUsuario=='especialista')
+  {
+    this.filtrarTurnosxEspecialista(usuario)
+    
+  setTimeout(() => {
+    this.exportexcel2();
+  }, 3000);
+  }else{
+    alert('los amdins no tienen turnos')
+  }
+
+
+  
+}
 
 
   // public listaPaciente : Paciente[] = [];

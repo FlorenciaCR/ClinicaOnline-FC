@@ -116,8 +116,101 @@
 
   </div>
 
+  <!--HISTORIAL CLINICO-->
+  <div *ngIf="tipoUsuarioLogueado == 'paciente'">
+    <app-historial-clinico [idPaciente]="miUsuario?.uid"></app-historial-clinico>
+  </div>
+
+  <!--Filtro de especialistas y turnos con el especialista seleccionado-->
+  <div *ngIf="tipoUsuarioLogueado == 'paciente'"   >
+    <h6>Filtrar los turnos:</h6>
+    <button appColor style="margin: 5px; width: 10% ;height:8%; " type="button" class="btn btn-outline-info" (click)="activarFiltroEspecialistas()" >Por: Especialista</button>
+    <button *ngIf="filtroAplicado" style="margin: 10px;color: white; " type="button" class="btn btn-danger" (click)="eliminarFiltros()"> Eliminar Filtro </button>
+
+    <div  *ngIf="filtroEspecialista">
+      <div class="d-flex flex-column justify-content-center align-items-center" style="background-color: pink; border-radius: 5px;">
+        <h5>Especialistas</h5>
+      </div>
+      <br>
+        <div class="divider text-center"></div>
+
+        <div class="container-fluid d-flex justify-content-space-around ">
+          <div *ngFor="let usuario of listadoEspecialistas" class="cardInfo">
+            <ul style="border: solid 2px #223A66; list-style: none; border-radius: 10px;padding:10px;background-color: white;">
+              <li>Nombre: {{usuario?.nombre}}</li>
+              <li>Apellido: {{usuario?.apellido}}</li>
+              <li>Opcion: <button  style="margin: 10px;color: white; " type="button" class="btnRegistro" (click)="seleccionarEspecialistaParaFiltrar(usuario)" >Elegir</button></li>
+            </ul>
+          </div>
+        </div>
+    </div>
+
+    <div *ngIf="filtroAplicado">
+      <div style="background-color: white;" id="turnosListadoPDF" #turnosListadoPDF>
+        <div class="d-flex flex-start ">
+          <img src="../../../assets/iconoClinica.png" alt="" width="30px" height="30px">
+          <h3 style="margin-left: 5px;">Clinica Online </h3>
+        </div>
+        <h5>Turnos del paciente</h5>
+        <p>Fecha: {{fechaActual | date :'dd/MM/yyyy'}}</p>
+        <table  class="table">
+          <thead>
+            <tr style="background-color: pink; border-radius: 5px;">
+              <th scope="col">Paciente</th>
+              <th scope="col">Especialista</th>
+              <th scope="col">Fecha turno</th>
+              <th  scope="col">Estado del turno</th>
+              <th  scope="col">Obrasocial</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let turno of listaTurnos" >
+            <tr>
   
-  <app-historial-clinico [idPaciente]="miUsuario?.uid"></app-historial-clinico>
-  
-    
+              <td>{{turno?.paciente.nombre}}, {{turno?.paciente.nombre}}</td>
+              <td>{{turno?.especialista.nombre}},{{turno?.especialista.nombre}}</td>
+              <td> {{turno?.fecha.toLocaleDateString()}}</td>
+              <td>{{obtenerEstadoTurno(turno?.estadoTurno)}}</td>
+              <td>{{turno?.paciente.obraSocial}}</td>
+            </tr>
+          </tbody>
+        </table>  
+      </div>
+      <button (click)="crearPDFturnos()">Descargar PDF</button>
+    </div>
+
+
+    <!-- <div *ngIf="listaTurnos.length > 0">
+      <div *ngFor="let turno of listaTurnos" class="shadow cardInfo" >
+        <ul style="border: solid 2px #223A66; list-style: none; border-radius: 10px;padding:10px; ">
+          <li>
+          Fecha: {{turno?.fecha.toLocaleDateString()}}
+          </li>
+          <li>
+            <strong>Especialista:</strong>
+            {{turno?.especialista.nombre}}, {{turno?.especialista.apellido}}
+          </li>
+          <li>
+            <strong>Paciente:</strong>  {{turno?.paciente.nombre}}, {{turno?.paciente.apellido}} <img src="{{turno?.paciente.imgsPerfil[0]}}" alt="" width="20px" height="20px"><img src="{{turno?.paciente.imgsPerfil[1]}}" alt="" width="20px" height="20px">
+            
+          </li>
+   
+          <li>
+            <strong>Especialidad:</strong>
+        {{turno?.especialidad.especialidad}}
+          </li>
+          <li>
+            Estado del turno: {{obtenerEstadoTurno(turno?.estadoTurno)}}
+          </li>
+        </ul>
+      </div>
+    </div> -->
+    <div *ngIf="listaTurnos.length ==0">
+      <p>No tiene turnos con ese especialista.</p>
+    </div>
+
+
+
+
+
+  </div>
 </div>

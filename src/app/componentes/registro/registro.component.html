@@ -28,8 +28,9 @@
                 </div>
 
             
-                <!--*ngIf="this.firebaseService.tipoUsuario == 'administrador'"-->
+              
                 <div *ngIf="this.firebaseService.tipoUsuario == 'administrador'"  class="feature-item mb-5 mb-lg-0" style="display:flex; flex-direction:column; justify-content:center; align-items:center;">
+
                     <div>
                         <button class="botonRegistro" (click)='tipo = "administrador"'>
                             <img src="../../../assets/usuarios/admin.png" alt=""width="250px" height="250px">
@@ -38,25 +39,25 @@
                     <div>
                         <h4 class="mb-3" >Registro administrador</h4>
                     </div>
-                </div>
+            </div>
   
 
-            </div>
+        </div>
         </div>
     </div>
   
    <!---------------------------------REGISTROS------------------------------------------>
-   <div *ngIf="this.tipo == 'paciente'">
-     <app-registro-paciente></app-registro-paciente>
+    <div *ngIf="this.tipo == 'paciente'">
+        <app-registro-paciente></app-registro-paciente>
     </div>
    
     <div *ngIf="this.tipo == 'especialista'">
-    <app-registro-especialista></app-registro-especialista>
-   </div>
+        <app-registro-especialista></app-registro-especialista>
+    </div>
 
-   <!--*ngIf="this.tipo == 'administrador'"-->
     <div *ngIf="this.tipo == 'administrador'">
-    <app-registro-admin></app-registro-admin>
+   
+        <app-registro-admin></app-registro-admin>
    </div>
 
 

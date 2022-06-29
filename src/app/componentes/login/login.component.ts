@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { FirebaseService } from 'src/app/servicios/firebase.service';
 
 @Component({
@@ -18,8 +19,9 @@ export class LoginComponent implements OnInit {
   acceso: boolean = false;
   emailu : any;
   passu : any;
+  miUsuario:any;
 
-  constructor(private firebase :FirebaseService,private fb :FormBuilder, private router : Router) 
+  constructor(private firebase :FirebaseService,private fb :FormBuilder, private router : Router, private ts : ToastrService) 
   {
     this.firebase.obtenerTodos2('usuariosColeccion').subscribe(data=>{
  
@@ -48,7 +50,31 @@ export class LoginComponent implements OnInit {
       if(value.email == this.forma.value.email && value.password == this.forma.value.password){
         this.firebase.logIn(this.forma.value.email,this.forma.value.password)
         .then(res =>{
-            this.router.navigate(['bienvenido'])
+          if(value.tipoUsuario == 'especialista')
+          {
+            if(value.habilitado !== true)
+            {
+              this.ts.error('Especialista no habilitado');
+              this.firebase.logOut()
+            }else{
+
+              this.miUsuario = value;
+              this.enviarLogUsuario();
+
+              setTimeout(() => {
+                this.router.navigate(['bienvenido'])
+              }, 1800);
+            
+
+            }
+          }else{
+            this.miUsuario = value;
+            this.enviarLogUsuario();
+            setTimeout(() => {
+              this.router.navigate(['bienvenido'])
+            }, 1800);
+           
+          }
         })
         .catch(err =>{
           this.mensaje  = 'Error'
@@ -105,6 +131,24 @@ export class LoginComponent implements OnInit {
     this.passu = password;
   } 
 
+
+  enviarLogUsuario(){
+    let hoy = new Date();
+    let fecha = hoy;
+    let horario = hoy.getHours() < 10 ? '0'+hoy.getHours() + ':' : hoy.getHours() + ':';
+    horario += hoy.getMinutes() < 10 ? '0'+hoy.getMinutes() + ':' : hoy.getMinutes() + ':';
+    horario += hoy.getSeconds() < 10 ? '0'+hoy.getSeconds() : hoy.getSeconds();
+    let datos = {
+      usuario: this.miUsuario.nombre + " " + this.miUsuario.apellido,
+      email: this.miUsuario.email,
+      tipoUsuario: this.miUsuario.tipoUsuario,
+      fecha: fecha.toDateString(),
+      horario: horario,
+    }
+    console.log('Datos del log a enviar',datos)
+    this.firebase.agregarLog("logUsuarios",datos)
+    //this.fireStoreService.agregarLogIngreso("LogIngresos",datos);
+  }
 
 
 

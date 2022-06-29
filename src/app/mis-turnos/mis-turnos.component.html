@@ -100,7 +100,7 @@
           <button *ngIf="turno.estadoTurno!= 3 && turno.estadoTurno != 6 && turno.estadoTurno==1"  style="margin: 10px;color: white; " type="button" class="btn btnRosa" (click)="aceptarTurno(turno)"  >Aceptar</button>
           <button *ngIf="turno.resenia || turno.comentario "  style="margin: 10px;color: white; " type="button" class="btnRegistro"  data-toggle="modal" data-target="#exampleModal2" (click)="seleccionarTurnoParaComentario(turno)"  >Resenia</button> -->
           <!--Todos los que faltan  hizoEncuesta:boolean=false
-    atencionCalificada:number=0-->
+    calificacion:number=0-->
     <!--Los dos cancelarn, ver resenia-->
     <!--Paciente completa encuesta, califica atencion-->
     <!--especialista: rechazar, aceptar, finalizar-->
@@ -113,17 +113,17 @@
     <div  *ngIf="tipoUsuarioLogueado=='paciente'">
       <button *ngIf="turno.estadoTurno === 3 &&  turno.hizoEncuesta == false"  style="margin: 10px;color: black; " type="button" class="btn btn-warning"  data-toggle="modal" data-target="#exampleModal3" (click)="realizarEncuesta(turno)"  >  Realizar Encuesta  </button>
       <button *ngIf=" turno.hizoEncuesta"  style="margin: 10px;color: black; " type="button" class="btn btn-success"    >Encuesta realizada  </button>
-      <button *ngIf="turno.estadoTurno === 3 && !turno.atencionCalificada"  style="margin: 10px;color: black;background-color: blueviolet; " type="button" class="btn "  data-toggle="modal" data-target="#exampleModal4" (click)="calificar(turno)"  >  Calificar  </button>
-      <button *ngIf="turno.atencionCalificada"  style="margin: 10px;color: black;background-color: blueviolet; " type="button" class="btn "   >Calificado   </button> 
+      <button *ngIf="turno.estadoTurno === 3 && !turno.calificacion"  style="margin: 10px;color: black;" type="button" class="btn "  data-toggle="modal" data-target="#exampleModal4" (click)="calificar(turno)"  >  Calificar  </button>
+      <button *ngIf="turno.calificacion"  style="margin: 10px;color: black;" type="button" class="btn "   >Calificado   </button> 
     </div>
 
     <div *ngIf="tipoUsuarioLogueado=='especialista'">
-      <button *ngIf="turno.estadoTurno != 3 && turno.estadoTurno != 4 && turno.estadoTurno != 6 && turno.estadoTurno != 2 "  style="margin: 10px;color: black; background-color: #39ff14; " type="button" class="btn " (click)="aceptarTurno(turno)"  >Aceptar  Turno </button>
+      <button *ngIf="turno.estadoTurno != 3 && turno.estadoTurno != 4 && turno.estadoTurno != 6 && turno.estadoTurno != 2 "  style="margin: 10px;color: black; " type="button" class="btn " (click)="aceptarTurno(turno)"  >Aceptar  Turno </button>
 
-      <button *ngIf="turno.estadoTurno != 3 && turno.estadoTurno != 6  && turno.estadoTurno != 4 "  style="margin: 10px;color: black; background-color: olive; " type="button" class="btn "data-toggle="modal" data-target="#exampleModal" (click)="justificarCancelamiento(turno,1)"  > Rechazar Turno </button>
+      <button *ngIf="turno.estadoTurno != 3 && turno.estadoTurno != 6  && turno.estadoTurno != 4 "  style="margin: 10px;color: black;  " type="button" class="btn "data-toggle="modal" data-target="#exampleModal" (click)="justificarCancelamiento(turno,1)"  > Rechazar Turno </button>
 
       <!--Realizar/Finalizar turno e historial clinico- especialista-->
-      <button *ngIf="turno.estadoTurno == 2 "  style="margin: 10px;color: black; background-color: #cd04d1; " type="button" class="btn "  data-toggle="modal" data-target="#exampleModal5"  (click)="seleccionarTurnoParaComentario(turno)"   >Finalizar Turno</button>      
+      <button *ngIf="turno.estadoTurno == 2 "  style="margin: 10px;color: black;  " type="button" class="btn "  data-toggle="modal" data-target="#exampleModal5"  (click)="seleccionarTurnoParaComentario(turno)"   >Finalizar Turno</button>      
       <!--2 aceptado, 3 finalizado-->
       <!-- <button *ngIf="turno.status == 3 "  style="margin: 10px;color: rgb(255, 255, 255); background-color: #000000; " type="button" class="btn "  data-bs-toggle="modal" data-bs-target="#exampleModal6"  (click)="seleccionarTurnoParaComentario(turno)">Generar Historial Clinico </button>    -->
 
