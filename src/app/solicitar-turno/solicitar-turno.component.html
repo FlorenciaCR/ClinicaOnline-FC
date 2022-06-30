@@ -76,7 +76,7 @@
         <br>
       </div>
    
-      <!--Listado fechas-->
+   
       <div *ngIf="especialistaSelected && isEspecialidadSelected && tipoUsuarioLogueado =='paciente'"  class="" style="border: black;">
         <div class="divInfo">
           <h6>Especialista y especialidad elegidos:</h6>
@@ -86,7 +86,6 @@
           <img src="{{especialistaSeleccionado.imgPerfil}}" width="30px" height="30px">
           <p>{{especialidadSeleccionada.especialidad}}</p>
         </div>
-
 
         <div  *ngIf="tieneDiasDisponibles" class="divListado2">
           <div class="divListado2">

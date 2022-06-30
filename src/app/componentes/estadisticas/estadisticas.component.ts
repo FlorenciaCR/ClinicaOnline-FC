@@ -65,7 +65,7 @@ export class EstadisticasComponent implements OnInit {
   @ViewChild ('graficospdf2', {static: false}) el2! : ElementRef
   @ViewChild ('graficospdf3', {static: false}) el3! : ElementRef
 
-  
+
   constructor(private firebase : FirebaseService,private fb:FormBuilder,private dateAdapter:DateAdapter<Date>,) 
   {
     this.dateAdapter.setLocale('es-ES');
@@ -340,34 +340,32 @@ export class EstadisticasComponent implements OnInit {
 
   turnosSolicitadosTemp(fechaInicio:Date,fechaFinal:Date){
 
-    // obtengo una copia de TODOS LOS TURNOS de la coleccion. 
     let auxTurnos:Turno[] = this.listaTurnos
 
-    console.log('TURNOS COMPLETOS')
+    console.log('Todos los turnos:')
     console.log(auxTurnos)
 
-     // FILTRO EXCLUSIVAMENTE POR LOS TURNOS QUE ESTEN DENTRO DEL RANDO INDICADO POR LAS FECHAS.
+     
      let auxTurnosFiltradosxFechas = auxTurnos.filter(turno=>{
       let auxFechaTurnoActual = new Date(turno.fecha)
-      console.log("fecha actual", auxFechaTurnoActual)
-      console.log("fecha final", fechaFinal)
+      // console.log("fecha actual", auxFechaTurnoActual)
+      // console.log("fecha final", fechaFinal)
       fechaFinal.setHours(23)
       fechaFinal.setMinutes(59)
       fechaFinal.setSeconds(59)
       return auxFechaTurnoActual>=fechaInicio && auxFechaTurnoActual<=fechaFinal
     })
 
-    //MAPEO LA LISTA PARA OBTENER TODOS LOS ESPECIALISTAS SEGUN LOS TURNOS, ADEMAS AÑADO CAMPO DE CANTIDAD. 
+
     let listaEspecialistasTurno = auxTurnosFiltradosxFechas.map(value=>{
     
       return {especialista:`${value.especialista.nombre} ${value.especialista.apellido}`,idEspecialista:value.especialista.uid,cantidad:0} 
     })
 
-    console.log('array de turnos filtrados por las fechas indicadas. ya mapeados SIN FILTRAR')
-    console.log(listaEspecialistasTurno)
+    // console.log('turnos fechas indicadas')
+    // console.log(listaEspecialistasTurno)
 
 
-    //PROBANDO FUNCIONES PARA FILTRAR EL ARRAY 
     var arrayConEspecialistasUnicos = listaEspecialistasTurno
     
     var hash :any = {};
@@ -377,12 +375,11 @@ export class EstadisticasComponent implements OnInit {
       return exists;
     });
     
-    console.log('arrayConEspecialistasUnicos YA FILTRADO ')
+    console.log('array turnos espe ')
     console.log(arrayConEspecialistasUnicos);
 
     let newArrayconCantidadesSinDuplicados =  arrayConEspecialistasUnicos
 
-    //RECORRO TODOS LOS TURNOS Y VOY COMPARANDO POR LOS ESPECIALISTAS YA FILTRADOS
     auxTurnosFiltradosxFechas.forEach(turnoAuxiliar=>{
       newArrayconCantidadesSinDuplicados.forEach(especialstaSinRepetir=>{
 
@@ -399,7 +396,6 @@ export class EstadisticasComponent implements OnInit {
     let auxValuesTurnosSolicitados:number [] = []
 
     newArrayconCantidadesSinDuplicados.forEach(value=>{
-      //obtengo los LABELS Y LOS VALORES
       auxLabelsTurnosSolicitados.push(`${value.especialista}(${value.cantidad})`)
       auxValuesTurnosSolicitados.push(value.cantidad)
     })
@@ -502,22 +498,24 @@ export class EstadisticasComponent implements OnInit {
   turnosRealizadosTemp(fechaInicio:Date,fechaFinal:Date){
 
     let retorno = false
-    // obtengo una copia de TODOS LOS TURNOS de la coleccion. 
+
     let auxTurnos:Turno[] = this.listaTurnos
 
-     // FILTRO EXCLUSIVAMENTE POR LOS TURNOS QUE ESTEN DENTRO DEL RANDO INDICADO POR LAS FECHAS.
+   
      let auxTurnosFiltradosxFechas = auxTurnos.filter(turno=>{
       let auxFechaTurnoActual = new Date(turno.fecha)
+      fechaFinal.setHours(23)
+      fechaFinal.setMinutes(59)
+      fechaFinal.setSeconds(59)
       return auxFechaTurnoActual>=fechaInicio && auxFechaTurnoActual<=fechaFinal&&turno.estadoTurno==3
     })
 
-    //MAPEO LA LISTA PARA OBTENER TODOS LOS ESPECIALISTAS SEGUN LOS TURNOS, ADEMAS AÑADO CAMPO DE CANTIDAD. 
+   
     let listaEspecialistasTurno = auxTurnosFiltradosxFechas.map(value=>{
     
       return {especialista:`${value.especialista.nombre} ${value.especialista.apellido}`,idEspecialista:value.especialista.uid,cantidad:0} 
     })
 
-    //PROBANDO FUNCIONES PARA FILTRAR EL ARRAY 
     var arrayConEspecialistasUnicos = listaEspecialistasTurno
     
     var hash :any = {};

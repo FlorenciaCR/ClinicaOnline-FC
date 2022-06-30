@@ -116,17 +116,23 @@
 
   </div>
 
-  <!--HISTORIAL CLINICO-->
+
   <div *ngIf="tipoUsuarioLogueado == 'paciente'">
     <app-historial-clinico [idPaciente]="miUsuario?.uid"></app-historial-clinico>
   </div>
 
-  <!--Filtro de especialistas y turnos con el especialista seleccionado-->
+
   <div *ngIf="tipoUsuarioLogueado == 'paciente'"   >
     <h6>Filtrar los turnos:</h6>
     <button appColor style="margin: 5px; width: 10% ;height:8%; " type="button" class="btn btn-outline-info" (click)="activarFiltroEspecialistas()" >Por: Especialista</button>
     <button *ngIf="filtroAplicado" style="margin: 10px;color: white; " type="button" class="btn btn-danger" (click)="eliminarFiltros()"> Eliminar Filtro </button>
 
+
+
+
+
+
+    
     <div  *ngIf="filtroEspecialista">
       <div class="d-flex flex-column justify-content-center align-items-center" style="background-color: pink; border-radius: 5px;">
         <h5>Especialistas</h5>
