@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild,ElementRef } from '@angular/core';
+import jsPDF from 'jspdf';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Especialista } from 'src/app/entidades/especialista';
@@ -7,13 +8,28 @@ import { Paciente } from 'src/app/entidades/paciente';
 import { Turno } from 'src/app/interfaces/turno';
 import { FirebaseService } from 'src/app/servicios/firebase.service';
 import { HorarioService } from 'src/app/servicios/horario.service';
-import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import{trigger,style,transition,animate, state} from'@angular/animations'
 
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.component.html',
-  styleUrls: ['./perfil.component.scss']
+  styleUrls: ['./perfil.component.scss'],
+  animations:[
+    trigger('arriba',[
+      state('void',style({
+        transform:'translateY(-100%)',
+        opacity:0
+      })),
+      transition(':enter',[
+        animate(1800,style({
+          transform:'translateY(0)',
+          opacity:1
+        }))
+      ])
+    ]),
+
+  ]
 })
 export class PerfilComponent implements OnInit {
 

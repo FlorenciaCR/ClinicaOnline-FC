@@ -12,13 +12,13 @@ import { UsuariosComponent } from './componentes/usuarios/usuarios.component';
 
 const routes: Routes = [
   {path:'', redirectTo: 'bienvenido',pathMatch:'full'},
-  {path: 'registro', component: RegistroComponent,data: { animation: 'RegistroPage' }},
-  {path: 'bienvenido', component: BienvenidoComponent,data: { animation: 'BienvenidoPage' }},
-  {path: 'login', component: LoginComponent,data: { animation: 'LoginPage' }},
-  {path: 'usuarios', component: UsuariosComponent,data: { animation: 'UsuariosPage' }},
-  {path: 'perfil', component: PerfilComponent,data: { animation: 'MiPerfilPage' }},
+  {path: 'registro', component: RegistroComponent},
+  {path: 'bienvenido', component: BienvenidoComponent},
+  {path: 'login', component: LoginComponent},
+  {path: 'usuarios', component: UsuariosComponent},
+  {path: 'perfil', component: PerfilComponent},
   {path: 'turno', loadChildren: () => import('./modulos/turno-module/turno-module.module').then(m => m.TurnoModuleModule)},
-  {path: 'seccionUsuarios', component: SeccionUsuariosComponent,data: { animation: 'MiPerfilPage' }},
+  {path: 'seccionUsuarios', component: SeccionUsuariosComponent},
   {path: 'seccionPacientes', component: SeccionPacientesComponent},
   {path: 'estadisticas', component: EstadisticasComponent},
 ];

@@ -4,58 +4,129 @@
         <img *ngIf="spinner" src="../../../assets/imgRegistro/loading-icegif-1.gif" alt="imagenSubida" class="gifCargando" width="100px" height="100px">
     </div>
 
-    <div class="padreGraficos">
-        <div class="divGraficos1">
+    <div class="padreGraficos container">
+        <div class="divGraficos1 container" id="graficospdf" #graficospdf>
             <div class="grafico">
                 <h4>Cantidad de turnos por especialiadad</h4>
-                    <canvas id="myChart" ></canvas>
+                    <canvas id="myChart" ></canvas>    
             </div>
-            
             <div class="grafico">
                 <h4>Cantidad de turnos por dia</h4>
                 <canvas id="myChart2" ></canvas>
             </div>
+            <button style="width: 150px;" type="button" class="btn btn-info" (click)="crearPDFturnos()">pdf</button>
         </div>
-    
-        <div class="divGraficos2">
-            <div class="grafico">
-                <h4>Cantidad de turnos por dia</h4>
-                <canvas id="myChart3" ></canvas>
-            </div>
-            <div class="grafico">
-                <h4>Logs de usuarios</h4>
-                <table class="table"  id="excel-table">
-                    <thead>
-                      <tr style="background-color: pink; border-radius: 5px;">
-                        <th  scope="col">usuario</th>
-                        <th scope="col">email</th>
-                        <th scope="col">fecha</th>
-                        <th scope="col">horario</th>
-                        <th  scope="col">tipoUsuario</th>             
-                      </tr>
-                    </thead>
-                    <tbody *ngFor="let log of listaLogs" >
-                      <tr>
-                        <td>{{log?.usuario}}</td>
-                        <td>{{log?.email}}</td>
-                        <td>{{log?.fecha}}</td>
-                        <td>{{log?.horario}}</td>
-                        <td>{{log?.tipoUsuario}}</td>
-                      </tr>
-                    </tbody>
-                </table>
-            </div>
+        <div class="logs">
+            <h4>Logs de usuarios</h4>
+
+            <table class="table"  id="excel-table">
+                <thead>
+                  <tr style="background-color: pink; border-radius: 5px;">
+                    <th  scope="col">usuario</th>
+                    <th scope="col">email</th>
+                    <th scope="col">fecha</th>
+                    <th scope="col">horario</th>
+                    <th  scope="col">tipoUsuario</th>             
+                  </tr>
+                </thead>
+                <tbody *ngFor="let log of listaLogs" >
+                  <tr>
+                    <td>{{log?.usuario}}</td>
+                    <td>{{log?.email}}</td>
+                    <td>{{log?.fecha}}</td>
+                    <td>{{log?.horario}}</td>
+                    <td>{{log?.tipoUsuario}}</td>
+                  </tr>
+                </tbody>
+            </table>
+            <button (click)="exportexcel()" type="button" class="btn btn-info">excel</button>
         </div>
     </div>
+    <br><hr>
 
+    <div class="divGraficos1 container" style="background-color:rgb(254, 254, 254);">
+        <div class="divGraficos1 container"  style="background-color:rgb(254, 254, 254);">
+            <div class="divGraficos2 container" >
+                <div class="divFechas">
+                    <div class="d-flex flex-column justify-content-center align-items-center mb-3" >
+                        <h5 class="text-center">TURNOS SOLICITADOS</h5>
+                        <div class="divider text-center"></div>
+                    </div>
+                    <div class="text-center">
+                        <h6>Elegir fechas </h6>
+                    </div>
+                
+                    <form [formGroup]="formaFechas">
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <input [matDatepicker]="basicDatepicker" placeholder="inicio"  formControlName="fechaInicio" id="fechaI">
+                                <mat-datepicker-toggle [for]="basicDatepicker"></mat-datepicker-toggle>
+                                <mat-datepicker #basicDatepicker></mat-datepicker>
+                            </div>
+                       
+                            
+                            <div class="col-sm-6">
+                                <input [matDatepicker]="basicDatepicker2" placeholder="final"  formControlName="fechaFinal" id="fechaF">
+                                <mat-datepicker-toggle [for]="basicDatepicker2"></mat-datepicker-toggle>
+                                <mat-datepicker #basicDatepicker2></mat-datepicker>
+                            </div>
+                    
+                            <button style="width:150px ;"  (click)="seleccionarFechas()" [disabled]="formaFechas.invalid"  >Filtrar </button>
+                        </div>
+                       
+                    </form>
+                </div>
+        
+                <div class="grafico"  id="graficospdf2" #graficospdf2>
+                    <h4>Cantidad turnos solicitados</h4>
+                    <p>Turnos de : {{fechaInicioTurnosSolicitado.toLocaleDateString()}} a {{fechaFinalTurnosSolicitado.toLocaleDateString()}}</p>
+                    <canvas id="myChart3" ></canvas>
+                </div>
+                <button style="width: 150px;" type="button" class="btn btn-info" (click)="crearPDFturnos2()">pdf</button>
+            </div>
+            <br><hr>
+            <div style="background-color:rgb(254, 254, 254);" class="divGraficos2 container" >
+                <div  class="divFechas">
+                    <div class="d-flex flex-column justify-content-center align-items-center mb-3" >
+                        <h5 class="text-center">TURNOS FINALIZADOS</h5>
+                        <div class="divider text-center"></div>
+                    </div>
+                    <div class="text-center">
+                        <h6>Elegir fechas</h6>
+                    </div>
+                
+                    <form [formGroup]="formaFechas2">
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <input [matDatepicker]="basicDatepicker" placeholder="inicio"  formControlName="fechaInicio" id="fechaI">
+                                <mat-datepicker-toggle [for]="basicDatepicker"></mat-datepicker-toggle>
+                                <mat-datepicker #basicDatepicker></mat-datepicker>
+                            </div>
+                       
+                            
+                            <div class="col-sm-6">
+                          
+                                <input [matDatepicker]="basicDatepicker2" placeholder="final"  formControlName="fechaFinal" id="fechaF">
+                                <mat-datepicker-toggle [for]="basicDatepicker2"></mat-datepicker-toggle>
+                                <mat-datepicker #basicDatepicker2></mat-datepicker>
+                            </div>
+                    
+                            <button  style="width:150px ;" (click)="seleccionarFechasTurnoFinalizado()" [disabled]="formaFechas2.invalid"  > Filtrar</button>
+                        </div>
+                       
+                    </form>
+                </div>
+
+                <div class="grafico" id="graficospdf3" #graficospdf3>
+                    <h4>Cantidad turnos finalziados</h4>
+                    <p>Turnos de : {{fechaInicioTurnosSolicitado.toLocaleDateString()}} a {{fechaFinalTurnosSolicitado.toLocaleDateString()}}</p>
+                    <canvas id="myChart4" ></canvas>
+                </div>
+                <button style="width: 150px;" type="button" class="btn btn-info" (click)="crearPDFturnos3()">pdf</button>
+            </div>
+            <br>
+        </div>
+        
+    </div>
     
-
-
-
-
-    <!-- <div  id="divChart" class="contenedorGraficos">
-        <h2 class="titulo">Turnos pedidos por Semana</h2>
-        <canvas id="myChart" ></canvas>
-    </div> -->
-
 </div>

@@ -154,8 +154,7 @@ export class FirebaseService {
       console.log("email sent, should log out")
       // this.ruteo.navigateByUrl('verifyEmail');
       //TODO: PANTALLA VERIFY EMAIL
-    })
-      
+    })   
   }
 
   getCurrentUser()

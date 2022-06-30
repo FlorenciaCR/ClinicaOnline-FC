@@ -135,7 +135,6 @@ export class UsuariosListadoComponent implements OnInit {
 
   exportexcel(): void 
   {
-    
      /* table id is passed over here */   
      let element = document.getElementById('excel-table'); 
      const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);

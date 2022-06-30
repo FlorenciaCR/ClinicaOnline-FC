@@ -30,6 +30,8 @@ import { AgrandarDirective } from './directivas/agrandar.directive';
 import { BordeDirective } from './directivas/borde.directive';
 import { ColorDirective } from './directivas/color.directive';
 import { EstadisticasComponent } from './componentes/estadisticas/estadisticas.component';
+import {MatDatepickerModule} from '@angular/material/datepicker'
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 @NgModule({
@@ -70,8 +72,9 @@ import { EstadisticasComponent } from './componentes/estadisticas/estadisticas.c
       timeOut: 2000,
       positionClass: 'toast-top-right',
       preventDuplicates: true
-    })
-   
+    }),
+    MatDatepickerModule,
+    MatNativeDateModule   
   ],
   providers: [EstadoHistoriaClinicaPipe],
   bootstrap: [AppComponent]

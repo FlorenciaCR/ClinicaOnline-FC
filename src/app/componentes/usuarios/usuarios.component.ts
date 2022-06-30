@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+//import{trigger,style,transition,animate, state} from'@angular/animations';
 
 @Component({
   selector: 'app-usuarios',

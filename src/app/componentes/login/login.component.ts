@@ -3,11 +3,27 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { FirebaseService } from 'src/app/servicios/firebase.service';
+import{trigger,style,transition,animate, state} from'@angular/animations'
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  animations:[
+    trigger('arriba',[
+      state('void',style({
+        transform:'translateY(-100%)',
+        opacity:0
+      })),
+      transition(':enter',[
+        animate(1500,style({
+          transform:'translateY(0)',
+          opacity:1
+        }))
+      ])
+    ]),
+
+  ]
 })
 export class LoginComponent implements OnInit {
 
@@ -28,15 +44,11 @@ export class LoginComponent implements OnInit {
       this.listaUsuarios=data;
     })  
 
-
-
     this.forma = this.fb.group({
       'email':['',[Validators.required,Validators.email]],
       'password':['',[Validators.required,Validators.minLength(6)]]
     })
 
-
-    
   }
 
   ngOnInit(): void {
